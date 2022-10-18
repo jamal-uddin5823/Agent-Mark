@@ -5,10 +5,11 @@
 #include<SDL2/SDL_timer.h>
 #include<iostream>
 #include<string>
+#include<utility>
 
 #include "Math.hpp"
 
-const int VELOCITY=2;
+static const int VELOCITY=5;
 
 struct Entity
 {
@@ -24,8 +25,8 @@ struct Entity
         }
         SDL_Texture* getTex();
         SDL_Rect getCurrentFrame();
-        void handleEvent(SDL_Event& e);
-        void move();
+        std::pair<int,int> handleEvent(SDL_Event& e);
+        void move(int x, int y);
 
     private:
         Vector2f pos;

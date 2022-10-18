@@ -10,7 +10,7 @@
 #include "RenderWindow.hpp"
 #include "Entity.hpp"
 
-RenderWindow window("Game v1.0", SCREEN_WIDTH,SCREEN_HEIGHT);
+RenderWindow window("Agent Mark", SCREEN_WIDTH,SCREEN_HEIGHT);
 
 int blackBox_x=0,blackBox_y = SCREEN_HEIGHT/3-32;
 SDL_Texture* blackBoxTexture = window.loadTexture("res/Blackbox.png",0,0,0,0); 
