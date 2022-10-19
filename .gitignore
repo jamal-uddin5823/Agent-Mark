@@ -1,0 +1,6 @@
+Entity.o
+Events.o
+Math.o
+RenderWindow.o
+main.o
+.vscode
