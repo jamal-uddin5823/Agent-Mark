@@ -30,7 +30,7 @@ struct Entity
 
     private:
         Vector2f pos;
-        SDL_Rect curr_agent_frame;
+        SDL_Rect current_frame;
         SDL_Texture* tex;
 
         int vel_x,vel_y;

@@ -34,7 +34,16 @@ void Handle_event(SDL_Event& e, bool& gameRunning){
 void gameloop(){
         window.clearScreen();
         window.changeRenderColor(255,255,255,255);
-        window.render(background,2);
+        // window.render(background,1);
+
+        static int scrollingOffset = 0;
+        scrollingOffset-=5;
+
+        if(scrollingOffset< -background.getCurrentFrame().w)
+            scrollingOffset = 0;
+
+        window.renderBG(scrollingOffset,0,background);
+        window.renderBG(scrollingOffset+background.getCurrentFrame().w,0,background);
 
         int blackBox_x=0,blackBox_y = SCREEN_HEIGHT/3-32;
         

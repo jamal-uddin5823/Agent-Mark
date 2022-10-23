@@ -10,10 +10,10 @@
 Entity::Entity(Vector2f p_pos,SDL_Texture* p_tex, int p_w, int p_h, int p_x, int p_y)
     :pos(p_pos),tex(p_tex)
 {
-    curr_agent_frame.x = p_x;
-    curr_agent_frame.y = p_y;
-    curr_agent_frame.w=p_w;
-    curr_agent_frame.h=p_h;
+    current_frame.x = p_x;
+    current_frame.y = p_y;
+    current_frame.w=p_w;
+    current_frame.h=p_h;
 
     vel_x = 0;
     vel_y = 0;
@@ -25,7 +25,7 @@ SDL_Texture* Entity::getTex(){
 }
 
 SDL_Rect Entity::getCurrentFrame(){
-    return curr_agent_frame;
+    return current_frame;
 }
 
 std::pair<int,int> Entity::handleEvent(SDL_Event& e){
