@@ -36,6 +36,8 @@ void gameloop(){
         window.changeRenderColor(255,255,255,255);
         // window.render(background,1);
 
+
+        //bg scroll
         static int scrollingOffset = 0;
         scrollingOffset-=5;
 
@@ -45,7 +47,10 @@ void gameloop(){
         window.renderBG(scrollingOffset,0,background);
         window.renderBG(scrollingOffset+background.getCurrentFrame().w,0,background);
 
-        int blackBox_x=0,blackBox_y = SCREEN_HEIGHT/3-32;
+
+
+
+        int blackBox_x=0,blackBox_y = SCREEN_HEIGHT/4-32;
         
         curr_agent_frame = running_agent[agent_frame/running_agent.size()];
         curr_enemy_frame = running_enemy[enemy_frame/running_enemy.size()];
@@ -69,7 +74,7 @@ void gameloop(){
             Entity newgrass = Entity(Vector2f(blackBox_x,blackBox_y),blackBoxTexture,32,32,0,0);
             // int randNum = rand()%(100-1 + 1) +1;
             // if(randNum!=2 || randNum!=32)
-            window.render(newgrass,3);
+            window.render(newgrass,4);
             blackBox_x+=32;
             // SDL_Delay(1000/900);
         }
