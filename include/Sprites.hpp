@@ -35,6 +35,7 @@ std::vector<Entity> running_agent ={
     Entity(Vector2f(215,SCREEN_HEIGHT-210),agentTexture,129,129,774,129)
 };
 
+
 std::vector<Entity> jumping_agent ={
     Entity(Vector2f(200,SCREEN_HEIGHT-210),agentTexture,129,129,129*2,129*3),
     Entity(Vector2f(200,SCREEN_HEIGHT-210),agentTexture,129,129,129*3,129*3),

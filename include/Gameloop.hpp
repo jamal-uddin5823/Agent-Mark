@@ -67,7 +67,7 @@ void gameloop(){
         else if(flag==1)
             window.renderjump(curr_agent_frame,3);
         window.render(curr_enemy_frame,1);
-        running_enemy[enemy_frame_no/running_enemy.size()].changepos(0.25,0);
+        // running_enemy[enemy_frame_no/running_enemy.size()].changepos(ENEMY_VEL,0);
 
 
 
@@ -85,6 +85,14 @@ void gameloop(){
         {
             sliding_agent[i].move(movement.first,movement.second);
         }
+
+        // for (int i = 0; i < (int)running_enemy.size(); i++)
+        // {
+        //     running_enemy[i].move(ENEMY_VEL,0);
+        // }
+
+
+
 
 
 
@@ -114,9 +122,9 @@ void gameloop(){
         }
         if(enemy_frame_no/running_enemy.size()>=running_enemy.size()){
             enemy_frame_no=0;
-            ENEMY_VEL+=0.2;
+            // ENEMY_VEL+=0.1;
         }
-        // flag=-1;
+    
         window.display();
         SDL_Delay(1000/30);
 
