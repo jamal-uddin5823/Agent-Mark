@@ -28,24 +28,31 @@ SDL_Rect Entity::getCurrentFrame(){
     return current_frame;
 }
 
-std::pair<int,int> Entity::handleEvent(SDL_Event& e){
+
+
+void Entity::handleEvent(SDL_Event& e, int* flag){
     // int agent_frame=0;
     std::pair<int,int> movement;
     if(e.type==SDL_KEYDOWN && e.key.repeat==0){
         switch (e.key.keysym.sym)
         {
         case SDLK_UP:
-            vel_y-=VELOCITY;
+            // vel_y-=VELOCITY;
+            *flag=1;
             break;
         case SDLK_DOWN:
-            vel_y+=VELOCITY;
+            *flag=-1;
+            // vel_y+=VELOCITY;
             break;
-        case SDLK_LEFT:
-            vel_x-=VELOCITY;
-            break;
-        case SDLK_RIGHT:
+        // case SDLK_LEFT:
+        //     vel_x-=VELOCITY;
+        //     break;
+        // case SDLK_RIGHT:
 
-            vel_x+=VELOCITY;
+        //     vel_x+=VELOCITY;
+        //     break;
+        default:
+            *flag=0;
             break;
         }
     }
@@ -53,10 +60,10 @@ std::pair<int,int> Entity::handleEvent(SDL_Event& e){
         switch (e.key.keysym.sym)
         {
         case SDLK_UP:
-            vel_y+=VELOCITY;
+            *flag=0;
             break;
         case SDLK_DOWN:
-            vel_y-=VELOCITY;
+            *flag=0;
             break;
         // case SDLK_LEFT:
         //     vel_x+=VELOCITY;
@@ -65,18 +72,13 @@ std::pair<int,int> Entity::handleEvent(SDL_Event& e){
         //     // right_down=  false; 
         //     vel_x-=VELOCITY;
         //     // state = false;
-            // break;
+        //     break;
+        default:
+            *flag=0;
+            break;
         }
     }
-    if(pos.y!=960){
-        pos.y=960-210;
-        vel_y=0;
-    }
-        // if(pos.y>SCREEN_HEIGHT-210)
-        //     vel_y-=VELOCITY;
-    movement = {vel_x,vel_y};
-    return movement;
-    // return agent_frame;
+   
 }
 
 void Entity::move(int x, int y){

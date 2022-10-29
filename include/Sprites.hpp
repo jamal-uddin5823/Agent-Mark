@@ -32,6 +32,26 @@ std::vector<Entity> running_agent ={
     Entity(Vector2f(215,SCREEN_HEIGHT-210),agentTexture,129,129,774,129)
 };
 
+std::vector<Entity> jumping_agent ={
+    // Entity(Vector2f(0,SCREEN_HEIGHT-200),agentTexture,125,125,0,0),
+    // Entity(Vector2f(0,SCREEN_HEIGHT-200),agentTexture,125,125,250,125),
+    Entity(Vector2f(200,SCREEN_HEIGHT-210),agentTexture,129,129,129*2,129*3),
+    Entity(Vector2f(200,SCREEN_HEIGHT-210),agentTexture,129,129,129*3,129*3),
+    Entity(Vector2f(200,SCREEN_HEIGHT-210),agentTexture,129,129,129*4,129*3),
+    Entity(Vector2f(200,SCREEN_HEIGHT-210),agentTexture,129,129,129*5,129*3)
+    
+};
+std::vector<Entity> sliding_agent ={
+    // Entity(Vector2f(0,SCREEN_HEIGHT-200),agentTexture,125,125,0,0),
+    // Entity(Vector2f(0,SCREEN_HEIGHT-200),agentTexture,125,125,250,125),
+    Entity(Vector2f(200,SCREEN_HEIGHT-210),agentTexture,129,129,129*1,129*4),
+    Entity(Vector2f(205,SCREEN_HEIGHT-210),agentTexture,129,129,129*2,129*4),
+    Entity(Vector2f(210,SCREEN_HEIGHT-210),agentTexture,129,129,129*3,129*4),
+    Entity(Vector2f(215,SCREEN_HEIGHT-210),agentTexture,129,129,129*4,129*4),
+    Entity(Vector2f(215,SCREEN_HEIGHT-210),agentTexture,129,129,129*5,129*4),
+    Entity(Vector2f(215,SCREEN_HEIGHT-210),agentTexture,129,129,129*6,129*4)
+};
+
 std::vector<Entity> running_enemy ={
     // Entity(Vector2f(0,SCREEN_HEIGHT-200),agentTexture,125,125,0,0),
     // Entity(Vector2f(0,SCREEN_HEIGHT-200),agentTexture,125,125,250,125),
