@@ -24,9 +24,12 @@ struct Entity
             pos.y+=y;
         }
         SDL_Texture* getTex();
+        void renderjump( int x, int y, int frameNumber,  SDL_Rect* clip );
         SDL_Rect getCurrentFrame();
-        std::pair<int,int> handleEvent(SDL_Event& e);
+        std::pair<int,int>  handleEvent(SDL_Event& e, int* flag);
         void move(int x, int y);
+        int mWidth=129;
+        int mHeight = 129;
 
     private:
         Vector2f pos;
