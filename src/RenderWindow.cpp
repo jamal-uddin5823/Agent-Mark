@@ -59,6 +59,7 @@ void RenderWindow::changeRenderColor(int r,int g, int b, int a){
 }
 
 void RenderWindow::render(Entity &p_entity,double times){
+
     SDL_Rect src;
     src.x = p_entity.getCurrentFrame().x;
     src.y = p_entity.getCurrentFrame().y;
@@ -71,8 +72,8 @@ void RenderWindow::render(Entity &p_entity,double times){
     dest.w = p_entity.getCurrentFrame().w*times;
     dest.h = p_entity.getCurrentFrame().h*times;
 
-
     SDL_RenderCopy(renderer,p_entity.getTex(),&src,&dest);
+
 }
 
 
@@ -91,6 +92,28 @@ void RenderWindow::renderBG( int x, int y,Entity background, SDL_Rect* clip, dou
 	//Render to screen
 	SDL_RenderCopyEx( renderer, background.getTex(), clip, &renderQuad, angle, center, flip );
 }
+
+void RenderWindow::renderjump(Entity a,int frameNumber)
+{
+	//Set rendering space and render to screen
+	if(frameNumber>=2)frameNumber=4-frameNumber;
+	// SDL_Rect renderQuad = { a.getCurrentFrame().x, a.getCurrentFrame().y-40*frameNumber, a.getCurrentFrame().w, a.getCurrentFrame().h };
+
+	SDL_Rect src;
+    src.x = a.getCurrentFrame().x;
+    src.y = a.getCurrentFrame().y;
+    src.w = a.getCurrentFrame().w;
+    src.h = a.getCurrentFrame().h;
+
+    SDL_Rect dest;
+    dest.x = a.getpos().x;
+    dest.y = a.getpos().y-90*frameNumber;
+    dest.w = a.getCurrentFrame().w;
+    dest.h = a.getCurrentFrame().h;
+	//Render to screen
+	SDL_RenderCopy(renderer, a.getTex(), &src, &dest );
+}
+
 
 
 void RenderWindow::display(){
