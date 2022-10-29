@@ -59,6 +59,7 @@ void RenderWindow::changeRenderColor(int r,int g, int b, int a){
 }
 
 void RenderWindow::render(Entity &p_entity,double times){
+
     SDL_Rect src;
     src.x = p_entity.getCurrentFrame().x;
     src.y = p_entity.getCurrentFrame().y;
@@ -71,8 +72,8 @@ void RenderWindow::render(Entity &p_entity,double times){
     dest.w = p_entity.getCurrentFrame().w*times;
     dest.h = p_entity.getCurrentFrame().h*times;
 
-
     SDL_RenderCopy(renderer,p_entity.getTex(),&src,&dest);
+
 }
 
 
@@ -97,7 +98,7 @@ void RenderWindow::renderjump(Entity a,int frameNumber)
 	//Set rendering space and render to screen
 	if(frameNumber>=2)frameNumber=4-frameNumber;
 	// SDL_Rect renderQuad = { a.getCurrentFrame().x, a.getCurrentFrame().y-40*frameNumber, a.getCurrentFrame().w, a.getCurrentFrame().h };
- 
+
 	SDL_Rect src;
     src.x = a.getCurrentFrame().x;
     src.y = a.getCurrentFrame().y;
@@ -112,6 +113,7 @@ void RenderWindow::renderjump(Entity a,int frameNumber)
 	//Render to screen
 	SDL_RenderCopy(renderer, a.getTex(), &src, &dest );
 }
+
 
 
 void RenderWindow::display(){

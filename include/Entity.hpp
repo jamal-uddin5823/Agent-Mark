@@ -26,7 +26,7 @@ struct Entity
         SDL_Texture* getTex();
         void renderjump( int x, int y, int frameNumber,  SDL_Rect* clip );
         SDL_Rect getCurrentFrame();
-        void handleEvent(SDL_Event& e, int* flag);
+        std::pair<int,int>  handleEvent(SDL_Event& e, int* flag);
         void move(int x, int y);
         int mWidth=129;
         int mHeight = 129;
