@@ -3,6 +3,9 @@
 #include<SDL2/SDL.h>
 #include<SDL2/SDL_image.h>
 #include<SDL2/SDL_timer.h>
+#include<SDL2/SDL_ttf.h>
+#include<SDL2/SDL_mixer.h>
+
 #include<iostream>
 #include<string>
 
@@ -17,6 +20,7 @@ struct RenderWindow{
         RenderWindow(std::string p_title, int p_w, int p_h);
 
         SDL_Texture* loadTexture(std::string p_filepath, bool flag,Uint8 r, Uint8 g,Uint8 b);
+        SDL_Texture* Textload(std::string textureText,SDL_Color textColor, TTF_Font* font, int* w, int* h);
         void cleanUp();
 
         void changeRenderColor(int r,int g, int b, int a);

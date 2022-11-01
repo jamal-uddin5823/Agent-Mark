@@ -1,6 +1,10 @@
 #include<SDL2/SDL.h>
 #include<SDL2/SDL_image.h>
 #include<SDL2/SDL_timer.h>
+#include<SDL2/SDL_ttf.h>
+#include<SDL2/SDL_mixer.h>
+#include<SDL2/SDL_mixer.h>
+
 #include<iostream>
 
 #include "RenderWindow.hpp"
@@ -42,6 +46,36 @@ SDL_Texture* RenderWindow::loadTexture(std::string p_filepath, bool flag,Uint8 r
     return texture;
 
 }
+
+SDL_Texture* RenderWindow::Textload(std::string textureText,SDL_Color textColor, TTF_Font* font, int* w, int* h){
+    if( TTF_Init() <0 )
+    {
+        std::cout<< "SDL_ttf could not initialize! SDL_ttf Error: "<< TTF_GetError() <<'\n';
+        SDL_StartTextInput();
+    }
+
+    SDL_Texture* texture=NULL;
+    //Render text surface
+    SDL_Surface* textSurface = TTF_RenderText_Solid( font, textureText.c_str(), textColor );
+    if( textSurface == NULL )
+    {
+        printf( "Unable to render text surface! SDL_ttf Error: %s\n", TTF_GetError() );
+    }
+    
+    //Create texture from surface pixels
+    texture = SDL_CreateTextureFromSurface( renderer, textSurface );
+    if( texture == NULL )
+    {
+        printf( "Unable to create texture from rendered text! SDL Error: %s\n", SDL_GetError() );
+    }
+    SDL_FreeSurface(textSurface);
+    
+    SDL_QueryTexture(texture,NULL,NULL,w,h);
+    TTF_CloseFont(font);
+
+    return texture;
+}
+
 
 
 void RenderWindow::cleanUp(){

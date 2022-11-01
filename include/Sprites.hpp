@@ -3,6 +3,9 @@
 #include<SDL2/SDL.h>
 #include<SDL2/SDL_image.h>
 #include<SDL2/SDL_timer.h>
+#include<SDL2/SDL_ttf.h>
+#include<SDL2/SDL_mixer.h>
+
 #include<iostream>
 #include<string>
 #include<vector>
@@ -17,7 +20,15 @@ SDL_Texture* blackBoxTexture = window.loadTexture("res/Blackbox.png",0,0,0,0);
 SDL_Texture* backTexture = window.loadTexture("res/skyline.png",1,255,255,255);
 SDL_Texture* agentTexture = window.loadTexture("res/sheet.png",1,255,255,255);
 SDL_Texture* enemyTexture = window.loadTexture("res/enemysheet.png",0,255,0,0);
-SDL_Texture* colliderTexture = window.loadTexture("res/Blackbox.png",0,0,0,0); 
+SDL_Texture* colliderTexture = window.loadTexture("res/Blackbox.png",0,0,0,0);
+
+
+int text_w,text_h;
+TTF_Font* font= TTF_OpenFont("fonts/Antonio-Bold.ttf",28);
+SDL_Color color = {0,0,0};
+SDL_Texture* textTexture = window.Textload("Agent Mark",color,font,&text_w,&text_h);
+
+
 
 
 
@@ -62,3 +73,5 @@ std::vector<Entity> running_enemy ={
 // Entity collider = Entity(Vector2f(64,32),colliderTexture,32,32,0,0);
 
 Entity background = Entity(Vector2f(0,0),backTexture,2560,960,0,0);
+
+// Entity text = Entity(Vector2f(0,0),textTexture,text_w,text_h,0,0);

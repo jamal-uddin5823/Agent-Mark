@@ -3,11 +3,15 @@
 #include<SDL2/SDL.h>
 #include<SDL2/SDL_image.h>
 #include<SDL2/SDL_timer.h>
+#include<SDL2/SDL_ttf.h>
+#include<SDL2/SDL_mixer.h>
+
 #include<iostream>
 #include<string>
 
 
 #include "Sprites.hpp"
+#include "Music.hpp"
 
 const int VEL_X=20;
 double ENEMY_VEL=0.25;
@@ -33,6 +37,7 @@ void Handle_event(SDL_Event& e, bool& gameRunning){
 
 
 void gameloop(){
+        bool music_play =true;
         window.clearScreen();
         window.changeRenderColor(255,255,255,255);
         // window.render(background,1);
@@ -47,18 +52,30 @@ void gameloop(){
         window.renderBG(scrollingOffset+background.getCurrentFrame().w,0,background);
 
 
+        // window.render(text,1);
 
 
 
         if(flag==0)
             curr_agent_frame = running_agent[agent_frame_no/running_agent.size()];
-        else if(flag==1)
+        else if(flag==1){
             curr_agent_frame = jumping_agent[agent_frame_no/jumping_agent.size()];
-        else
+            if(music_play ==true){
+                Mix_PlayChannel(-1,jump,0);
+                music_play = false;
+            }
+        }
+        else{
             curr_agent_frame = sliding_agent[agent_frame_no/sliding_agent.size()];
-            
+            if(music_play ==true){
+                Mix_PlayChannel(-1,slide,0);
+                // Mix_PauseMusic();
+                music_play = false;
+            }
+        }
         curr_enemy_frame = running_enemy[enemy_frame_no/running_enemy.size()];
         
+        music(flag);
 
 
 
