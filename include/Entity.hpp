@@ -9,10 +9,13 @@
 #include<iostream>
 #include<string>
 #include<utility>
+#include<string>
 
 #include "Math.hpp"
 
 static const int VELOCITY=5;
+
+
 
 struct Entity
 {
@@ -26,11 +29,14 @@ struct Entity
             pos.x+=x;
             pos.y+=y;
         }
+        void setpos(int x, int y){
+            pos.x=x;
+            pos.y=y;
+        }
         SDL_Texture* getTex();
         void renderjump( int x, int y, int frameNumber,  SDL_Rect* clip );
         SDL_Rect getCurrentFrame();
         std::pair<int,int>  handleEvent(SDL_Event& e, int* flag);
-        void move(int x, int y);
         int mWidth=129;
         int mHeight = 129;
 
@@ -41,3 +47,4 @@ struct Entity
 
         int vel_x,vel_y;
 };
+

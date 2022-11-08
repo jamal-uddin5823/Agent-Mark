@@ -22,7 +22,7 @@ bool loadMedia()
     //Load prompt texture
 
     //Load music
-    gMusic = Mix_LoadMUS( "sounds/intro.wav" );
+    gMusic = Mix_LoadMUS( "sounds/theme.wav" );
     if( gMusic == NULL )
     {
         printf( "Failed to load theme music! SDL_mixer Error: %s\n", Mix_GetError() );

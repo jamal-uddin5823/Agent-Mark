@@ -37,7 +37,8 @@ void Handle_event(SDL_Event& e, bool& gameRunning){
 
 
 void gameloop(){
-        bool music_play =true;
+
+
         window.clearScreen();
         window.changeRenderColor(255,255,255,255);
         // window.render(background,1);
@@ -52,7 +53,7 @@ void gameloop(){
         window.renderBG(scrollingOffset+background.getCurrentFrame().w,0,background);
 
 
-        // window.render(text,1);
+        window.score_show();
 
 
 
@@ -60,29 +61,30 @@ void gameloop(){
             curr_agent_frame = running_agent[agent_frame_no/running_agent.size()];
         else if(flag==1){
             curr_agent_frame = jumping_agent[agent_frame_no/jumping_agent.size()];
-            if(music_play ==true){
-                Mix_PlayChannel(-1,jump,0);
-                music_play = false;
-            }
+            Mix_PlayChannel(-1,jump,0);
         }
         else{
             curr_agent_frame = sliding_agent[agent_frame_no/sliding_agent.size()];
-            if(music_play ==true){
-                Mix_PlayChannel(-1,slide,0);
-                // Mix_PauseMusic();
-                music_play = false;
-            }
+            Mix_PlayChannel(-1,slide,0);
         }
         curr_enemy_frame = running_enemy[enemy_frame_no/running_enemy.size()];
         
         music(flag);
 
 
-
+        //rendering player
         if(flag==0|| flag==-1)
             window.render(curr_agent_frame,1);
         else if(flag==1)
             window.renderjump(curr_agent_frame,3);
+
+
+        //rendering obstacle
+        window.renderObstacle(obstacledown,0);
+        // window.renderObstacle(obstacleup,1);
+
+        
+
         window.render(curr_enemy_frame,1);
         // running_enemy[enemy_frame_no/running_enemy.size()].changepos(ENEMY_VEL,0);
 
@@ -92,15 +94,15 @@ void gameloop(){
         enemy_frame_no++;
         for (int i = 0; i < (int)running_agent.size(); i++)
         {
-            running_agent[i].move(movement.first,movement.second);
+            running_agent[i].changepos(movement.first,movement.second);
         }
         for (int i = 0; i < (int)jumping_agent.size(); i++)
         {
-            jumping_agent[i].move(movement.first,movement.second);
+            jumping_agent[i].changepos(movement.first,movement.second);
         }
         for (int i = 0; i < (int)sliding_agent.size(); i++)
         {
-            sliding_agent[i].move(movement.first,movement.second);
+            sliding_agent[i].changepos(movement.first,movement.second);
         }
 
         // for (int i = 0; i < (int)running_enemy.size(); i++)
@@ -144,5 +146,6 @@ void gameloop(){
     
         window.display();
         SDL_Delay(1000/30);
+
 
 }

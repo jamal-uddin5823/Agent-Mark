@@ -37,7 +37,7 @@ void quit(){
     IMG_Quit();
     
     SDL_StopTextInput();
-    TTF_CloseFont(font);
+    // TTF_CloseFont(font);
     TTF_Quit();
     SDL_Quit();
     

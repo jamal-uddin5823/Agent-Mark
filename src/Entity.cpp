@@ -58,33 +58,14 @@ std::pair<int,int> Entity::handleEvent(SDL_Event& e, int* flag){
             break;
         }
     }
-    // else if(e.type==SDL_KEYUP && e.key.repeat==0){
-    //     switch (e.key.keysym.sym)
-    //     {
-    //     case SDLK_UP:
-    //         *flag=0;
-    //         break;
-    //     case SDLK_DOWN:
-    //         *flag=0;
-    //         break;
-    //     // case SDLK_LEFT:
-    //     //     vel_x+=VELOCITY;
-    //     //     break;
-    //     // case SDLK_RIGHT:
-    //     //     // right_down=  false; 
-    //     //     vel_x-=VELOCITY;
-    //     //     // state = false;
-    //     //     break;
-    //     default:
-    //         *flag=0;
-    //         break;
-    //     }
-    // }
+
     movement = {vel_x,vel_y};
     return movement;
 }
 
-void Entity::move(int x, int y){
-    pos.x+=x;
-    pos.y+=y;
-}
+// std::string scoregen(){
+//     int score= startTime;
+//     std::string stringscore = std::__cxx11::to_string(score);
+//     return stringscore;
+// }
+

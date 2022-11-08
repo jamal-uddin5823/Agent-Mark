@@ -3,7 +3,7 @@
 #include<SDL2/SDL_timer.h>
 #include<SDL2/SDL_ttf.h>
 #include<SDL2/SDL_mixer.h>
-#include<SDL2/SDL_mixer.h>
+
 
 #include<iostream>
 
@@ -47,13 +47,13 @@ SDL_Texture* RenderWindow::loadTexture(std::string p_filepath, bool flag,Uint8 r
 
 }
 
-SDL_Texture* RenderWindow::Textload(std::string textureText,SDL_Color textColor, TTF_Font* font, int* w, int* h){
+SDL_Texture* RenderWindow::Textload(std::string textureText,std::string fontpath,int fontsize, Uint8 r, Uint8 g, Uint8 b, int* w, int* h){
     if( TTF_Init() <0 )
     {
         std::cout<< "SDL_ttf could not initialize! SDL_ttf Error: "<< TTF_GetError() <<'\n';
-        SDL_StartTextInput();
     }
-
+    TTF_Font* font= TTF_OpenFont(fontpath.c_str(),fontsize);
+    SDL_Color textColor = {r,g,b};
     SDL_Texture* texture=NULL;
     //Render text surface
     SDL_Surface* textSurface = TTF_RenderText_Solid( font, textureText.c_str(), textColor );
@@ -141,15 +141,41 @@ void RenderWindow::renderjump(Entity a,int frameNumber)
 
     SDL_Rect dest;
     dest.x = a.getpos().x;
-    dest.y = a.getpos().y-90*frameNumber;
+    dest.y = a.getpos().y-120*frameNumber;
     dest.w = a.getCurrentFrame().w;
     dest.h = a.getCurrentFrame().h;
 	//Render to screen
 	SDL_RenderCopy(renderer, a.getTex(), &src, &dest );
 }
 
+int RenderWindow::random(int low, int high){
+    int randNum = low+rand()%(high-low + 1);
+    return randNum;
+}
+
+void RenderWindow::renderObstacle(Entity &obstacle, bool flagup){
+    render(obstacle,3);
+    obstacle.changepos(-5,0);
+    if(obstacle.getpos().x+obstacle.getCurrentFrame().w<0){
+        if(flagup)
+            obstacle.setpos(450,260);
+        else
+            obstacle.setpos(450,0);
+    }
+}
+
 
 
 void RenderWindow::display(){
     SDL_RenderPresent(renderer);
+}
+
+void RenderWindow::score_show()
+{
+    std::string s="Score : "+std::__cxx11::to_string((int)(SDL_GetTicks()/1000));
+    int text_w,text_h;
+    SDL_Texture* texture = Textload(s,"fonts/Antonio-Bold.ttf",50,125,125,125,&text_w,&text_h);
+    Entity score = Entity(Vector2f(10,50),texture,text_w,text_h,0,0);
+
+    render(score,1);
 }
