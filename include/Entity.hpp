@@ -17,6 +17,7 @@ static const int VELOCITY=5;
 
 
 
+
 struct Entity
 {
     public:
@@ -34,7 +35,6 @@ struct Entity
             pos.y=y;
         }
         SDL_Texture* getTex();
-        void renderjump( int x, int y, int frameNumber,  SDL_Rect* clip );
         SDL_Rect getCurrentFrame();
         std::pair<int,int>  handleEvent(SDL_Event& e, int* flag);
         int mWidth=129;

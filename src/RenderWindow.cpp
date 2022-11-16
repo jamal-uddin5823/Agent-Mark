@@ -92,7 +92,7 @@ void RenderWindow::changeRenderColor(int r,int g, int b, int a){
     SDL_SetRenderDrawColor(renderer,r,g,b,a);
 }
 
-void RenderWindow::render(Entity &p_entity,double times){
+void RenderWindow::render(Entity &p_entity,double times,bool jump){
 
     SDL_Rect src;
     src.x = p_entity.getCurrentFrame().x;
@@ -102,7 +102,10 @@ void RenderWindow::render(Entity &p_entity,double times){
 
     SDL_Rect dest;
     dest.x = p_entity.getpos().x*times;
-    dest.y = p_entity.getpos().y*times;
+    if(jump==1)
+        dest.y = p_entity.getpos().y-120;
+    else
+        dest.y = p_entity.getpos().y*times;
     dest.w = p_entity.getCurrentFrame().w*times;
     dest.h = p_entity.getCurrentFrame().h*times;
 
@@ -127,26 +130,6 @@ void RenderWindow::renderBG( int x, int y,Entity background, SDL_Rect* clip, dou
 	SDL_RenderCopyEx( renderer, background.getTex(), clip, &renderQuad, angle, center, flip );
 }
 
-void RenderWindow::renderjump(Entity a,int frameNumber)
-{
-	//Set rendering space and render to screen
-	if(frameNumber>=2)frameNumber=4-frameNumber;
-	// SDL_Rect renderQuad = { a.getCurrentFrame().x, a.getCurrentFrame().y-40*frameNumber, a.getCurrentFrame().w, a.getCurrentFrame().h };
-
-	SDL_Rect src;
-    src.x = a.getCurrentFrame().x;
-    src.y = a.getCurrentFrame().y;
-    src.w = a.getCurrentFrame().w;
-    src.h = a.getCurrentFrame().h;
-
-    SDL_Rect dest;
-    dest.x = a.getpos().x;
-    dest.y = a.getpos().y-120*frameNumber;
-    dest.w = a.getCurrentFrame().w;
-    dest.h = a.getCurrentFrame().h;
-	//Render to screen
-	SDL_RenderCopy(renderer, a.getTex(), &src, &dest );
-}
 
 int RenderWindow::random(int low, int high){
     int randNum = low+rand()%(high-low + 1);
@@ -160,7 +143,7 @@ void RenderWindow::renderObstacle(Entity &obstacle, bool flagup){
         if(flagup)
             obstacle.setpos(450,260);
         else
-            obstacle.setpos(450,0);
+            obstacle.setpos(450,100);
     }
 }
 
@@ -174,8 +157,18 @@ void RenderWindow::score_show()
 {
     std::string s="Score : "+std::__cxx11::to_string((int)(SDL_GetTicks()/1000));
     int text_w,text_h;
-    SDL_Texture* texture = Textload(s,"fonts/Antonio-Bold.ttf",50,125,125,125,&text_w,&text_h);
+    SDL_Texture* texture = Textload(s,"fonts/Antonio-Bold.ttf",50,0,0,0,&text_w,&text_h);
     Entity score = Entity(Vector2f(10,50),texture,text_w,text_h,0,0);
 
     render(score,1);
+}
+
+void RenderWindow::lives_show(){
+    std::string lifestring = "Lives: "+std::__cxx11::to_string(life);
+
+    int text_w,text_h;
+    SDL_Texture* texture = Textload(lifestring,"fonts/Antonio-Bold.ttf",50,255,0,0,&text_w,&text_h);
+    Entity lifeboard = Entity(Vector2f(1100,50),texture,text_w,text_h,0,0);
+
+    render(lifeboard,1);
 }

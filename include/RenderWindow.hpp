@@ -13,6 +13,8 @@
 
 const int SCREEN_WIDTH =1280;
 const int SCREEN_HEIGHT =960;
+static int life=5;
+
 
 struct RenderWindow{
 
@@ -26,14 +28,14 @@ struct RenderWindow{
         void changeRenderColor(int r,int g, int b, int a);
         void clearScreen();
 
-        void render(Entity &p_entity,double times);
+        void render(Entity &p_entity,double times, bool flag=0);
         void renderBG( int x, int y,Entity background, SDL_Rect* clip = NULL, double angle = 0.0, SDL_Point* center = NULL, SDL_RendererFlip flip = SDL_FLIP_NONE );
-        void renderjump(Entity a, int frameNumber);
         int random(int low, int high);
         void renderObstacle(Entity &obstacle, bool flagup);
 
         void display();
         void score_show();
+        void lives_show();
         
     private:
         SDL_Window* window=NULL;

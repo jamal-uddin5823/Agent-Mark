@@ -54,6 +54,7 @@ void gameloop(){
 
 
         window.score_show();
+        window.lives_show();
 
 
 
@@ -76,7 +77,7 @@ void gameloop(){
         if(flag==0|| flag==-1)
             window.render(curr_agent_frame,1);
         else if(flag==1)
-            window.renderjump(curr_agent_frame,3);
+            window.render(curr_agent_frame,1,1);
 
 
         //rendering obstacle
