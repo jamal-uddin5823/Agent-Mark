@@ -35,6 +35,7 @@ SDL_Texture* backTexture = window.loadTexture("res/skyline.png",1,255,255,255);
 SDL_Texture* agentTexture = window.loadTexture("res/sheet.png",1,255,255,255);
 SDL_Texture* enemyTexture = window.loadTexture("res/enemysheet.png",0,255,0,0);
 SDL_Texture* obstacleTexture = window.loadTexture("res/Blackbox.png",0,0,0,0);
+SDL_Texture* lifeTexture = window.loadTexture("res/lifeline.png",0,0,0,0);
 
 
 
@@ -87,4 +88,5 @@ Entity obstacleup = Entity(Vector2f(OBSTACLEX,OBSTACLEJUMPY),obstacleTexture,OBS
 Entity obstacledown = Entity(Vector2f(OBSTACLEX,OBSTACLESLIDEY),obstacleTexture,OBSTACLE_WIDTH,OBSTACLESLIDE_HEIGHT,0,0);
 
 Entity background = Entity(Vector2f(0,0),backTexture,BACKGROUND_WIDTH,BACKGROUNG_HEIGHT,0,0);
+Entity lifeline = Entity(Vector2f(SCREEN_WIDTH,SCREEN_HEIGHT/2-100),lifeTexture,32,32,0,0);
 

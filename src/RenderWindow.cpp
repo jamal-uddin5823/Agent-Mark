@@ -10,6 +10,8 @@
 #include "RenderWindow.hpp"
 #include "Entity.hpp"
 
+#define OBSTACLE_SPEED -5
+
 RenderWindow::RenderWindow(std::string p_title, int p_w, int p_h){
     
     window = SDL_CreateWindow(p_title.c_str(),SDL_WINDOWPOS_CENTERED,SDL_WINDOWPOS_CENTERED,
@@ -138,13 +140,25 @@ int RenderWindow::random(int low, int high){
 
 void RenderWindow::renderObstacle(Entity &obstacle, bool flagup){
     render(obstacle,3);
-    obstacle.changepos(-5,0);
+    obstacle.changepos(OBSTACLE_SPEED,0);
     if(obstacle.getpos().x+obstacle.getCurrentFrame().w<0){
         if(flagup)
             obstacle.setpos(450,260);
+
         else
             obstacle.setpos(450,100);
     }
+}
+
+void RenderWindow::renderlifeline(Entity &lifeline,bool lifeflag){
+    if(lifeflag){
+         render(lifeline,2);
+        lifeline.changepos(-7,0);
+        if(lifeline.getpos().x+lifeline.getCurrentFrame().w<0){
+            lifeline.setpos(SCREEN_WIDTH,SCREEN_HEIGHT-150);
+        }
+    }
+   
 }
 
 

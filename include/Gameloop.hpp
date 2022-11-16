@@ -18,6 +18,7 @@ double ENEMY_VEL=0.25;
 
 
 int agent_frame_no = 0,enemy_frame_no=0;
+bool obsflag=0,lifeflag;
 
 Entity curr_agent_frame = running_agent[agent_frame_no/running_agent.size()];
 Entity curr_enemy_frame = running_enemy[enemy_frame_no/running_enemy.size()];
@@ -81,9 +82,11 @@ void gameloop(){
 
 
         //rendering obstacle
-        window.renderObstacle(obstacledown,0);
+        window.renderObstacle(obstacledown,obsflag);
+        int coin = window.random(1,100);
+        if(coin>40)
+            obsflag=!obsflag;
         // window.renderObstacle(obstacleup,1);
-
         
 
         window.render(curr_enemy_frame,1);
@@ -144,7 +147,8 @@ void gameloop(){
             enemy_frame_no=0;
             // ENEMY_VEL+=0.1;
         }
-    
+        
+        // window.renderlifeline(lifeline,1);
         window.display();
         SDL_Delay(1000/30);
 
