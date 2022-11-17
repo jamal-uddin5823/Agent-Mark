@@ -12,6 +12,8 @@
 Mix_Music *gMusic = NULL;
 Mix_Chunk* jump = NULL;
 Mix_Chunk* slide = NULL;
+Mix_Chunk* collision = NULL;
+Mix_Chunk* death = NULL;
 
 
 bool loadMedia()
@@ -40,6 +42,20 @@ bool loadMedia()
     if( slide == NULL )
     {
         printf( "Failed to load slide sound effect! SDL_mixer Error: %s\n", Mix_GetError() );
+        success = false;
+    }
+
+    collision = Mix_LoadWAV("sounds/Collision.mp3");
+    if( collision == NULL )
+    {
+        printf( "Failed to load collision sound effect! SDL_mixer Error: %s\n", Mix_GetError() );
+        success = false;
+    }
+
+    death = Mix_LoadWAV("sounds/death.mp3");
+    if( collision == NULL )
+    {
+        printf( "Failed to load death sound effect! SDL_mixer Error: %s\n", Mix_GetError() );
         success = false;
     }
     
@@ -84,20 +100,4 @@ void music(int flag){
         }
     }
 
-    // //If music is being played
-    // else
-    // {
-    //     //If the music is paused
-    //     if( Mix_PausedMusic() == 1 )
-    //     {
-    //         //Resume the music
-    //         Mix_ResumeMusic();
-    //     }
-    //     //If the music is playing
-    //     else
-    //     {
-    //         //Pause the music
-    //         Mix_PauseMusic();
-    //     }
-    // }
 }

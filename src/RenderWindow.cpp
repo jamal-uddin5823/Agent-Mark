@@ -10,7 +10,8 @@
 #include "RenderWindow.hpp"
 #include "Entity.hpp"
 
-#define OBSTACLE_SPEED -7
+static int OBSTACLE_SPEED =-10;
+
 
 RenderWindow::RenderWindow(std::string p_title, int p_w, int p_h){
     
@@ -94,7 +95,7 @@ void RenderWindow::changeRenderColor(int r,int g, int b, int a){
     SDL_SetRenderDrawColor(renderer,r,g,b,a);
 }
 
-void RenderWindow::render(Entity &p_entity,double times,bool jump){
+void RenderWindow::render(Entity &p_entity,bool jump){
 
     SDL_Rect src;
     src.x = p_entity.getCurrentFrame().x;
@@ -103,13 +104,13 @@ void RenderWindow::render(Entity &p_entity,double times,bool jump){
     src.h = p_entity.getCurrentFrame().h;
 
     SDL_Rect dest;
-    dest.x = p_entity.getpos().x*times;
+    dest.x = p_entity.getpos().x;
     // if(jump==1)
     //     dest.y = p_entity.getpos().y-120;
     // else
-    dest.y = p_entity.getpos().y*times;
-    dest.w = p_entity.getCurrentFrame().w*times;
-    dest.h = p_entity.getCurrentFrame().h*times;
+    dest.y = p_entity.getpos().y;
+    dest.w = p_entity.getCurrentFrame().w;
+    dest.h = p_entity.getCurrentFrame().h;
 
     SDL_RenderCopy(renderer,p_entity.getTex(),&src,&dest);
 
@@ -143,22 +144,22 @@ void RenderWindow::renderObstacle(Entity &obstacle, bool flagup){
     obstacle.changepos(OBSTACLE_SPEED,0);
     if(obstacle.getpos().x+obstacle.getCurrentFrame().w<0){
         if(flagup)
-            obstacle.setpos(1350,600);
+            obstacle.setpos(OBSTACLE_POSX,SLIDEOBSTACLEY);
 
         else
-            obstacle.setpos(1350,768);
+            obstacle.setpos(OBSTACLE_POSX,JUMPOBSTACLEY);
     }
 }
 
 void RenderWindow::renderlifeline(Entity &lifeline,bool lifeflag){
     if(lifeflag){
-         render(lifeline,2);
+        render(lifeline,2);
         lifeline.changepos(-7,0);
         if(lifeline.getpos().x+lifeline.getCurrentFrame().w<0){
             lifeline.setpos(SCREEN_WIDTH,SCREEN_HEIGHT-150);
         }
     }
-   
+
 }
 
 
@@ -169,20 +170,21 @@ void RenderWindow::display(){
 
 void RenderWindow::score_show()
 {
-    std::string s="Score : "+std::__cxx11::to_string((int)(SDL_GetTicks()/1000));
+    int time = (int)(SDL_GetTicks()/1000);
+    std::string s="Score : "+std::__cxx11::to_string(time);
     int text_w,text_h;
     SDL_Texture* texture = Textload(s,"fonts/Antonio-Bold.ttf",50,0,0,0,&text_w,&text_h);
     Entity score = Entity(Vector2f(10,50),texture,text_w,text_h,0,0);
 
-    render(score,1);
+    render(score);
 }
 
-void RenderWindow::lives_show(int life){
+void RenderWindow::lives_show(int& life){
     std::string lifestring = "Lives: "+std::__cxx11::to_string(life);
 
     int text_w,text_h;
     SDL_Texture* texture = Textload(lifestring,"fonts/Antonio-Bold.ttf",50,255,0,0,&text_w,&text_h);
     Entity lifeboard = Entity(Vector2f(1100,50),texture,text_w,text_h,0,0);
 
-    render(lifeboard,1);
+    render(lifeboard);
 }

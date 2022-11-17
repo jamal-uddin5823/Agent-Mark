@@ -11,9 +11,15 @@
 
 #include "Entity.hpp"
 
-const int SCREEN_WIDTH =1280;
-const int SCREEN_HEIGHT =960;
+#define SCREEN_WIDTH 1280
+#define SCREEN_HEIGHT 960
+#define JUMPOBSTACLEY 768
+#define SLIDEOBSTACLEY 600
+
+static int OBSTACLE_POSX= 1500;
+
 static int life=5;
+
 
 
 struct RenderWindow{
@@ -28,7 +34,7 @@ struct RenderWindow{
         void changeRenderColor(int r,int g, int b, int a);
         void clearScreen();
 
-        void render(Entity &p_entity,double times, bool flag=0);
+        void render(Entity &p_entity, bool jump=0);
         void renderBG( int x, int y,Entity background, SDL_Rect* clip = NULL, double angle = 0.0, SDL_Point* center = NULL, SDL_RendererFlip flip = SDL_FLIP_NONE );
         void renderlifeline(Entity &lifeline,bool lifeflag);
         int random(int low, int high);
@@ -36,7 +42,7 @@ struct RenderWindow{
 
         void display();
         void score_show();
-        void lives_show(int life);
+        void lives_show(int& life);
         
     private:
         SDL_Window* window=NULL;

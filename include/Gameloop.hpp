@@ -54,7 +54,6 @@ void gameloop(bool& gameRunning){
         window.renderBG(scrollingOffset+background.getCurrentFrame().w,0,background);
 
 
-        window.score_show();
 
 
 
@@ -75,20 +74,20 @@ void gameloop(bool& gameRunning){
 
         //rendering player
         if(flag==0|| flag==-1)
-            window.render(curr_agent_frame,1);
+            window.render(curr_agent_frame);
         else if(flag==1)
-            window.render(curr_agent_frame,1,1);
+            window.render(curr_agent_frame,1);
 
 
         //rendering obstacle
-        window.renderObstacle(obstacledown,obsflag);
+        window.renderObstacle(obstacle,obsflag);
         int coin = window.random(1,100);
         if(coin>40)
             obsflag=!obsflag;
         // window.renderObstacle(obstacleup,1);
         
 
-        window.render(curr_enemy_frame,1);
+        window.render(curr_enemy_frame);
         // running_enemy[enemy_frame_no/running_enemy.size()].changepos(ENEMY_VEL,0);
 
 
@@ -125,7 +124,7 @@ void gameloop(bool& gameRunning){
             Entity newgrass = Entity(Vector2f(blackBox_x,blackBox_y),blackBoxTexture,96,96,0,0);
             // int randNum = rand()%(100-1 + 1) +1;
             // if(randNum!=2 || randNum!=32)
-            window.render(newgrass,1);
+            window.render(newgrass);
             blackBox_x+=32;
         }
 
@@ -147,18 +146,37 @@ void gameloop(bool& gameRunning){
             // ENEMY_VEL+=0.1;
         }
 
-        bool collide=curr_agent_frame.checkCollision(curr_agent_frame.getpos().x,curr_agent_frame.getpos().x+curr_agent_frame.getCurrentFrame().w,curr_agent_frame.getpos().y,curr_agent_frame.getpos().y+curr_agent_frame.getCurrentFrame().h,obstacledown.getpos().x,obstacledown.getpos().x+obstacledown.getCurrentFrame().w,obstacledown.getpos().y,obstacledown.getpos().y+obstacledown.getCurrentFrame().h,flag);
-        if(collide==true){
-            obstacledown.getpos().x=-100;
+        bool collideObstacle=curr_agent_frame.checkCollision(curr_agent_frame.getpos().x,curr_agent_frame.getpos().x+curr_agent_frame.getCurrentFrame().w,curr_agent_frame.getpos().y,curr_agent_frame.getpos().y+curr_agent_frame.getCurrentFrame().h,obstacle.getpos().x,obstacle.getpos().x+obstacle.getCurrentFrame().w,obstacle.getpos().y,obstacle.getpos().y+obstacle.getCurrentFrame().h,flag);
+        bool collideEnemy=curr_agent_frame.checkCollision(curr_agent_frame.getpos().x,curr_agent_frame.getpos().x+curr_agent_frame.getCurrentFrame().w,curr_agent_frame.getpos().y,curr_agent_frame.getpos().y+curr_agent_frame.getCurrentFrame().h,curr_enemy_frame.getpos().x,curr_enemy_frame.getpos().x+curr_enemy_frame.getCurrentFrame().w-75,curr_enemy_frame.getpos().y,curr_enemy_frame.getpos().y+curr_enemy_frame.getCurrentFrame().h,flag);
+
+        if(collideObstacle==true || collideEnemy==true){
+            Mix_PlayChannel(-1,collision,0);
+            if(collideEnemy==true){
+                Mix_PlayChannel(-1,death,0);
+                SDL_Delay(500);
+                gameRunning=false;
+                return;
+            }
+
+            obstacle.getpos().x=-100;
             // gameRunning=false;
-            std::cout<<life<<'\n';
+            // std::cout<<life<<'\n';
+
+
             life--;
             if(life==0){
+                Mix_PlayChannel(-1,death,0);
+                SDL_Delay(500);
                 gameRunning=false;
             }
-            collide=false;
+            collideObstacle=false;
+            for (int i = 0; i < (int)running_enemy.size(); i++)
+            {
+                running_enemy[i].changepos(100,0);
+            }
         }
         
+        window.score_show();
         window.lives_show(life);
         // window.renderlifeline(lifeline,1);
         window.display();

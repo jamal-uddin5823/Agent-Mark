@@ -69,27 +69,24 @@ bool Entity::checkCollision(int leftA, int rightA, int topA, int bottomA, int le
     if(slide==-1){
         topA+=10;
     }
-    // rightB*=3;
-    // bottomB*=3;
-    // topB*=3;
-    std::cout << leftA << "  " << leftB << "  " << rightA << "  " <<rightB << "  " << topA << "  " << topB << " " << bottomA << "  " << bottomB << "\n";
+
     //If any of the sides from A are outside of B
-    if( bottomA <= topB )
+    if( bottomA < topB )
     {
         return false;
     }
  
-    if( topA >= bottomB )
+    if( topA > bottomB )
     {
         return false;
     }
  
-    if( rightA <= leftB )
+    if( rightA < leftB )
     {
         return false;
     }
  
-    if( leftA >= rightB )
+    if( leftA > rightB )
     {
         return false;
     }
@@ -98,9 +95,5 @@ bool Entity::checkCollision(int leftA, int rightA, int topA, int bottomA, int le
     return true;
 }
 
-// std::string scoregen(){
-//     int score= startTime;
-//     std::string stringscore = std::__cxx11::to_string(score);
-//     return stringscore;
-// }
+
 
