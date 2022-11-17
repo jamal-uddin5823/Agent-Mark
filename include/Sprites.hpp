@@ -18,7 +18,7 @@
 #define OBSTACLEX 450
 #define OBSTACLEJUMPY 260
 #define OBSTACLESLIDEY 100
-#define OBSTACLE_WIDTH 32
+#define OBSTACLE_WIDTH 70
 #define OBSTACLEJUMP_HEIGHT SCREEN_HEIGHT-215
 #define OBSTACLESLIDE_HEIGHT SCREEN_HEIGHT-803
 #define BACKGROUND_WIDTH 2560
@@ -30,11 +30,11 @@
 RenderWindow window("Agent Mark", SCREEN_WIDTH,SCREEN_HEIGHT);
 
 int blackBox_x=0,blackBox_y = SCREEN_HEIGHT/3-32;
-SDL_Texture* blackBoxTexture = window.loadTexture("res/Blackbox.png",0,0,0,0); 
+SDL_Texture* blackBoxTexture = window.loadTexture("res/Obstacle.png",0,0,0,0); 
 SDL_Texture* backTexture = window.loadTexture("res/skyline.png",1,255,255,255);
 SDL_Texture* agentTexture = window.loadTexture("res/sheet.png",1,255,255,255);
 SDL_Texture* enemyTexture = window.loadTexture("res/enemysheet.png",0,255,0,0);
-SDL_Texture* obstacleTexture = window.loadTexture("res/Blackbox.png",0,0,0,0);
+SDL_Texture* obstacleTexture = window.loadTexture("res/Obstacle.png",0,0,0,0);
 SDL_Texture* lifeTexture = window.loadTexture("res/lifeline.png",0,0,0,0);
 
 
@@ -61,16 +61,19 @@ std::vector<Entity> running_agent ={
 
 
 std::vector<Entity> jumping_agent ={
-    Entity(Vector2f(200,SCREEN_HEIGHT-210),agentTexture,SPRITE_DIM,SPRITE_DIM,SPRITE_DIM*2,SPRITE_DIM*3),
-    Entity(Vector2f(200,SCREEN_HEIGHT-210),agentTexture,SPRITE_DIM,SPRITE_DIM,SPRITE_DIM*3,SPRITE_DIM*3),
-    Entity(Vector2f(200,SCREEN_HEIGHT-210),agentTexture,SPRITE_DIM,SPRITE_DIM,SPRITE_DIM*3,SPRITE_DIM*3),
-    Entity(Vector2f(200,SCREEN_HEIGHT-210),agentTexture,SPRITE_DIM,SPRITE_DIM,SPRITE_DIM*4,SPRITE_DIM*3),
-    Entity(Vector2f(200,SCREEN_HEIGHT-210),agentTexture,SPRITE_DIM,SPRITE_DIM,SPRITE_DIM*5,SPRITE_DIM*3)
+    Entity(Vector2f(200,SCREEN_HEIGHT-210-120),agentTexture,SPRITE_DIM,SPRITE_DIM,SPRITE_DIM*2,SPRITE_DIM*3),
+    Entity(Vector2f(200,SCREEN_HEIGHT-210-120),agentTexture,SPRITE_DIM,SPRITE_DIM,SPRITE_DIM*3,SPRITE_DIM*3),
+    Entity(Vector2f(200,SCREEN_HEIGHT-210-120),agentTexture,SPRITE_DIM,SPRITE_DIM,SPRITE_DIM*3,SPRITE_DIM*3),
+    Entity(Vector2f(200,SCREEN_HEIGHT-210-120),agentTexture,SPRITE_DIM,SPRITE_DIM,SPRITE_DIM*4,SPRITE_DIM*3),
+    Entity(Vector2f(200,SCREEN_HEIGHT-210-120),agentTexture,SPRITE_DIM,SPRITE_DIM,SPRITE_DIM*4,SPRITE_DIM*3),
+    Entity(Vector2f(200,SCREEN_HEIGHT-210-120),agentTexture,SPRITE_DIM,SPRITE_DIM,SPRITE_DIM*5,SPRITE_DIM*3),
+    Entity(Vector2f(200,SCREEN_HEIGHT-210-120),agentTexture,SPRITE_DIM,SPRITE_DIM,SPRITE_DIM*5,SPRITE_DIM*3)
     
 };
 std::vector<Entity> sliding_agent ={
     Entity(Vector2f(200,SCREEN_HEIGHT-210),agentTexture,SPRITE_DIM,SPRITE_DIM,SPRITE_DIM,SPRITE_DIM*4),
     Entity(Vector2f(205,SCREEN_HEIGHT-210),agentTexture,SPRITE_DIM,SPRITE_DIM,SPRITE_DIM*2,SPRITE_DIM*4),
+    Entity(Vector2f(210,SCREEN_HEIGHT-210),agentTexture,SPRITE_DIM,SPRITE_DIM,SPRITE_DIM*3,SPRITE_DIM*4),
     Entity(Vector2f(210,SCREEN_HEIGHT-210),agentTexture,SPRITE_DIM,SPRITE_DIM,SPRITE_DIM*3,SPRITE_DIM*4),
     Entity(Vector2f(215,SCREEN_HEIGHT-210),agentTexture,SPRITE_DIM,SPRITE_DIM,SPRITE_DIM*4,SPRITE_DIM*4),
     Entity(Vector2f(215,SCREEN_HEIGHT-210),agentTexture,SPRITE_DIM,SPRITE_DIM,SPRITE_DIM*5,SPRITE_DIM*4),
@@ -85,7 +88,7 @@ std::vector<Entity> running_enemy ={
 };
 
 Entity obstacleup = Entity(Vector2f(OBSTACLEX,OBSTACLEJUMPY),obstacleTexture,OBSTACLE_WIDTH,OBSTACLEJUMP_HEIGHT,0,0);
-Entity obstacledown = Entity(Vector2f(OBSTACLEX,OBSTACLESLIDEY),obstacleTexture,OBSTACLE_WIDTH,OBSTACLESLIDE_HEIGHT,0,0);
+Entity obstacledown = Entity(Vector2f(1350,600),obstacleTexture,OBSTACLE_WIDTH,OBSTACLESLIDE_HEIGHT,0,0);
 
 Entity background = Entity(Vector2f(0,0),backTexture,BACKGROUND_WIDTH,BACKGROUNG_HEIGHT,0,0);
 Entity lifeline = Entity(Vector2f(SCREEN_WIDTH,SCREEN_HEIGHT/2-100),lifeTexture,32,32,0,0);

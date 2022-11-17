@@ -37,7 +37,7 @@ void Handle_event(SDL_Event& e, bool& gameRunning){
 
 
 
-void gameloop(){
+void gameloop(bool& gameRunning){
 
 
         window.clearScreen();
@@ -55,7 +55,6 @@ void gameloop(){
 
 
         window.score_show();
-        window.lives_show();
 
 
 
@@ -120,13 +119,13 @@ void gameloop(){
 
 
         
-        int blackBox_x=0,blackBox_y = SCREEN_HEIGHT/3-32;
+        int blackBox_x=0,blackBox_y = SCREEN_HEIGHT-96;
         for (int i = 0; i < 40; i++)
         {
-            Entity newgrass = Entity(Vector2f(blackBox_x,blackBox_y),blackBoxTexture,32,32,0,0);
+            Entity newgrass = Entity(Vector2f(blackBox_x,blackBox_y),blackBoxTexture,96,96,0,0);
             // int randNum = rand()%(100-1 + 1) +1;
             // if(randNum!=2 || randNum!=32)
-            window.render(newgrass,3);
+            window.render(newgrass,1);
             blackBox_x+=32;
         }
 
@@ -147,7 +146,20 @@ void gameloop(){
             enemy_frame_no=0;
             // ENEMY_VEL+=0.1;
         }
+
+        bool collide=curr_agent_frame.checkCollision(curr_agent_frame.getpos().x,curr_agent_frame.getpos().x+curr_agent_frame.getCurrentFrame().w,curr_agent_frame.getpos().y,curr_agent_frame.getpos().y+curr_agent_frame.getCurrentFrame().h,obstacledown.getpos().x,obstacledown.getpos().x+obstacledown.getCurrentFrame().w,obstacledown.getpos().y,obstacledown.getpos().y+obstacledown.getCurrentFrame().h,flag);
+        if(collide==true){
+            obstacledown.getpos().x=-100;
+            // gameRunning=false;
+            std::cout<<life<<'\n';
+            life--;
+            if(life==0){
+                gameRunning=false;
+            }
+            collide=false;
+        }
         
+        window.lives_show(life);
         // window.renderlifeline(lifeline,1);
         window.display();
         SDL_Delay(1000/30);

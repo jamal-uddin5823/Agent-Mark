@@ -10,7 +10,7 @@
 #include "RenderWindow.hpp"
 #include "Entity.hpp"
 
-#define OBSTACLE_SPEED -5
+#define OBSTACLE_SPEED -7
 
 RenderWindow::RenderWindow(std::string p_title, int p_w, int p_h){
     
@@ -104,10 +104,10 @@ void RenderWindow::render(Entity &p_entity,double times,bool jump){
 
     SDL_Rect dest;
     dest.x = p_entity.getpos().x*times;
-    if(jump==1)
-        dest.y = p_entity.getpos().y-120;
-    else
-        dest.y = p_entity.getpos().y*times;
+    // if(jump==1)
+    //     dest.y = p_entity.getpos().y-120;
+    // else
+    dest.y = p_entity.getpos().y*times;
     dest.w = p_entity.getCurrentFrame().w*times;
     dest.h = p_entity.getCurrentFrame().h*times;
 
@@ -139,14 +139,14 @@ int RenderWindow::random(int low, int high){
 }
 
 void RenderWindow::renderObstacle(Entity &obstacle, bool flagup){
-    render(obstacle,3);
+    render(obstacle,1);
     obstacle.changepos(OBSTACLE_SPEED,0);
     if(obstacle.getpos().x+obstacle.getCurrentFrame().w<0){
         if(flagup)
-            obstacle.setpos(450,260);
+            obstacle.setpos(1350,600);
 
         else
-            obstacle.setpos(450,100);
+            obstacle.setpos(1350,768);
     }
 }
 
@@ -177,7 +177,7 @@ void RenderWindow::score_show()
     render(score,1);
 }
 
-void RenderWindow::lives_show(){
+void RenderWindow::lives_show(int life){
     std::string lifestring = "Lives: "+std::__cxx11::to_string(life);
 
     int text_w,text_h;
