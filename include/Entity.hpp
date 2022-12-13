@@ -37,7 +37,7 @@ struct Entity
         SDL_Texture* getTex();
         SDL_Rect getCurrentFrame();
         std::pair<int,int>  handleEvent(SDL_Event& e, int* flag);
-        bool checkCollision(int leftA, int rightA, int topA, int bottomA, int leftB, int rightB, int topB, int bottomB , int slide);
+        bool checkCollision(Entity player, Entity collider, int slide);
         int mWidth=129;
         int mHeight = 129;
 

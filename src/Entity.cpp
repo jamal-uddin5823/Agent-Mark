@@ -63,8 +63,18 @@ std::pair<int,int> Entity::handleEvent(SDL_Event& e, int* flag){
     return movement;
 }
 
-bool Entity::checkCollision(int leftA, int rightA, int topA, int bottomA, int leftB, int rightB, int topB, int bottomB , int slide)
+bool Entity::checkCollision(Entity player, Entity collider, int slide)
 {
+    int leftA = player.getpos().x;
+    int rightA = player.getpos().x+player.getCurrentFrame().w;
+    int topA = player.getpos().y;
+    int bottomA = player.getpos().y+player.getCurrentFrame().h;
+
+    int leftB = collider.getpos().x;
+    int rightB = collider.getpos().x+collider.getCurrentFrame().w;
+    int topB = collider.getpos().y;
+    int bottomB = collider.getpos().y+collider.getCurrentFrame().h;
+
 
     if(slide==-1){
         topA+=10;
