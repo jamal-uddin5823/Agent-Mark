@@ -35,13 +35,7 @@ SDL_Texture* backTexture = window.loadTexture("res/skyline.png",1,255,255,255);
 SDL_Texture* agentTexture = window.loadTexture("res/sheet.png",1,255,255,255);
 SDL_Texture* enemyTexture = window.loadTexture("res/enemysheet.png",0,255,0,0);
 SDL_Texture* obstacleTexture = window.loadTexture("res/Obstacle.png",0,0,0,0);
-SDL_Texture* lifeTexture = window.loadTexture("res/lifeline.png",0,0,0,0);
-
-
-
-
-
-
+SDL_Texture* lifeTexture = window.loadTexture("res/life2.png",0,0,0,0);
 
 
 
@@ -63,13 +57,15 @@ std::vector<Entity> running_agent ={
 
 std::vector<Entity> jumping_agent ={
     //                      position in screen                  position from sprite
+    Entity(Vector2f(200,SCREEN_HEIGHT-210-120),agentTexture,SPRITE_DIM,SPRITE_DIM,SPRITE_DIM,SPRITE_DIM*3),
     Entity(Vector2f(200,SCREEN_HEIGHT-210-120),agentTexture,SPRITE_DIM,SPRITE_DIM,SPRITE_DIM*2,SPRITE_DIM*3),
     Entity(Vector2f(200,SCREEN_HEIGHT-210-120),agentTexture,SPRITE_DIM,SPRITE_DIM,SPRITE_DIM*3,SPRITE_DIM*3),
+    Entity(Vector2f(200,SCREEN_HEIGHT-210-120),agentTexture,SPRITE_DIM,SPRITE_DIM,SPRITE_DIM*4,SPRITE_DIM*3),
     Entity(Vector2f(200,SCREEN_HEIGHT-210-120),agentTexture,SPRITE_DIM,SPRITE_DIM,SPRITE_DIM*3,SPRITE_DIM*3),
-    Entity(Vector2f(200,SCREEN_HEIGHT-210-120),agentTexture,SPRITE_DIM,SPRITE_DIM,SPRITE_DIM*4,SPRITE_DIM*3),
-    Entity(Vector2f(200,SCREEN_HEIGHT-210-120),agentTexture,SPRITE_DIM,SPRITE_DIM,SPRITE_DIM*4,SPRITE_DIM*3),
+    Entity(Vector2f(200,SCREEN_HEIGHT-210-120),agentTexture,SPRITE_DIM,SPRITE_DIM,SPRITE_DIM*2,SPRITE_DIM*3),
+    // Entity(Vector2f(200,SCREEN_HEIGHT-210-120),agentTexture,SPRITE_DIM,SPRITE_DIM,SPRITE_DIM*5,SPRITE_DIM*3),
     Entity(Vector2f(200,SCREEN_HEIGHT-210-120),agentTexture,SPRITE_DIM,SPRITE_DIM,SPRITE_DIM*5,SPRITE_DIM*3),
-    Entity(Vector2f(200,SCREEN_HEIGHT-210-120),agentTexture,SPRITE_DIM,SPRITE_DIM,SPRITE_DIM*5,SPRITE_DIM*3)
+    // Entity(Vector2f(200,SCREEN_HEIGHT-210-120),agentTexture,SPRITE_DIM,SPRITE_DIM,0,SPRITE_DIM*3)
     
 };
 std::vector<Entity> sliding_agent ={
@@ -103,5 +99,5 @@ std::vector<Entity> obstacle_array={obstacle,obstacle2};
 Entity background = Entity(Vector2f(0,0),backTexture,BACKGROUND_WIDTH,BACKGROUNG_HEIGHT,0,0);
 
 //                      position in screen                                     position from sprite
-Entity lifeline = Entity(Vector2f(SCREEN_WIDTH,SCREEN_HEIGHT/2-100),lifeTexture,32,32,0,0);
+Entity lifeline = Entity(Vector2f(SCREEN_WIDTH,SCREEN_HEIGHT-200),lifeTexture,77,64,0,0);
 

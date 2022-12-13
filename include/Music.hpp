@@ -14,6 +14,8 @@ Mix_Chunk* jump = NULL;
 Mix_Chunk* slide = NULL;
 Mix_Chunk* collision = NULL;
 Mix_Chunk* death = NULL;
+Mix_Chunk* lifeup = NULL;
+Mix_Chunk* levelup = NULL;
 
 
 bool loadMedia()
@@ -24,7 +26,7 @@ bool loadMedia()
     //Load prompt texture
 
     //Load music
-    gMusic = Mix_LoadMUS( "sounds/theme.wav" );
+    gMusic = Mix_LoadMUS( "sounds/chase.mp3" );
     if( gMusic == NULL )
     {
         printf( "Failed to load theme music! SDL_mixer Error: %s\n", Mix_GetError() );
@@ -53,9 +55,23 @@ bool loadMedia()
     }
 
     death = Mix_LoadWAV("sounds/death.mp3");
-    if( collision == NULL )
+    if( death == NULL )
     {
         printf( "Failed to load death sound effect! SDL_mixer Error: %s\n", Mix_GetError() );
+        success = false;
+    }
+
+    lifeup = Mix_LoadWAV("sounds/lifeup.mp3");
+    if( lifeup == NULL )
+    {
+        printf( "Failed to load lifeup sound effect! SDL_mixer Error: %s\n", Mix_GetError() );
+        success = false;
+    }
+
+    levelup = Mix_LoadWAV("sounds/levelup.mp3");
+    if( levelup == NULL )
+    {
+        printf( "Failed to load levelup sound effect! SDL_mixer Error: %s\n", Mix_GetError() );
         success = false;
     }
     

@@ -18,7 +18,7 @@
 
 static int OBSTACLE_POSX= 1500;
 
-static int life=5;
+static int life=3;
 
 
 
@@ -41,7 +41,6 @@ struct RenderWindow{
         void renderObstacle(Entity &obstacle, bool flagup);
 
         void display();
-        void score_show();
         void lives_show(int& life);
         
     private:

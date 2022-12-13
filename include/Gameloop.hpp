@@ -18,7 +18,9 @@ double ENEMY_VEL=0.25;
 
 
 int agent_frame_no = 0,enemy_frame_no=0;
-bool obsflag=0,lifeflag;
+bool obsflag=0,lifeflag=0;
+extern int time_passed;
+
 
 Entity curr_agent_frame = running_agent[agent_frame_no/running_agent.size()];
 Entity curr_enemy_frame = running_enemy[enemy_frame_no/running_enemy.size()];
@@ -75,6 +77,10 @@ void render_agent(){
 
 void render_obstacle(){
     for(int i=0;i<(int)obstacle_array.size();i++){
+        if(abs(obstacle_array[0].getpos().x-obstacle_array[1].getpos().x-obstacle_array[1].getCurrentFrame().w)<100){
+            obstacle_array[1].changepos(500,0);
+            // obstacle_array[1].setpos(-100,600);
+        }
         window.renderObstacle(obstacle_array[i],obsflag);
         int coin = window.random(1,100);
         if(coin>50)
@@ -129,12 +135,13 @@ void collision_checker(bool& gameRunning){
     for(int i=0;i<(int)obstacle_array.size();i++){
             bool collideObstacle=curr_agent_frame.checkCollision(curr_agent_frame,obstacle_array[i],agent_frame_select_flag);
             bool collideEnemy=curr_agent_frame.checkCollision(curr_agent_frame,curr_enemy_frame,agent_frame_select_flag);
+            bool collideLifeline = curr_agent_frame.checkCollision(curr_agent_frame,lifeline,agent_frame_select_flag);
 
             if(collideObstacle==true || collideEnemy==true){
                 Mix_PlayChannel(-1,collision,0);
                 if(collideEnemy==true){
                     Mix_PlayChannel(-1,death,0);
-                    SDL_Delay(500);
+                    SDL_Delay(1000);
                     gameRunning=false;
                     return;
                 }
@@ -146,7 +153,7 @@ void collision_checker(bool& gameRunning){
                 life--;
                 if(life==0){
                     Mix_PlayChannel(-1,death,0);
-                    SDL_Delay(500);
+                    SDL_Delay(1000);
                     gameRunning=false;
                 }
                 collideObstacle=false;
@@ -156,45 +163,82 @@ void collision_checker(bool& gameRunning){
                     running_enemy[i].changepos(50,0);
                 }
             }
+
+            if(collideLifeline==true){
+                Mix_PlayChannel(-1,lifeup,0);
+                life++;
+                lifeline.getpos().x=-100;
+            }
         }
 }
 
+void render_lifeline(){
+    int lifecoin = window.random(1,1000);
+    if(lifecoin>999){
+        lifeflag=1;
+    }
+    if(lifeflag){
+        window.render(lifeline);
+        lifeline.changepos(-5,0);
+        if(lifeline.getpos().x+lifeline.getCurrentFrame().w<0){
+            lifeline.setpos(SCREEN_WIDTH,SCREEN_HEIGHT-200);
+            lifeflag=0;
+        }
+    }
+}
+void generate_score(){
+    int time = (int)(SDL_GetTicks()/1000);
+    time_passed= time;
+    if(time_passed%10==0 && time_passed!=0){
+        Mix_PlayChannel(-1,levelup,0);
+    }
+    std::string s="Score : "+std::__cxx11::to_string(time);
+    int text_w,text_h;
+    SDL_Texture* texture = window.Textload(s,"fonts/Antonio-Bold.ttf",50,0,0,0,&text_w,&text_h);
+    Entity score = Entity(Vector2f(10,50),texture,text_w,text_h,0,0);
+
+    window.render(score);
+}
+
 void gameloop(bool& gameRunning){
+    
+
+    window.clearScreen();
+    window.changeRenderColor(255,255,255,255);
+    
+    background_scroll();
 
 
-        window.clearScreen();
-        window.changeRenderColor(255,255,255,255);
-        
-        background_scroll();
+    select_agent_frame();
+
+    music(agent_frame_select_flag);
 
 
-        select_agent_frame();
+    render_agent();
 
-        music(agent_frame_select_flag);
+    render_obstacle();
+    render_lifeline();
 
+    window.render(curr_enemy_frame);
 
-        render_agent();
+    agent_frame_no++;
+    enemy_frame_no++;
 
-        render_obstacle();
+    update_agent_pos();
 
-        window.render(curr_enemy_frame);
+    render_ground();
+    
+    render_lifeline();
 
-        agent_frame_no++;
-        enemy_frame_no++;
+    reset_frame_no();
 
-        update_agent_pos();
+    collision_checker(gameRunning);
 
-        render_ground();
-        
+    generate_score();
+    // window.score_show();
+    window.lives_show(life);
 
-        reset_frame_no();
-
-        collision_checker(gameRunning);
-
-        window.score_show();
-        window.lives_show(life);
-        // window.renderlifeline(lifeline,1);
-        window.display();
-        SDL_Delay(1000/30);
+    window.display();
+    SDL_Delay(1000/30);
 
 }

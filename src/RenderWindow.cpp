@@ -10,7 +10,10 @@
 #include "RenderWindow.hpp"
 #include "Entity.hpp"
 
+
 static int OBSTACLE_SPEED =-10;
+int threshold=10;
+int time_passed=0;
 
 
 RenderWindow::RenderWindow(std::string p_title, int p_w, int p_h){
@@ -149,6 +152,10 @@ void RenderWindow::renderObstacle(Entity &obstacle, bool flagup){
         else
             obstacle.setpos(OBSTACLE_POSX,JUMPOBSTACLEY);
     }
+    if(time_passed == threshold){
+        OBSTACLE_SPEED--;
+        threshold+=10;
+    }
 }
 
 void RenderWindow::renderlifeline(Entity &lifeline,bool lifeflag){
@@ -168,16 +175,6 @@ void RenderWindow::display(){
     SDL_RenderPresent(renderer);
 }
 
-void RenderWindow::score_show()
-{
-    int time = (int)(SDL_GetTicks()/1000);
-    std::string s="Score : "+std::__cxx11::to_string(time);
-    int text_w,text_h;
-    SDL_Texture* texture = Textload(s,"fonts/Antonio-Bold.ttf",50,0,0,0,&text_w,&text_h);
-    Entity score = Entity(Vector2f(10,50),texture,text_w,text_h,0,0);
-
-    render(score);
-}
 
 void RenderWindow::lives_show(int& life){
     std::string lifestring = "Lives: "+std::__cxx11::to_string(life);
