@@ -19,6 +19,7 @@
 static int OBSTACLE_POSX= 1500;
 
 static int life=3;
+static int score = 0;
 
 
 

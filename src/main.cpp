@@ -22,6 +22,7 @@
 int main(int argc, char *argv[])
 {
     initSDL();
+    init_score_life();
 
     bool gameRunning = true;
 

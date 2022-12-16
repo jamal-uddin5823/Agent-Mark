@@ -12,20 +12,22 @@
 
 #include "Sprites.hpp"
 #include "Music.hpp"
+#include "Fileio.hpp"
 
 const int VEL_X=20;
 double ENEMY_VEL=0.25;
 
-
+bool continue_flag=1;
 int agent_frame_no = 0,enemy_frame_no=0;
 bool obsflag=0,lifeflag=0;
-extern int time_passed;
+int agent_frame_select_flag=0;
+int initital_score = 0;
 
+extern int time_passed;
 
 Entity curr_agent_frame = running_agent[agent_frame_no/running_agent.size()];
 Entity curr_enemy_frame = running_enemy[enemy_frame_no/running_enemy.size()];
 std::pair<int,int> movement;
-int agent_frame_select_flag=0;
 
 
 
@@ -34,8 +36,19 @@ void Handle_event(SDL_Event& e, bool& gameRunning){
     {
         if(e.type == SDL_QUIT){
             gameRunning=false;
+            write_history();
         }
         movement = curr_agent_frame.handleEvent(e,&agent_frame_select_flag);
+    }
+}
+
+void init_score_life(){
+    if(continue_flag==1){
+        read_history();
+        initital_score=score;
+        if(life==0){
+            life=3;
+        }
     }
 }
 
@@ -186,18 +199,18 @@ void render_lifeline(){
         }
     }
 }
-void generate_score(){
+int generate_score(){
     int time = (int)(SDL_GetTicks()/1000);
-    time_passed= time;
-    if(time_passed%10==0 && time_passed!=0){
+    if(time%10==0 && time!=0){
         Mix_PlayChannel(-1,levelup,0);
     }
-    std::string s="Score : "+std::__cxx11::to_string(time);
+    std::string s="Score : "+std::__cxx11::to_string(initital_score+time);
     int text_w,text_h;
     SDL_Texture* texture = window.Textload(s,"fonts/Antonio-Bold.ttf",50,0,0,0,&text_w,&text_h);
-    Entity score = Entity(Vector2f(10,50),texture,text_w,text_h,0,0);
+    Entity scorecard = Entity(Vector2f(10,50),texture,text_w,text_h,0,0);
 
-    window.render(score);
+    window.render(scorecard);
+    return initital_score+ time;
 }
 
 void gameloop(bool& gameRunning){
@@ -234,11 +247,13 @@ void gameloop(bool& gameRunning){
 
     collision_checker(gameRunning);
 
-    generate_score();
+    score = generate_score();
     // window.score_show();
     window.lives_show(life);
-
+    if(gameRunning==false){
+        write_history();
+    }
+    // std::cout<<score<<'\n';
     window.display();
     SDL_Delay(1000/30);
-
 }
