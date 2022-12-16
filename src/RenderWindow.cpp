@@ -158,6 +158,7 @@ void RenderWindow::renderObstacle(Entity &obstacle, bool flagup,int* speed){
     }
 }
 
+
 void RenderWindow::renderlifeline(Entity &lifeline,bool lifeflag){
     if(lifeflag){
         render(lifeline,2);

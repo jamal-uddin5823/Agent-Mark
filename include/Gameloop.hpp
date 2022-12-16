@@ -33,6 +33,7 @@ int agent_frame_no = 0,enemy_frame_no=0;
 bool obsflag=0,lifeflag=0;
 int agent_frame_select_flag=0;
 int initital_score = 0;
+bool first_loop = 0;
 std::pair<int,int> movement;
 
 extern int time_passed;
@@ -51,6 +52,7 @@ void reset_frame_no();
 void collision_checker(bool& gameRunning);
 void render_lifeline();
 int generate_score();
+void countdown();
 
 
 
@@ -60,7 +62,7 @@ void Handle_event(SDL_Event& e, bool& gameRunning){
     {
         if(e.type == SDL_QUIT){
             gameRunning=false;
-            write_history(score,life,OBSTACLE_SPEED,running_agent[enemy_frame_no/running_agent.size()].getpos().x,running_enemy[enemy_frame_no/running_enemy.size()].getpos().x,obstacle_array[0].getpos().x,obstacle_array[1].getpos().x,obstacle_array[0].getpos().y,obstacle_array[1].getpos().y);
+            write_history(score,life,OBSTACLE_SPEED,running_agent[enemy_frame_no/running_agent.size()].getpos().x,running_enemy[enemy_frame_no/running_enemy.size()].getpos().x,obstacle_array[0],obstacle_array[1]);
         }
         movement = curr_agent_frame.handleEvent(e,&agent_frame_select_flag);
     }
@@ -105,10 +107,15 @@ void gameloop(bool& gameRunning){
     // window.score_show();
     window.lives_show(life);
     if(gameRunning==false){
-        write_history(score,life,OBSTACLE_SPEED,running_agent[enemy_frame_no/running_agent.size()].getpos().x,running_enemy[enemy_frame_no/running_enemy.size()].getpos().x,obstacle_array[0].getpos().x,obstacle_array[1].getpos().x,obstacle_array[0].getpos().y,obstacle_array[1].getpos().y);
+        write_history(score,life,OBSTACLE_SPEED,running_agent[enemy_frame_no/running_agent.size()].getpos().x,running_enemy[enemy_frame_no/running_enemy.size()].getpos().x,obstacle_array[0],obstacle_array[1]);
     }
+
     window.display();
     SDL_Delay(1000/30);
+    // if(first_loop==0){
+    //     countdown();
+    //     first_loop=1;
+    // }
 }
 
 
@@ -129,6 +136,22 @@ void init_score_life(){
         read_history(&score,&life,&OBSTACLE_SPEED);
         initital_score=score;
     }
+}
+
+void countdown(){
+    for (int i = 3; i >= 0; i--)
+    {
+        std::string count = std::__cxx11::to_string(i);
+        int text_w,text_h;
+        SDL_Texture* count_tex = window.Textload(count,"fonts/Antonio-Bold.ttf",100,0,0,0,&text_w,&text_h);
+
+        Entity countEntity = Entity(Vector2f(640,400),count_tex,text_w,text_h,0,0);
+
+        window.render(countEntity);
+
+        SDL_Delay(1000);
+    }
+    
 }
 
 

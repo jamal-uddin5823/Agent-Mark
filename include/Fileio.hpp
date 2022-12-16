@@ -4,17 +4,17 @@
 #include "RenderWindow.hpp"
 
 
-void write_history(int point, int life, int speed, float agent_pos_X, float enemy_pos_X, float obstacle1_pos_X, float obstacle2_pos_X,float obstacle1_pos_Y, float obstacle2_pos_Y){
+void write_history(int point, int life, int speed, float agent_pos_X, float enemy_pos_X, Entity obstacle1, Entity obstacle2){
     FILE *continue_game= fopen("data/history.txt","w");
     fprintf(continue_game,"Score: %d\n",point);
     fprintf(continue_game,"Life: %d\n",life);
     fprintf(continue_game,"Speed: %d\n",speed);
     fprintf(continue_game,"AgentPosX: %f\n",agent_pos_X);
     fprintf(continue_game,"EnemyPosX: %f\n",enemy_pos_X);
-    fprintf(continue_game,"Obstacle1PosX: %f\n",obstacle1_pos_X);
-    fprintf(continue_game,"Obstacle1PosY: %f\n",obstacle1_pos_Y);
-    fprintf(continue_game,"Obstacle2PosX: %f\n",obstacle2_pos_X);
-    fprintf(continue_game,"Obstacle2PosY: %f\n",obstacle2_pos_Y);
+    fprintf(continue_game,"Obstacle1PosX: %f\n",obstacle1.getpos().x);
+    fprintf(continue_game,"Obstacle1PosY: %f\n",obstacle1.getpos().y);
+    fprintf(continue_game,"Obstacle2PosX: %f\n",obstacle2.getpos().x);
+    fprintf(continue_game,"Obstacle2PosY: %f\n",obstacle2.getpos().y);
     fclose(continue_game);
 }
 
@@ -26,19 +26,32 @@ void read_history(int* point, int* life, int* speed){
 
     fscanf(continue_game,"%s",str);
     fscanf(continue_game,"%d",point);
+
     fscanf(continue_game,"%s",str);
     fscanf(continue_game,"%d",life);
+
     fscanf(continue_game,"%s",str);
     fscanf(continue_game,"%d",speed);
+
     fscanf(continue_game,"%s",str);
     fscanf(continue_game,"%f",&agentpos);
+
     fscanf(continue_game,"%s",str);
     fscanf(continue_game,"%f",&enemypos);
+    
     fscanf(continue_game,"%s",str);
     fscanf(continue_game,"%f",&obstacle1_pos_X);
+
+    fscanf(continue_game,"%s",str);
     fscanf(continue_game,"%f",&obstacle1_pos_Y);
+
+    fscanf(continue_game,"%s",str);
     fscanf(continue_game,"%f",&obstacle2_pos_X);
+    
+    fscanf(continue_game,"%s",str);
     fscanf(continue_game,"%f",&obstacle2_pos_Y);
+
+    std::cout<<obstacle1_pos_Y<<" "<<obstacle2_pos_Y<<'\n';
 
     
     if(*life==0 || (agentpos==enemypos)){
