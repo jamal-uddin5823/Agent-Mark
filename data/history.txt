@@ -1,3 +1,4 @@
-Score: 7
+Score: 56
 Life: 3
-Speed: -15
+Speed: -20
+EnemyPosX: 115.000000

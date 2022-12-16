@@ -27,11 +27,11 @@ struct Entity
         Vector2f& getpos(){
             return pos;
         }
-        void changepos(int x, int y){
+        void changepos(double x, double y){
             pos.x+=x;
             pos.y+=y;
         }
-        void setpos(int x, int y){
+        void setpos(double x, double y){
             pos.x=x;
             pos.y=y;
         }
