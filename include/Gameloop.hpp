@@ -14,20 +14,39 @@
 #include "Music.hpp"
 #include "Fileio.hpp"
 
+
+enum{
+    NEW_GAME,
+    CONTINUE_PREV_GAME
+};
+
 const int VEL_X=20;
 double ENEMY_VEL=0.25;
 
-bool continue_flag=1;
+bool continue_flag=CONTINUE_PREV_GAME;
 int agent_frame_no = 0,enemy_frame_no=0;
 bool obsflag=0,lifeflag=0;
 int agent_frame_select_flag=0;
 int initital_score = 0;
+std::pair<int,int> movement;
 
 extern int time_passed;
 
 Entity curr_agent_frame = running_agent[agent_frame_no/running_agent.size()];
 Entity curr_enemy_frame = running_enemy[enemy_frame_no/running_enemy.size()];
-std::pair<int,int> movement;
+
+void init_score_life();
+void background_scroll();
+void select_agent_frame();
+void render_agent();
+void render_obstacle();
+void update_agent_pos();
+void render_ground();
+void reset_frame_no();
+void collision_checker(bool& gameRunning);
+void render_lifeline();
+int generate_score();
+
 
 
 
@@ -42,13 +61,68 @@ void Handle_event(SDL_Event& e, bool& gameRunning){
     }
 }
 
+
+void gameloop(bool& gameRunning){
+    
+
+    window.clearScreen();
+    window.changeRenderColor(255,255,255,255);
+    
+    background_scroll();
+
+
+    select_agent_frame();
+
+    music(agent_frame_select_flag);
+
+
+    render_agent();
+
+    render_obstacle();
+    render_lifeline();
+
+    window.render(curr_enemy_frame);
+
+    agent_frame_no++;
+    enemy_frame_no++;
+
+    update_agent_pos();
+
+    render_ground();
+    
+    render_lifeline();
+
+    reset_frame_no();
+
+    collision_checker(gameRunning);
+
+    score = generate_score();
+    // window.score_show();
+    window.lives_show(life);
+    if(gameRunning==false){
+        write_history();
+    }
+    window.display();
+    SDL_Delay(1000/30);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 void init_score_life(){
-    if(continue_flag==1){
+    if(continue_flag==CONTINUE_PREV_GAME){
         read_history();
         initital_score=score;
-        if(life==0){
-            life=3;
-        }
     }
 }
 
@@ -94,7 +168,7 @@ void render_obstacle(){
             obstacle_array[1].changepos(500,0);
             // obstacle_array[1].setpos(-100,600);
         }
-        window.renderObstacle(obstacle_array[i],obsflag);
+        window.renderObstacle(obstacle_array[i],obsflag,&OBSTACLE_SPEED);
         int coin = window.random(1,100);
         if(coin>50)
             obsflag=!obsflag;
@@ -164,7 +238,7 @@ void collision_checker(bool& gameRunning){
 
 
                 life--;
-                if(life==0){
+                if(life<=0){
                     Mix_PlayChannel(-1,death,0);
                     SDL_Delay(1000);
                     gameRunning=false;
@@ -185,6 +259,7 @@ void collision_checker(bool& gameRunning){
         }
 }
 
+
 void render_lifeline(){
     int lifecoin = window.random(1,1000);
     if(lifecoin>999){
@@ -199,9 +274,12 @@ void render_lifeline(){
         }
     }
 }
+
+
 int generate_score(){
     int time = (int)(SDL_GetTicks()/1000);
-    if(time%10==0 && time!=0){
+    time_passed= time;
+    if(time_passed%10==0 && time_passed!=0){
         Mix_PlayChannel(-1,levelup,0);
     }
     std::string s="Score : "+std::__cxx11::to_string(initital_score+time);
@@ -213,47 +291,4 @@ int generate_score(){
     return initital_score+ time;
 }
 
-void gameloop(bool& gameRunning){
-    
 
-    window.clearScreen();
-    window.changeRenderColor(255,255,255,255);
-    
-    background_scroll();
-
-
-    select_agent_frame();
-
-    music(agent_frame_select_flag);
-
-
-    render_agent();
-
-    render_obstacle();
-    render_lifeline();
-
-    window.render(curr_enemy_frame);
-
-    agent_frame_no++;
-    enemy_frame_no++;
-
-    update_agent_pos();
-
-    render_ground();
-    
-    render_lifeline();
-
-    reset_frame_no();
-
-    collision_checker(gameRunning);
-
-    score = generate_score();
-    // window.score_show();
-    window.lives_show(life);
-    if(gameRunning==false){
-        write_history();
-    }
-    // std::cout<<score<<'\n';
-    window.display();
-    SDL_Delay(1000/30);
-}

@@ -11,7 +11,7 @@
 #include "Entity.hpp"
 
 
-static int OBSTACLE_SPEED =-10;
+// static int OBSTACLE_SPEED =-10;
 int threshold=10;
 int time_passed=0;
 
@@ -142,9 +142,9 @@ int RenderWindow::random(int low, int high){
     return randNum;
 }
 
-void RenderWindow::renderObstacle(Entity &obstacle, bool flagup){
+void RenderWindow::renderObstacle(Entity &obstacle, bool flagup,int* speed){
     render(obstacle,1);
-    obstacle.changepos(OBSTACLE_SPEED,0);
+    obstacle.changepos(*speed,0);
     if(obstacle.getpos().x+obstacle.getCurrentFrame().w<0){
         if(flagup)
             obstacle.setpos(OBSTACLE_POSX,SLIDEOBSTACLEY);
@@ -153,7 +153,7 @@ void RenderWindow::renderObstacle(Entity &obstacle, bool flagup){
             obstacle.setpos(OBSTACLE_POSX,JUMPOBSTACLEY);
     }
     if(time_passed == threshold){
-        OBSTACLE_SPEED--;
+        --(*speed);
         threshold+=10;
     }
 }

@@ -1,1 +1,3 @@
-17 2
+Score: 17
+Life: 4
+Speed: -16

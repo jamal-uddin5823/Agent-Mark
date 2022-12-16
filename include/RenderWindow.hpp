@@ -17,6 +17,7 @@
 #define SLIDEOBSTACLEY 600
 
 static int OBSTACLE_POSX= 1500;
+static int OBSTACLE_SPEED =-15;
 
 static int life=3;
 static int score = 0;
@@ -39,7 +40,7 @@ struct RenderWindow{
         void renderBG( int x, int y,Entity background, SDL_Rect* clip = NULL, double angle = 0.0, SDL_Point* center = NULL, SDL_RendererFlip flip = SDL_FLIP_NONE );
         void renderlifeline(Entity &lifeline,bool lifeflag);
         int random(int low, int high);
-        void renderObstacle(Entity &obstacle, bool flagup);
+        void renderObstacle(Entity &obstacle, bool flagup,int* speed);
 
         void display();
         void lives_show(int& life);
