@@ -4,7 +4,7 @@
 #include "RenderWindow.hpp"
 
 
-void write_history(int point, int life, int speed, float agent_pos_X, float enemy_pos_X, Entity obstacle1, Entity obstacle2){
+void write_history(int point, int life, int speed, float agent_pos_X, float enemy_pos_X, Entity obstacle1, Entity obstacle2, Entity lifeline){
     FILE *continue_game= fopen("data/history.txt","w");
     fprintf(continue_game,"Score: %d\n",point);
     fprintf(continue_game,"Life: %d\n",life);
@@ -15,13 +15,14 @@ void write_history(int point, int life, int speed, float agent_pos_X, float enem
     fprintf(continue_game,"Obstacle1PosY: %f\n",obstacle1.getpos().y);
     fprintf(continue_game,"Obstacle2PosX: %f\n",obstacle2.getpos().x);
     fprintf(continue_game,"Obstacle2PosY: %f\n",obstacle2.getpos().y);
+    fprintf(continue_game,"LifeX: %f\n",lifeline.getpos().x);
     fclose(continue_game);
 }
 
-void read_history(int* point, int* life, int* speed){
+void read_history(int* point, int* life, int* speed, bool* life_present){
     char str[100];
     float enemypos, agentpos;
-    float obstacle1_pos_X,obstacle2_pos_X,obstacle1_pos_Y,obstacle2_pos_Y;
+    float obstacle1_pos_X,obstacle2_pos_X,obstacle1_pos_Y,obstacle2_pos_Y,lifeX,lifeY;
     FILE *continue_game= fopen("data/history.txt","r");
 
     fscanf(continue_game,"%s",str);
@@ -47,11 +48,23 @@ void read_history(int* point, int* life, int* speed){
 
     fscanf(continue_game,"%s",str);
     fscanf(continue_game,"%f",&obstacle2_pos_X);
-    
+
     fscanf(continue_game,"%s",str);
     fscanf(continue_game,"%f",&obstacle2_pos_Y);
+    
+    fscanf(continue_game,"%s",str);
+    fscanf(continue_game,"%f",&lifeX);
 
-    std::cout<<obstacle1_pos_Y<<" "<<obstacle2_pos_Y<<'\n';
+    if(lifeline.getpos().x+lifeline.getCurrentFrame().w>=0 && lifeline.getpos().x<SCREEN_WIDTH){
+        *life_present=true;
+        lifeline.setpos(lifeX,SCREEN_HEIGHT-200);
+    }
+    else{
+        lifeline.setpos(SCREEN_WIDTH,SCREEN_HEIGHT-200);
+        *life_present = false;
+    }
+    
+
 
     
     if(*life==0 || (agentpos==enemypos)){
@@ -64,6 +77,7 @@ void read_history(int* point, int* life, int* speed){
         obstacle1_pos_Y = SLIDEOBSTACLEY;
         obstacle2_pos_X = 2550;
         obstacle2_pos_Y = JUMPOBSTACLEY;
+        lifeX = SCREEN_WIDTH;
     }
 
     int enemy_flag=1,agent_flag=1;
@@ -89,6 +103,5 @@ void read_history(int* point, int* life, int* speed){
     obstacle_array[0].setpos(obstacle1_pos_X,obstacle1_pos_Y);
     obstacle_array[1].setpos(obstacle2_pos_X,obstacle2_pos_Y);
     
-
     fclose(continue_game);
 }

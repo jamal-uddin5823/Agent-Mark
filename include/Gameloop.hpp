@@ -33,7 +33,8 @@ int agent_frame_no = 0,enemy_frame_no=0;
 bool obsflag=0,lifeflag=0;
 int agent_frame_select_flag=0;
 int initital_score = 0;
-bool first_loop = 0;
+bool first_loop = false;
+bool life_present_prev = false;
 std::pair<int,int> movement;
 
 extern int time_passed;
@@ -62,7 +63,7 @@ void Handle_event(SDL_Event& e, bool& gameRunning){
     {
         if(e.type == SDL_QUIT){
             gameRunning=false;
-            write_history(score,life,OBSTACLE_SPEED,running_agent[enemy_frame_no/running_agent.size()].getpos().x,running_enemy[enemy_frame_no/running_enemy.size()].getpos().x,obstacle_array[0],obstacle_array[1]);
+            write_history(score,life,OBSTACLE_SPEED,running_agent[enemy_frame_no/running_agent.size()].getpos().x,running_enemy[enemy_frame_no/running_enemy.size()].getpos().x,obstacle_array[0],obstacle_array[1],lifeline);
         }
         movement = curr_agent_frame.handleEvent(e,&agent_frame_select_flag);
     }
@@ -107,7 +108,7 @@ void gameloop(bool& gameRunning){
     // window.score_show();
     window.lives_show(life);
     if(gameRunning==false){
-        write_history(score,life,OBSTACLE_SPEED,running_agent[enemy_frame_no/running_agent.size()].getpos().x,running_enemy[enemy_frame_no/running_enemy.size()].getpos().x,obstacle_array[0],obstacle_array[1]);
+        write_history(score,life,OBSTACLE_SPEED,running_agent[enemy_frame_no/running_agent.size()].getpos().x,running_enemy[enemy_frame_no/running_enemy.size()].getpos().x,obstacle_array[0],obstacle_array[1],lifeline);
     }
 
     window.display();
@@ -133,7 +134,7 @@ void gameloop(bool& gameRunning){
 
 void init_score_life(){
     if(continue_flag==CONTINUE_PREV_GAME){
-        read_history(&score,&life,&OBSTACLE_SPEED);
+        read_history(&score,&life,&OBSTACLE_SPEED,&life_present_prev);
         initital_score=score;
     }
 }
@@ -255,6 +256,7 @@ void collision_checker(bool& gameRunning){
             if(collideObstacle==true || collideEnemy==true){
                 Mix_PlayChannel(-1,collision,0);
                 if(collideEnemy==true){
+                    life=0;
                     Mix_PlayChannel(-1,death,0);
                     SDL_Delay(1000);
                     gameRunning=false;
@@ -293,13 +295,14 @@ void render_lifeline(){
     if(lifecoin>999){
         lifeflag=1;
     }
-    if(lifeflag){
+    if(lifeflag||life_present_prev){
         window.render(lifeline);
         lifeline.changepos(-5,0);
         if(lifeline.getpos().x+lifeline.getCurrentFrame().w<0){
             lifeline.setpos(SCREEN_WIDTH,SCREEN_HEIGHT-200);
-            lifeflag=0;
+            lifeflag=false;
         }
+        life_present_prev=false;
     }
 }
 
