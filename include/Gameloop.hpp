@@ -20,10 +20,15 @@ enum{
     CONTINUE_PREV_GAME
 };
 
+
+/*===============================================*/
+bool continue_flag=NEW_GAME;
+/*===============================================*/
+
+
+
 const int VEL_X=20;
 double ENEMY_VEL=0.25;
-
-bool continue_flag=CONTINUE_PREV_GAME;
 int agent_frame_no = 0,enemy_frame_no=0;
 bool obsflag=0,lifeflag=0;
 int agent_frame_select_flag=0;
