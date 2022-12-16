@@ -91,7 +91,7 @@ std::vector<Entity> running_enemy ={
 
 //                      position in screen                  position from sprite
 Entity obstacle = Entity(Vector2f(1500,600),obstacleTexture,OBSTACLE_WIDTH,OBSTACLESLIDE_HEIGHT,0,0);
-Entity obstacle2 = Entity(Vector2f(750,600),obstacleTexture,OBSTACLE_WIDTH,OBSTACLESLIDE_HEIGHT,0,0);
+Entity obstacle2 = Entity(Vector2f(2250,600),obstacleTexture,OBSTACLE_WIDTH,OBSTACLESLIDE_HEIGHT,0,0);
 std::vector<Entity> obstacle_array={obstacle,obstacle2};
 
 

@@ -1,5 +1,9 @@
-Score: 24
-Life: 0
-Speed: -15
-AgentPosX: 325.000000
-EnemyPosX: 535.000000
+Score: 14
+Life: 1
+Speed: -16
+AgentPosX: 425.000000
+EnemyPosX: 165.000000
+Obstacle1PosX: 252.000000
+Obstacle1PosY: 0.000000
+Obstacle2PosX: 988.000000
+Obstacle2PosY: 600.000000
