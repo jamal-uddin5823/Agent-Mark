@@ -60,7 +60,7 @@ void Handle_event(SDL_Event& e, bool& gameRunning){
     {
         if(e.type == SDL_QUIT){
             gameRunning=false;
-            write_history(&score,&life,&OBSTACLE_SPEED,&running_enemy[enemy_frame_no/running_enemy.size()].getpos().x);
+            write_history(&score,&life,&OBSTACLE_SPEED,&running_enemy[enemy_frame_no/running_enemy.size()].getpos().x,&running_agent[enemy_frame_no/running_agent.size()].getpos().x);
         }
         movement = curr_agent_frame.handleEvent(e,&agent_frame_select_flag);
     }
@@ -105,7 +105,7 @@ void gameloop(bool& gameRunning){
     // window.score_show();
     window.lives_show(life);
     if(gameRunning==false){
-        write_history(&score,&life,&OBSTACLE_SPEED,&running_enemy[enemy_frame_no/running_enemy.size()].getpos().x);
+        write_history(&score,&life,&OBSTACLE_SPEED,&running_enemy[enemy_frame_no/running_enemy.size()].getpos().x,&running_agent[enemy_frame_no/running_agent.size()].getpos().x);
     }
     window.display();
     SDL_Delay(1000/30);

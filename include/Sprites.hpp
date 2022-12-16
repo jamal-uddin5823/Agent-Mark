@@ -90,8 +90,8 @@ std::vector<Entity> running_enemy ={
 // Entity obstacleup = Entity(Vector2f(OBSTACLEX,OBSTACLEJUMPY),obstacleTexture,OBSTACLE_WIDTH,OBSTACLEJUMP_HEIGHT,0,0);
 
 //                      position in screen                  position from sprite
-Entity obstacle = Entity(Vector2f(1350,600),obstacleTexture,OBSTACLE_WIDTH,OBSTACLESLIDE_HEIGHT,0,0);
-Entity obstacle2 = Entity(Vector2f(675,600),obstacleTexture,OBSTACLE_WIDTH,OBSTACLESLIDE_HEIGHT,0,0);
+Entity obstacle = Entity(Vector2f(1500,600),obstacleTexture,OBSTACLE_WIDTH,OBSTACLESLIDE_HEIGHT,0,0);
+Entity obstacle2 = Entity(Vector2f(750,600),obstacleTexture,OBSTACLE_WIDTH,OBSTACLESLIDE_HEIGHT,0,0);
 std::vector<Entity> obstacle_array={obstacle,obstacle2};
 
 

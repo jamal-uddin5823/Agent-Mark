@@ -12,7 +12,9 @@
 #include<string>
 
 #include "Math.hpp"
-// #include "Music.hpp"
+
+#define SCREEN_WIDTH 1280
+#define SCREEN_HEIGHT 960
 
 static const int VELOCITY=5;
 
@@ -27,11 +29,11 @@ struct Entity
         Vector2f& getpos(){
             return pos;
         }
-        void changepos(double x, double y){
+        void changepos(double x, double y=0){
             pos.x+=x;
             pos.y+=y;
         }
-        void setpos(double x, double y){
+        void setpos(double x, double y=SCREEN_HEIGHT-210){
             pos.x=x;
             pos.y=y;
         }
