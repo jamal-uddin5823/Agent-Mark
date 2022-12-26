@@ -10,6 +10,7 @@
 #include<string>
 
 Mix_Music *gMusic = NULL;
+Mix_Music *menuMusic = NULL;
 Mix_Chunk* jump = NULL;
 Mix_Chunk* slide = NULL;
 Mix_Chunk* collision = NULL;
@@ -24,6 +25,14 @@ bool loadMedia()
     bool success = true;
 
     //Load prompt texture
+
+    //Load start music
+    menuMusic = Mix_LoadMUS("sounds/theme.wav");
+    if( menuMusic == NULL )
+    {
+        printf( "Failed to load start music! SDL_mixer Error: %s\n", Mix_GetError() );
+        success = false;
+    }
 
     //Load music
     gMusic = Mix_LoadMUS( "sounds/chase.mp3" );
