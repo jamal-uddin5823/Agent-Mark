@@ -23,12 +23,13 @@
 enum{
     WELCOME_SCREEN,
     MAIN_MENU,
+    GAMEPLAY
 };
 extern int game_status;
 
 /*===============================================*/
-bool continue_flag=CONTINUE_PREV_GAME;
-int game_status=WELCOME_SCREEN;
+bool continue_flag=NEW_GAME;
+int game_status=GAMEPLAY;
 /*===============================================*/
 
 
@@ -91,8 +92,6 @@ int main_menu(){
     window.render(high_score);
     window.render(options);
     window.render(exit_game);
-
-
 }
 
 void countdown(){
@@ -335,7 +334,7 @@ void collision_checker(bool& gameRunning){
 
 void render_lifeline(){
     int lifecoin = window.random(1,1000);
-    if(lifecoin>999){
+    if(lifecoin>995){
         lifeflag=1;
     }
     if(lifeflag||life_present_prev){
