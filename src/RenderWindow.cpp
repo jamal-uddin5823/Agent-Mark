@@ -108,9 +108,6 @@ void RenderWindow::render(Entity &p_entity,bool jump){
 
     SDL_Rect dest;
     dest.x = p_entity.getpos().x;
-    // if(jump==1)
-    //     dest.y = p_entity.getpos().y-120;
-    // else
     dest.y = p_entity.getpos().y;
     dest.w = p_entity.getCurrentFrame().w;
     dest.h = p_entity.getCurrentFrame().h;
@@ -185,4 +182,13 @@ void RenderWindow::lives_show(int& life){
     Entity lifeboard = Entity(Vector2f(1100,50),texture,text_w,text_h,0,0);
 
     render(lifeboard);
+}
+
+void RenderWindow::score_show(int& time, int initial_score){
+    std::string s="Score : "+std::__cxx11::to_string(initial_score+time);
+    int text_w,text_h;
+    SDL_Texture* texture = Textload(s,"fonts/Antonio-Bold.ttf",50,0,0,0,&text_w,&text_h);
+    Entity scorecard = Entity(Vector2f(10,50),texture,text_w,text_h,0,0);
+
+    render(scorecard);
 }

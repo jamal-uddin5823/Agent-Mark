@@ -44,6 +44,7 @@ struct RenderWindow{
 
         void display();
         void lives_show(int& life);
+        void score_show(int& score, int initial_score);
         
     private:
         SDL_Window* window=NULL;

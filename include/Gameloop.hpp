@@ -15,16 +15,23 @@
 #include "Fileio.hpp"
 
 
-enum{
-    NEW_GAME,
-    CONTINUE_PREV_GAME
-};
+#define NEW_GAME false
+#define CONTINUE_PREV_GAME true
+#define first_page_change 90
 
+
+enum{
+    START_SCREEN,
+    MAIN_MENU,
+};
 
 /*===============================================*/
 bool continue_flag=CONTINUE_PREV_GAME;
 /*===============================================*/
+extern int game_status;
 
+int game_status=2;
+int first_page_time = 0;
 
 
 const int VEL_X=20;
@@ -32,7 +39,7 @@ double ENEMY_VEL=0.25;
 int agent_frame_no = 0,enemy_frame_no=0;
 bool obsflag=0,lifeflag=0;
 int agent_frame_select_flag=0;
-int initital_score = 0;
+int initial_score = 0;
 bool first_loop = false;
 bool life_present_prev = false;
 std::pair<int,int> movement;
@@ -46,6 +53,7 @@ void init_score_life();
 void background_scroll();
 void select_agent_frame();
 void render_agent();
+void render_enemy();
 void render_obstacle();
 void update_agent_pos();
 void render_ground();
@@ -55,10 +63,19 @@ void render_lifeline();
 int generate_score();
 void countdown();
 
+bool game(bool& gameRunning);
+void start_screen();
+int main_menu();
+
+
+int count = 3;
+int count_down_flag=0;
 
 
 
-void Handle_event(SDL_Event& e, bool& gameRunning){
+
+void Handle_event(bool& gameRunning){
+    SDL_Event e;
     while (SDL_PollEvent(&e))
     {
         if(e.type == SDL_QUIT){
@@ -71,7 +88,75 @@ void Handle_event(SDL_Event& e, bool& gameRunning){
 
 
 void gameloop(bool& gameRunning){
+    if(game_status==START_SCREEN){
+        start_screen();
+        
+    }
+    if(game_status==MAIN_MENU)
+        main_menu();
+    if(game_status==2){
+        if(count>0)
+            countdown();
+        else
+            game(gameRunning);
+    }
     
+    window.display();
+    SDL_Delay(1000/30);
+
+}
+
+
+
+void start_screen(){
+    window.render(firstpage);
+    first_page_time++;
+    if(first_page_time>=first_page_change){
+        game_status=MAIN_MENU;
+    }
+}
+
+int main_menu(){
+    window.render(menu);
+    window.render(new_game);
+    window.render(load_game);
+    window.render(high_score);
+    window.render(options);
+    window.render(exit_game);
+}
+
+void countdown(){
+    window.render(countdownEntity);
+    render_agent();
+    render_enemy();
+    render_ground();
+    
+    window.lives_show(life);
+    window.score_show(score,initial_score);
+
+    window.render(obstacle_array[0]);
+    window.render(obstacle_array[1]);
+
+
+    std::string s=std::__cxx11::to_string(count);
+    int text_w,text_h;
+    SDL_Texture* texture = window.Textload(s,"fonts/Antonio-Bold.ttf",100,255,0,0,&text_w,&text_h);
+    Entity time = Entity(Vector2f(640,480),texture,text_w,text_h,0,0);
+
+    window.render(time);
+
+    count_down_flag++;
+
+    if(count_down_flag>=45){
+        count_down_flag=0;
+        count--;
+    }
+
+}
+
+
+
+bool game(bool& gameRunning){
 
     window.clearScreen();
     window.changeRenderColor(255,255,255,255);
@@ -89,7 +174,8 @@ void gameloop(bool& gameRunning){
     render_obstacle();
     render_lifeline();
 
-    window.render(curr_enemy_frame);
+    render_enemy();
+
 
     agent_frame_no++;
     enemy_frame_no++;
@@ -98,7 +184,7 @@ void gameloop(bool& gameRunning){
 
     render_ground();
     
-    render_lifeline();
+    // render_lifeline();
 
     reset_frame_no();
 
@@ -109,15 +195,13 @@ void gameloop(bool& gameRunning){
     window.lives_show(life);
     if(gameRunning==false){
         write_history(score,life,OBSTACLE_SPEED,running_agent[enemy_frame_no/running_agent.size()].getpos().x,running_enemy[enemy_frame_no/running_enemy.size()].getpos().x,obstacle_array[0],obstacle_array[1],lifeline);
+        // return gameRunning;
     }
 
-    window.display();
-    SDL_Delay(1000/30);
-    // if(first_loop==0){
-    //     countdown();
-    //     first_loop=1;
-    // }
+    return gameRunning;
 }
+
+
 
 
 
@@ -135,25 +219,10 @@ void gameloop(bool& gameRunning){
 void init_score_life(){
     if(continue_flag==CONTINUE_PREV_GAME){
         read_history(&score,&life,&OBSTACLE_SPEED,&life_present_prev);
-        initital_score=score;
+        initial_score=score;
     }
 }
 
-void countdown(){
-    for (int i = 3; i >= 0; i--)
-    {
-        std::string count = std::__cxx11::to_string(i);
-        int text_w,text_h;
-        SDL_Texture* count_tex = window.Textload(count,"fonts/Antonio-Bold.ttf",100,0,0,0,&text_w,&text_h);
-
-        Entity countEntity = Entity(Vector2f(640,400),count_tex,text_w,text_h,0,0);
-
-        window.render(countEntity);
-
-        SDL_Delay(1000);
-    }
-    
-}
 
 
 void background_scroll(){
@@ -188,6 +257,10 @@ void render_agent(){
             window.render(curr_agent_frame);
     else if(agent_frame_select_flag==1)
         window.render(curr_agent_frame,1);
+}
+
+void render_enemy(){
+    window.render(curr_enemy_frame);
 }
 
 
@@ -313,13 +386,8 @@ int generate_score(){
     if(time_passed%10==0 && time_passed!=0){
         Mix_PlayChannel(-1,levelup,0);
     }
-    std::string s="Score : "+std::__cxx11::to_string(initital_score+time);
-    int text_w,text_h;
-    SDL_Texture* texture = window.Textload(s,"fonts/Antonio-Bold.ttf",50,0,0,0,&text_w,&text_h);
-    Entity scorecard = Entity(Vector2f(10,50),texture,text_w,text_h,0,0);
-
-    window.render(scorecard);
-    return initital_score+ time;
+    window.score_show(time,initial_score);
+    return initial_score+ time;
 }
 
 

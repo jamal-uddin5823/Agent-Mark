@@ -27,10 +27,10 @@ int main(int argc, char *argv[])
     bool gameRunning = true;
 
 
-    SDL_Event e;
+
     while (gameRunning)
     {
-        Handle_event(e,gameRunning);
+        Handle_event(gameRunning);
         if(!gameRunning)
             break;
 
