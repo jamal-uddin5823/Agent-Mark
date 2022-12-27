@@ -41,21 +41,21 @@ SDL_Texture* lifeTexture = window.loadTexture("res/life.png",0,0,0,0);
 SDL_Texture* first_pageTexture = window.loadTexture("res/mark.jpg",0,0,0,0);
 SDL_Texture* countdownTexture = window.loadTexture("res/countdown_bg.png",0,0,0,0);
 
-SDL_Texture* main_menuTexture = window.loadTexture("res/menu.jpg",0,0,0,0);
-SDL_Texture* new_gameTexture = window.loadTexture("res/newgame.jpg",0,0,0,0);
-SDL_Texture* new_gameTexture2 = window.loadTexture("res/newgame2.jpg",0,0,0,0);
+SDL_Texture* main_menuTexture = window.loadTexture("res/Mainmenu2.png",0,0,0,0);
+SDL_Texture* new_gameTexture = window.loadTexture("res/MainmenuNewGame.png",0,0,0,0);
+// SDL_Texture* new_gameTexture2 = window.loadTexture("res/newgame2.jpg",0,0,0,0);
 
-SDL_Texture* load_gameTexture = window.loadTexture("res/loadgame.jpg",0,0,0,0);
-SDL_Texture* load_gameTexture2 = window.loadTexture("res/loadgame2.jpg",0,0,0,0);
+SDL_Texture* load_gameTexture = window.loadTexture("res/Mainmenucontinue.png",0,0,0,0);
+// SDL_Texture* load_gameTexture2 = window.loadTexture("res/loadgame2.jpg",0,0,0,0);
 
-SDL_Texture* high_scoreTexture = window.loadTexture("res/highscore.jpg",0,0,0,0);
-SDL_Texture* high_scoreTexture2 = window.loadTexture("res/highscore2.jpg",0,0,0,0);
+SDL_Texture* high_scoreTexture = window.loadTexture("res/Mainmenuhighscore.png",0,0,0,0);
+// SDL_Texture* high_scoreTexture2 = window.loadTexture("res/highscore2.jpg",0,0,0,0);
 
-SDL_Texture* optionsTexture = window.loadTexture("res/options.jpg",0,0,0,0);
-SDL_Texture* optionsTexture2 = window.loadTexture("res/options2.jpg",0,0,0,0);
+SDL_Texture* optionsTexture = window.loadTexture("res/Mainmenuoptions.png",0,0,0,0);
+// SDL_Texture* optionsTexture2 = window.loadTexture("res/options2.jpg",0,0,0,0);
 
-SDL_Texture* exitTexture = window.loadTexture("res/exit.jpg",0,0,0,0);
-SDL_Texture* exitTexture2 = window.loadTexture("res/exit2.jpg",0,0,0,0);
+SDL_Texture* exitTexture = window.loadTexture("res/Mainmenuexit.png",0,0,0,0);
+// SDL_Texture* exitTexture2 = window.loadTexture("res/exit2.jpg",0,0,0,0);
 
 
 
@@ -121,10 +121,10 @@ Entity countdownEntity = Entity(Vector2f(0,0),countdownTexture,SCREEN_WIDTH,SCRE
 
 
 Entity menu = Entity(Vector2f(0,0),main_menuTexture,SCREEN_WIDTH,SCREEN_HEIGHT,0,0);
-Entity new_game = Entity(Vector2f(427,100),new_gameTexture,426,126,0,0);
-Entity load_game = Entity(Vector2f(427,250),load_gameTexture,426,126,0,0);
-Entity high_score = Entity(Vector2f(427,400),high_scoreTexture,426,126,0,0);
-Entity options = Entity(Vector2f(427,550),optionsTexture,426,126,0,0);
-Entity exit_game = Entity(Vector2f(427,700),exitTexture,426,126,0,0);
+Entity new_game = Entity(Vector2f(0,0),new_gameTexture,SCREEN_WIDTH,SCREEN_HEIGHT,0,0);
+Entity load_game = Entity(Vector2f(0,0),load_gameTexture,SCREEN_WIDTH,SCREEN_HEIGHT,0,0);
+Entity high_score = Entity(Vector2f(0,0),high_scoreTexture,SCREEN_WIDTH,SCREEN_HEIGHT,0,0);
+Entity options = Entity(Vector2f(0,0),optionsTexture,SCREEN_WIDTH,SCREEN_HEIGHT,0,0);
+Entity exit_game = Entity(Vector2f(0,0),exitTexture,SCREEN_WIDTH,SCREEN_HEIGHT,0,0);
 
 

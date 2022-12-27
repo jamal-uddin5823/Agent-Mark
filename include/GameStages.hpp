@@ -29,7 +29,7 @@ extern int game_status;
 
 /*===============================================*/
 bool continue_flag=NEW_GAME;
-int game_status=GAMEPLAY;
+int game_status=WELCOME_SCREEN;
 /*===============================================*/
 
 
@@ -86,12 +86,21 @@ void start_screen(){
 }
 
 int main_menu(){
-    window.render(menu);
-    window.render(new_game);
-    window.render(load_game);
-    window.render(high_score);
-    window.render(options);
-    window.render(exit_game);
+    int mouse_x, mouse_y;
+    SDL_GetMouseState(&mouse_x,&mouse_y);
+    if(mouse_x>=840 && mouse_x<=1172 && mouse_y>=107 && mouse_y<=203)
+        window.render(new_game);
+    else if(mouse_x>=840 && mouse_x<=1172 && mouse_y>=255 && mouse_y<=359)
+        window.render(load_game);
+    else if(mouse_x>=840 && mouse_x<=1172 && mouse_y>=403 && mouse_y<=501)
+        window.render(high_score);
+    else if(mouse_x>=840 && mouse_x<=1172 && mouse_y>=556 && mouse_y<=651)
+        window.render(options);
+    else if(mouse_x>=840 && mouse_x<=1172 && mouse_y>=701 && mouse_y<=793)
+        window.render(exit_game);
+    
+    else
+        window.render(menu);
 }
 
 void countdown(){
