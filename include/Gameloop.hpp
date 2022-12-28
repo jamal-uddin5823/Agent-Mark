@@ -25,6 +25,13 @@ void Handle_event(bool& gameRunning){
             gameRunning=false;
             write_history(score,life,OBSTACLE_SPEED,running_agent[enemy_frame_no/running_agent.size()].getpos().x,running_enemy[enemy_frame_no/running_enemy.size()].getpos().x,obstacle_array[0],obstacle_array[1],lifeline);
         }
+        
+        for (int button = 1; button < TOTAL_BUTTONS; button++)
+        {
+            handleMouseEvent(e,button_arr[BUTTONX],button_arr[button], button, gameRunning);
+        }
+        
+
         movement = curr_agent_frame.handleEvent(e,&agent_frame_select_flag);
     }
 }
@@ -48,8 +55,9 @@ void gameloop(bool& gameRunning){
             }
             countdown();
         }
-        else
+        else{
             game(gameRunning);
+        }
     }
     
     window.display();

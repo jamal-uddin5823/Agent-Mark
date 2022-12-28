@@ -13,19 +13,15 @@
 #include "Sprites.hpp"
 #include "Music.hpp"
 #include "Fileio.hpp"
-#include "GameStages.hpp"
+#include "Mouse.hpp"
 
 #define NEW_GAME false
 #define CONTINUE_PREV_GAME true
 #define first_page_change 90
 
 
-enum{
-    WELCOME_SCREEN,
-    MAIN_MENU,
-    GAMEPLAY
-};
-extern int game_status;
+
+
 
 /*===============================================*/
 bool continue_flag=NEW_GAME;
@@ -33,7 +29,17 @@ int game_status=WELCOME_SCREEN;
 /*===============================================*/
 
 
+enum Buttons{
+	BUTTONX,
+	NEW_GAMEBUTTONY,
+	LOAD_GAMEBUTTONY,
+	HIGHSCOREBUTTONY,
+	OPTIONSBUTTONY,
+	EXITBUTTONY,
+	TOTAL_BUTTONS
+};
 
+int button_arr[TOTAL_BUTTONS] = {840,107,255,403,556,701};
 
 
 int first_page_time = 0; //counter to count time spent on startscreen
