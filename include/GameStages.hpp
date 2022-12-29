@@ -56,6 +56,9 @@ bool life_present_prev = false;
 std::pair<int,int> movement;
 
 extern int time_passed;
+int extra_time = 0;
+
+bool gameStarted = false;
 
 Entity curr_agent_frame = running_agent[agent_frame_no/running_agent.size()];
 Entity curr_enemy_frame = running_enemy[enemy_frame_no/running_enemy.size()];
@@ -110,6 +113,13 @@ int main_menu(){
 }
 
 void countdown(){
+    if(!gameStarted){
+        extra_time = SDL_GetTicks()/1000;
+        gameStarted = true;
+    }
+    score-=extra_time-3;
+    if(score<0) score=0;
+
     window.render(countdownEntity);
     render_agent();
     render_ground();
@@ -138,9 +148,13 @@ void countdown(){
 
 }
 
-
+bool firstgameplay_loop = true;
 
 bool game(bool& gameRunning){
+    if(firstgameplay_loop){
+        init_score_life();
+        firstgameplay_loop=false;
+    }
 
     window.clearScreen();
     window.changeRenderColor(255,255,255,255);
@@ -202,8 +216,8 @@ bool game(bool& gameRunning){
 
 void init_score_life(){
     if(continue_flag==CONTINUE_PREV_GAME){
-        read_history(&score,&life,&OBSTACLE_SPEED,&life_present_prev);
-        initial_score=score;
+        read_history(&initial_score,&life,&OBSTACLE_SPEED,&life_present_prev);
+        // initial_score=score;
     }
 }
 
@@ -366,6 +380,7 @@ void render_lifeline(){
 
 int generate_score(){
     int time = (int)(SDL_GetTicks()/1000);
+    time-=extra_time+5;
     time_passed= time;
     if(time_passed%10==0 && time_passed!=0){
         Mix_PlayChannel(-1,levelup,0);
