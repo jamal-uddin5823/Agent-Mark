@@ -22,7 +22,7 @@ void write_history(int point, int life, int speed, float agent_pos_X, float enem
 void read_history(int* point, int* life, int* speed, bool* life_present){
     char str[100];
     float enemypos, agentpos;
-    float obstacle1_pos_X,obstacle2_pos_X,obstacle1_pos_Y,obstacle2_pos_Y,lifeX,lifeY;
+    float obstacle1_pos_X,obstacle2_pos_X,obstacle1_pos_Y,obstacle2_pos_Y,lifeX;
     FILE *continue_game= fopen("data/history.txt","r");
 
     fscanf(continue_game,"%s",str);
