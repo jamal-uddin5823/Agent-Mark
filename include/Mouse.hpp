@@ -94,19 +94,6 @@ void handleMouseEvent(SDL_Event &e, int buttonx, int buttony, int button, bool& 
 			//Set mouse over sprite
 			switch( e.type )
 			{
-				// case SDL_MOUSEMOTION:
-				// if(button == NEW_GAMEBUTTON)
-				// 	currentSprite = new_game;
-				// else if(button == LOAD_GAMEBUTTON)
-				// 	currentSprite = load_game;
-				// else if(button == HIGHSCOREBUTTON)
-				// 	currentSprite = high_score;
-				// else if(button == OPTIONSBUTTON)
-				// 	currentSprite = options;
-				// else if(button == EXITBUTTON)
-				// 	currentSprite = exit_game;
-				// break;
-			
 
 				case SDL_MOUSEBUTTONDOWN:
 				if(button == NEW_GAMEBUTTON){

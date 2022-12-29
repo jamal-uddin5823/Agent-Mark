@@ -19,16 +19,6 @@
 #define CONTINUE_PREV_GAME true
 #define first_page_change 90
 
-
-
-
-
-/*===============================================*/
-bool continue_flag=NEW_GAME;
-int game_status=WELCOME_SCREEN;
-/*===============================================*/
-
-
 enum Buttons{
 	BUTTONX,
 	NEW_GAMEBUTTONY,
@@ -63,6 +53,7 @@ bool gameStarted = false;
 Entity curr_agent_frame = running_agent[agent_frame_no/running_agent.size()];
 Entity curr_enemy_frame = running_enemy[enemy_frame_no/running_enemy.size()];
 
+
 void init_score_life();
 void background_scroll();
 void select_agent_frame();
@@ -75,149 +66,12 @@ void reset_frame_no();
 void collision_checker(bool& gameRunning);
 void render_lifeline();
 int generate_score();
-void countdown();
-
-bool game(bool& gameRunning);
-void start_screen();
-int main_menu();
-
-
-int count = 3;
-int count_down_flag=0; //to count number of frames shown in a second
-
-
-void start_screen(){
-    window.render(firstpage);
-    first_page_time++;
-    if(first_page_time>=first_page_change){
-        game_status=MAIN_MENU;
-    }
-}
-
-int main_menu(){
-    int mouse_x, mouse_y;
-    SDL_GetMouseState(&mouse_x,&mouse_y);
-    if(mouse_x>=840 && mouse_x<=1172 && mouse_y>=107 && mouse_y<=203)
-        window.render(new_game);
-    else if(mouse_x>=840 && mouse_x<=1172 && mouse_y>=255 && mouse_y<=359)
-        window.render(load_game);
-    else if(mouse_x>=840 && mouse_x<=1172 && mouse_y>=403 && mouse_y<=501)
-        window.render(high_score);
-    else if(mouse_x>=840 && mouse_x<=1172 && mouse_y>=556 && mouse_y<=651)
-        window.render(options);
-    else if(mouse_x>=840 && mouse_x<=1172 && mouse_y>=701 && mouse_y<=793)
-        window.render(exit_game);
-    
-    else
-        window.render(menu);
-}
-
-void countdown(){
-    if(!gameStarted){
-        extra_time = SDL_GetTicks()/1000;
-        gameStarted = true;
-    }
-    score-=extra_time-3;
-    if(score<0) score=0;
-
-    window.render(countdownEntity);
-    render_agent();
-    render_ground();
-    
-    window.lives_show(life);
-    window.score_show(score,initial_score);
-
-    window.render(obstacle_array[0]);
-    window.render(obstacle_array[1]);
-    render_enemy();
-
-
-    std::string s=std::__cxx11::to_string(count);
-    int text_w,text_h;
-    SDL_Texture* texture = window.Textload(s,"fonts/Antonio-Bold.ttf",100,255,0,0,&text_w,&text_h);
-    Entity time = Entity(Vector2f(640,480),texture,text_w,text_h,0,0);
-
-    window.render(time);
-
-    count_down_flag++;
-
-    if(count_down_flag>=45){
-        count_down_flag=0;
-        count--;
-    }
-
-}
-
-bool firstgameplay_loop = true;
-
-bool game(bool& gameRunning){
-    if(firstgameplay_loop){
-        init_score_life();
-        firstgameplay_loop=false;
-    }
-
-    window.clearScreen();
-    window.changeRenderColor(255,255,255,255);
-    
-    background_scroll();
-
-
-    select_agent_frame();
-
-    music(agent_frame_select_flag);
-
-
-    render_agent();
-
-    render_obstacle();
-    render_lifeline();
-
-    render_enemy();
-
-
-    agent_frame_no++;
-    enemy_frame_no++;
-
-    update_agent_pos();
-
-    render_ground();
-    
-    // render_lifeline();
-
-    reset_frame_no();
-
-    collision_checker(gameRunning);
-
-    score = generate_score();
-    // window.score_show();
-    window.lives_show(life);
-    if(gameRunning==false){
-        write_history(score,life,OBSTACLE_SPEED,running_agent[enemy_frame_no/running_agent.size()].getpos().x,running_enemy[enemy_frame_no/running_enemy.size()].getpos().x,obstacle_array[0],obstacle_array[1],lifeline);
-        // return gameRunning;
-    }
-
-    return gameRunning;
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
 void init_score_life(){
     if(continue_flag==CONTINUE_PREV_GAME){
         read_history(&initial_score,&life,&OBSTACLE_SPEED,&life_present_prev);
-        // initial_score=score;
     }
 }
 

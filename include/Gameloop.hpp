@@ -13,7 +13,7 @@
 #include "Sprites.hpp"
 #include "Music.hpp"
 #include "Fileio.hpp"
-#include "GameStages.hpp"
+#include "GameStatus.hpp"
 
 
 
