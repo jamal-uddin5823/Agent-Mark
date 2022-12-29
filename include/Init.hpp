@@ -12,6 +12,8 @@
 #include "Sprites.hpp"
 #include "Music.hpp"
 
+
+
 void initSDL(){
     if(SDL_Init(SDL_INIT_VIDEO|SDL_INIT_TIMER|SDL_INIT_AUDIO)>0){
         std::cout<<"SDL VIDEO or TIMER or AUDIO FAILED. "<<SDL_GetError()<<'\n';

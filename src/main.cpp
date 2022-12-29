@@ -9,7 +9,7 @@
 
 #include "RenderWindow.hpp"
 #include "Entity.hpp"
-#include "Events.hpp"
+#include "Init.hpp"
 #include "Sprites.hpp"
 #include "Gameloop.hpp"
 #include "Music.hpp"
