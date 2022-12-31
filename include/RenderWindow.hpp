@@ -38,6 +38,8 @@ struct RenderWindow{
 
         void render(Entity &p_entity, bool jump=0);
         void renderBG( int x, int y,Entity background, SDL_Rect* clip = NULL, double angle = 0.0, SDL_Point* center = NULL, SDL_RendererFlip flip = SDL_FLIP_NONE );
+        void renderfreerun(Entity &freerun,bool runflag);
+        void rendercoin(Entity &coin,bool coinflag);
         void renderlifeline(Entity &lifeline,bool lifeflag);
         int random(int low, int high);
         void renderObstacle(Entity &obstacle, bool flagup,int* speed);
