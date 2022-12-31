@@ -36,6 +36,10 @@ SDL_Texture* agentTexture = window.loadTexture("res/sheet.png",1,255,255,255);
 SDL_Texture* enemyTexture = window.loadTexture("res/enemysheet.png",0,255,0,0);
 SDL_Texture* obstacleTexture = window.loadTexture("res/Obstacle.png",0,0,0,0);
 SDL_Texture* lifeTexture = window.loadTexture("res/life.png",0,0,0,0);
+SDL_Texture* runTexture = window.loadTexture("res/run.png",0,0,0,0);
+SDL_Texture* coinTexture = window.loadTexture("res/coin.png",0,0,0,0);
+SDL_Texture* greyBoxTexture = window.loadTexture("res/Greybox.png",0,0,0,0);
+
 
 
 SDL_Texture* first_pageTexture = window.loadTexture("res/mark.jpg",0,0,0,0);
@@ -56,7 +60,7 @@ SDL_Texture* optionsTexture = window.loadTexture("res/Mainmenuoptions.png",0,0,0
 
 SDL_Texture* exitTexture = window.loadTexture("res/Mainmenuexit.png",0,0,0,0);
 // SDL_Texture* exitTexture2 = window.loadTexture("res/exit2.jpg",0,0,0,0);
-
+SDL_Texture* gameover = window.loadTexture("res/gameover.png",0,0,0,0);
 
 
 
@@ -113,7 +117,10 @@ std::vector<Entity> obstacle_array={obstacle,obstacle2};
 Entity background = Entity(Vector2f(0,0),backTexture,BACKGROUND_WIDTH,BACKGROUNG_HEIGHT,0,0);
 
 //                      position in screen                                     position from sprite
+Entity coin = Entity(Vector2f(SCREEN_WIDTH,SCREEN_HEIGHT-200),coinTexture,77,64,0,0);
+Entity freerun = Entity(Vector2f(SCREEN_WIDTH,SCREEN_HEIGHT-200),runTexture,77,64,0,0);
 Entity lifeline = Entity(Vector2f(SCREEN_WIDTH,SCREEN_HEIGHT-200),lifeTexture,77,64,0,0);
+
 
 
 Entity firstpage = Entity(Vector2f(0,0),first_pageTexture,SCREEN_WIDTH,SCREEN_HEIGHT,0,0);
@@ -126,5 +133,4 @@ Entity load_game = Entity(Vector2f(0,0),load_gameTexture,SCREEN_WIDTH,SCREEN_HEI
 Entity high_score = Entity(Vector2f(0,0),high_scoreTexture,SCREEN_WIDTH,SCREEN_HEIGHT,0,0);
 Entity options = Entity(Vector2f(0,0),optionsTexture,SCREEN_WIDTH,SCREEN_HEIGHT,0,0);
 Entity exit_game = Entity(Vector2f(0,0),exitTexture,SCREEN_WIDTH,SCREEN_HEIGHT,0,0);
-
-
+Entity game_over = Entity(Vector2f(0,0),gameover,SCREEN_WIDTH,SCREEN_HEIGHT,0,0 );
