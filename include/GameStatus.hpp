@@ -72,7 +72,7 @@ void countdown(){
     render_ground();
     
     window.lives_show(life);
-    window.score_show(score,initial_score);
+    window.score_show(score,initial_score+prev_score);
 
     window.render(obstacle_array[0]);
     window.render(obstacle_array[1]);
@@ -118,14 +118,16 @@ bool game(bool& gameRunning){
 
     render_obstacle();
     render_lifeline();
+    render_coin();
+    render_freerun();
 
     render_enemy();
 
 
-    agent_frame_no++;
-    enemy_frame_no++;
+    if(!paused_flag)agent_frame_no++;
+    if(!paused_flag)enemy_frame_no++;
 
-    update_agent_pos();
+    if(!paused_flag)update_agent_pos();
 
     render_ground();
     
