@@ -277,8 +277,8 @@ void collision_checker(bool& gameRunning){
 
 
 void render_lifeline(){
-    int lifecoin = window.random(1,500);
-    if(lifecoin>495 && !showing){
+    int lifecoin = window.random(1,5000);
+    if(lifecoin>4995 && !showing){
         lifeflag=1;
         showing=true;
     }
@@ -313,8 +313,8 @@ void render_coin(){
 }
 
 void render_freerun(){
-    int freeruncoin = window.random(1,500);
-    if(freeruncoin>495 && !showing){
+    int freeruncoin = window.random(1,5000);
+    if(freeruncoin>4995 && !showing){
         freerunflag=1;
         showing=true;
     }
