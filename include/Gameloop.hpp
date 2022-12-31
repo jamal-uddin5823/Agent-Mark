@@ -14,6 +14,7 @@
 #include "Music.hpp"
 #include "Fileio.hpp"
 #include "GameStatus.hpp"
+#include "Gamefuncs.hpp"
 
 
 
@@ -28,15 +29,18 @@ void Handle_event(bool& gameRunning){
         for (int button = 1; button < TOTAL_BUTTONS; button++)
         {
             if(game_status==MAIN_MENU){
-                handleMouseEvent(e,button_arr[BUTTONX],button_arr[button], button, gameRunning);
+                handleMouseEvent(e,button_arr[BUTTONX],button_arr[button],BUTTON_WIDTH,BUTTON_HEIGHT, button, gameRunning);
                 if(game_status==GAMEPLAY){
                     init_score_life();
                 }
             }
         }
+        // if(game_status==GAMEOVER){
+        //     handleMouseEvent(e,712,406,127,483,GAMEOVERBUTTON,gameRunning);
+        // }
         
 
-        movement = curr_agent_frame.handleEvent(e,&agent_frame_select_flag);
+        movement = curr_agent_frame.handleEvent(e,&agent_frame_select_flag, &paused_flag);
     }
 }
 
@@ -52,7 +56,7 @@ void gameloop(bool& gameRunning){
         }
         main_menu();
     }
-    if(game_status==2){
+    if(game_status==GAMEPLAY){
         if(count>0){
             if(Mix_PlayingMusic()==1){
                 Mix_HaltMusic();
@@ -63,9 +67,21 @@ void gameloop(bool& gameRunning){
             game(gameRunning);
         }
     }
+    if(game_status==GAMEOVER){
+        if(Mix_PlayingMusic()==1){
+            Mix_HaltMusic();
+        }
+        window.render(game_over);
+        // SDL_Delay(2000);
+        game_status=MAIN_MENU;
+
+    }
     
     window.display();
-    SDL_Delay(1000/30);
+    //if(paused)SDL_Delay(1000000000);
+    //if(paused_flag==true)SDL_Delay=100000000;
+    if((int)SDL_GetTicks()<noDamage)SDL_Delay(1000/60);
+    else SDL_Delay(1000/30);
 
 }
 
