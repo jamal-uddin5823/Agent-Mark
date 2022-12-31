@@ -39,11 +39,10 @@ struct Entity
         }
         SDL_Texture* getTex();
         SDL_Rect getCurrentFrame();
-        std::pair<int,int>  handleEvent(SDL_Event& e, int* flag);
+        std::pair<int,int>  handleEvent(SDL_Event& e, int* flag, bool *paused);
         bool checkCollision(Entity player, Entity collider, int slide);
         int mWidth=129;
         int mHeight = 129;
-
     private:
         Vector2f pos;
         SDL_Rect current_frame;
