@@ -64,7 +64,24 @@ void read_history(int* point, int* life, int* speed, bool* life_present){
         *life_present = false;
     }
     
-
+    if(lifeline.getpos().x+lifeline.getCurrentFrame().w>=0 && lifeline.getpos().x<SCREEN_WIDTH){
+        *life_present=true;
+        lifeline.setpos(lifeX,SCREEN_HEIGHT-200);
+    }
+    else{
+        lifeline.setpos(SCREEN_WIDTH,SCREEN_HEIGHT-200);
+        *life_present = false;
+    }
+    
+    if(lifeline.getpos().x+lifeline.getCurrentFrame().w>=0 && lifeline.getpos().x<SCREEN_WIDTH){
+        *life_present=true;
+        lifeline.setpos(lifeX,SCREEN_HEIGHT-200);
+    }
+    else{
+        lifeline.setpos(SCREEN_WIDTH,SCREEN_HEIGHT-200);
+        *life_present = false;
+    }
+    
 
     
     if(*life==0 || (agentpos==enemypos)){
