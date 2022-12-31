@@ -21,6 +21,7 @@
 
 int main(int argc, char *argv[])
 {
+    srand(time(0));
     initSDL();
     init_score_life();
 
