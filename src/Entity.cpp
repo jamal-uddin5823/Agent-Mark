@@ -33,29 +33,51 @@ SDL_Rect Entity::getCurrentFrame(){
 
 
 
-std::pair<int,int> Entity::handleEvent(SDL_Event& e, int* flag){
+std::pair<int,int> Entity::handleEvent(SDL_Event& e, int* flag, bool *paused){
     std::pair<int,int> movement;
     if(e.type==SDL_KEYDOWN && e.key.repeat==0){
         switch (e.key.keysym.sym)
         {
         case SDLK_UP:
-            // vel_y-=VELOCITY;
-            *flag=1;
-            break;
+            if(*paused==false){// vel_y-=VELOCITY;
+                *flag=1;
+                break;
+            }
         case SDLK_DOWN:
-            *flag=-1;
-            // vel_y+=VELOCITY;
-            break;
+            if(*paused==false){
+                *flag=-1;
+                // vel_y+=VELOCITY;
+                break;
+            }
         case SDLK_LEFT:
-            vel_x-=VELOCITY;
-            break;
+            if(*paused==false){
+                vel_x-=VELOCITY;
+                break;
+            }
         case SDLK_RIGHT:
-
-            vel_x+=VELOCITY;
+            if(*paused==false){
+                vel_x+=VELOCITY;
+                break;
+            }
+        case SDLK_ESCAPE:
+            if(*paused==false)
+            {
+                *paused=true;
+                //printf("True ");
+                break;
+            }
+            else 
+            {
+                *paused=false;
+                //printf("False ");
+                break;
+            }
             break;
         default:
+            if(*paused==false){
             *flag=0;
             break;
+            }
         }
     }
 
