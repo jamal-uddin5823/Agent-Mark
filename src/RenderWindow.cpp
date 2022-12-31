@@ -140,18 +140,21 @@ int RenderWindow::random(int low, int high){
 }
 
 void RenderWindow::renderObstacle(Entity &obstacle, bool flagup,int* speed){
+   // printf("%d ", *speed);
     render(obstacle,1);
-    obstacle.changepos(*speed,0);
-    if(obstacle.getpos().x+obstacle.getCurrentFrame().w<0){
-        if(flagup)
-            obstacle.setpos(OBSTACLE_POSX,SLIDEOBSTACLEY);
+    if(*speed!=0)obstacle.changepos(*speed,0);
+    if(*speed!=0){
+        if(obstacle.getpos().x+obstacle.getCurrentFrame().w<0){
+            if(flagup)
+                obstacle.setpos(OBSTACLE_POSX,SLIDEOBSTACLEY);
 
-        else
-            obstacle.setpos(OBSTACLE_POSX,JUMPOBSTACLEY);
-    }
-    if(time_passed == threshold){
-        --(*speed);
-        threshold+=10;
+            else
+                obstacle.setpos(OBSTACLE_POSX,JUMPOBSTACLEY);
+        }
+        if(time_passed == threshold){
+            --(*speed);
+            threshold+=10;
+        }
     }
 }
 
@@ -167,6 +170,27 @@ void RenderWindow::renderlifeline(Entity &lifeline,bool lifeflag){
 
 }
 
+void RenderWindow::rendercoin(Entity &coin,bool coinflag){
+    if(coinflag){
+        render(coin,2);
+        coin.changepos(-7,0);
+        if(coin.getpos().x+coin.getCurrentFrame().w<0){
+            coin.setpos(SCREEN_WIDTH,SCREEN_HEIGHT-150);
+        }
+    }
+
+}
+
+void RenderWindow::renderfreerun(Entity &freerun,bool freerunflag){
+    if(freerunflag){
+        render(freerun,2);
+        freerun.changepos(-7,0);
+        if(freerun.getpos().x+freerun.getCurrentFrame().w<0){
+            freerun.setpos(SCREEN_WIDTH,SCREEN_HEIGHT-150);
+        }
+    }
+
+}
 
 
 void RenderWindow::display(){
