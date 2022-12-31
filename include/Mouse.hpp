@@ -23,14 +23,16 @@ const int BUTTON_HEIGHT = 97;
 enum{
     WELCOME_SCREEN,
     MAIN_MENU,
-    GAMEPLAY
+    GAMEPLAY,
+	GAMEOVER
 };
 enum Buttontypes{
 	NEW_GAMEBUTTON=1,
 	LOAD_GAMEBUTTON=2,
 	HIGHSCOREBUTTON=3,
 	OPTIONSBUTTON=4,
-	EXITBUTTON=5,
+	GAMEOVERBUTTON=5,
+	EXITBUTTON=6,
 };
 
 
@@ -50,11 +52,11 @@ extern int game_status;
 extern bool continue_flag;
 
 
-void handleMouseEvent(SDL_Event &e, int buttonx, int buttony, int button, bool& gameRunning){
+void handleMouseEvent(SDL_Event &e, int buttonx, int buttony, int button_length, int button_width,int button, bool& gameRunning){
 	    //If mouse event happened
-    Entity currentSprite=menu;
 	if( e.type == SDL_MOUSEMOTION || e.type == SDL_MOUSEBUTTONDOWN || e.type == SDL_MOUSEBUTTONUP )
 	{
+		Entity currentSprite = menu;
 		//Get mouse position
 		int x, y;
 		SDL_GetMouseState( &x, &y );
@@ -108,6 +110,9 @@ void handleMouseEvent(SDL_Event &e, int buttonx, int buttony, int button, bool& 
 				else if(button == EXITBUTTON){
 					gameRunning = false;
 				}
+				// else if(button == GAMEOVERBUTTON){
+				// 	game_status=MAIN_MENU;
+				// }
 				break;
 			}
 		}
