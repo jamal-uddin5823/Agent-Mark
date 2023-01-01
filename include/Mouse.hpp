@@ -31,8 +31,8 @@ enum Buttontypes{
 	LOAD_GAMEBUTTON=2,
 	HIGHSCOREBUTTON=3,
 	OPTIONSBUTTON=4,
-	GAMEOVERBUTTON=5,
-	EXITBUTTON=6,
+	EXITBUTTON=5,
+	GAMEOVERBUTTON=6
 };
 
 
@@ -110,9 +110,9 @@ void handleMouseEvent(SDL_Event &e, int buttonx, int buttony, int button_length,
 				else if(button == EXITBUTTON){
 					gameRunning = false;
 				}
-				// else if(button == GAMEOVERBUTTON){
-				// 	game_status=MAIN_MENU;
-				// }
+				else if(button == GAMEOVERBUTTON){
+					game_status=MAIN_MENU;
+				}
 				break;
 			}
 		}

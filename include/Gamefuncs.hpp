@@ -230,9 +230,9 @@ void collision_checker(bool& gameRunning){
                 if(collideEnemy==true){
                     life=0;
                     Mix_PlayChannel(-1,death,0);
+                    game_status=GAMEOVER;
+                    // gameRunning=false;
                     SDL_Delay(1000);
-                    gameRunning=false;
-                    return;
                 }
                 if(collideObstacle==true){
                     obstacle_array[i].getpos().x=-100;
@@ -244,7 +244,7 @@ void collision_checker(bool& gameRunning){
                     Mix_PlayChannel(-1,death,0);
                     SDL_Delay(1000);
                     game_status=GAMEOVER;
-                    gameRunning=false;
+                    // gameRunning=false;
                 }
                 collideObstacle=false;
                 collideEnemy=false;
@@ -319,6 +319,12 @@ void render_freerun(){
         showing=true;
     }
     if(freerunflag||freerun_present_prev){
+        std::string s="FREE RUN!";
+        int text_w,text_h;
+        SDL_Texture* texture = window.Textload(s,"fonts/Antonio-Bold.ttf",50,255,0,0,&text_w,&text_h);
+        Entity message = Entity(Vector2f(450,5),texture,text_w,text_h,0,0);
+
+        window.render(message);
         window.render(freerun);
         if(!paused_flag)freerun.changepos(-5,0);
         if(freerun.getpos().x+freerun.getCurrentFrame().w<0){

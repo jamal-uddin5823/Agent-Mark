@@ -116,7 +116,18 @@ bool game(bool& gameRunning){
 
     render_agent();
 
-    render_obstacle();
+    if(!paused_flag)render_obstacle();
+    else{
+        window.render(obstacle_array[0]);
+        window.render(obstacle_array[1]);
+
+        std::string s="Press Esc to continue";
+        int text_w,text_h;
+        SDL_Texture* texture = window.Textload(s,"fonts/Antonio-Bold.ttf",50,255,0,0,&text_w,&text_h);
+        Entity message = Entity(Vector2f(450,480),texture,text_w,text_h,0,0);
+
+        window.render(message);
+    }
     render_lifeline();
     render_coin();
     render_freerun();

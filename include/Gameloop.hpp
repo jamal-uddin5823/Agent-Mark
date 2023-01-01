@@ -35,9 +35,9 @@ void Handle_event(bool& gameRunning){
                 }
             }
         }
-        // if(game_status==GAMEOVER){
-        //     handleMouseEvent(e,712,406,127,483,GAMEOVERBUTTON,gameRunning);
-        // }
+        if(game_status==GAMEOVER){
+            handleMouseEvent(e,712,406,127,483,GAMEOVERBUTTON,gameRunning);
+        }
         
 
         movement = curr_agent_frame.handleEvent(e,&agent_frame_select_flag, &paused_flag);
@@ -72,9 +72,6 @@ void gameloop(bool& gameRunning){
             Mix_HaltMusic();
         }
         window.render(game_over);
-        // SDL_Delay(2000);
-        game_status=MAIN_MENU;
-
     }
     
     window.display();
