@@ -42,6 +42,7 @@ SDL_Texture* greyBoxTexture = window.loadTexture("res/Greybox.png",0,0,0,0);
 
 
 
+
 SDL_Texture* first_pageTexture = window.loadTexture("res/mark.jpg",0,0,0,0);
 SDL_Texture* countdownTexture = window.loadTexture("res/countdown_bg.png",0,0,0,0);
 
@@ -52,11 +53,12 @@ SDL_Texture* new_gameTexture = window.loadTexture("res/MainmenuNewGame.png",0,0,
 SDL_Texture* load_gameTexture = window.loadTexture("res/Mainmenucontinue.png",0,0,0,0);
 // SDL_Texture* load_gameTexture2 = window.loadTexture("res/loadgame2.jpg",0,0,0,0);
 
-SDL_Texture* high_scoreTexture = window.loadTexture("res/Mainmenuhighscore.png",0,0,0,0);
-// SDL_Texture* high_scoreTexture2 = window.loadTexture("res/highscore2.jpg",0,0,0,0);
+SDL_Texture* main_menu_high_scoreTexture = window.loadTexture("res/Mainmenuhighscore.png",0,0,0,0);
+SDL_Texture* high_scoreTexture = window.loadTexture("res/highscore.png",0,0,0,0);
 
-SDL_Texture* optionsTexture = window.loadTexture("res/Mainmenuoptions.png",0,0,0,0);
-// SDL_Texture* optionsTexture2 = window.loadTexture("res/options2.jpg",0,0,0,0);
+SDL_Texture* main_manu_optionsTexture = window.loadTexture("res/Mainmenuoptions.png",0,0,0,0);
+SDL_Texture* optionsTexture1 = window.loadTexture("res/optionsunmute.png",0,0,0,0);
+SDL_Texture* optionsTexture2 = window.loadTexture("res/optionsmute.png",0,0,0,0);
 
 SDL_Texture* exitTexture = window.loadTexture("res/Mainmenuexit.png",0,0,0,0);
 // SDL_Texture* exitTexture2 = window.loadTexture("res/exit2.jpg",0,0,0,0);
@@ -130,7 +132,13 @@ Entity countdownEntity = Entity(Vector2f(0,0),countdownTexture,SCREEN_WIDTH,SCRE
 Entity menu = Entity(Vector2f(0,0),main_menuTexture,SCREEN_WIDTH,SCREEN_HEIGHT,0,0);
 Entity new_game = Entity(Vector2f(0,0),new_gameTexture,SCREEN_WIDTH,SCREEN_HEIGHT,0,0);
 Entity load_game = Entity(Vector2f(0,0),load_gameTexture,SCREEN_WIDTH,SCREEN_HEIGHT,0,0);
+Entity main_menu_high_score = Entity(Vector2f(0,0),main_menu_high_scoreTexture,SCREEN_WIDTH,SCREEN_HEIGHT,0,0);
 Entity high_score = Entity(Vector2f(0,0),high_scoreTexture,SCREEN_WIDTH,SCREEN_HEIGHT,0,0);
-Entity options = Entity(Vector2f(0,0),optionsTexture,SCREEN_WIDTH,SCREEN_HEIGHT,0,0);
+Entity main_menu_options = Entity(Vector2f(0,0),main_manu_optionsTexture,SCREEN_WIDTH,SCREEN_HEIGHT,0,0);
+Entity optionsUnmute = Entity(Vector2f(0,0),optionsTexture1,SCREEN_WIDTH,SCREEN_HEIGHT,0,0);
+Entity optionsMute = Entity(Vector2f(0,0),optionsTexture2,SCREEN_WIDTH,SCREEN_HEIGHT,0,0);
+
 Entity exit_game = Entity(Vector2f(0,0),exitTexture,SCREEN_WIDTH,SCREEN_HEIGHT,0,0);
 Entity game_over = Entity(Vector2f(0,0),gameover,SCREEN_WIDTH,SCREEN_HEIGHT,0,0 );
+
+

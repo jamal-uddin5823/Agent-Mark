@@ -9,6 +9,8 @@
 #include<iostream>
 #include<string>
 
+// #include "Mouse.hpp"
+
 Mix_Music *gMusic = NULL;
 Mix_Music *menuMusic = NULL;
 Mix_Chunk* jump = NULL;

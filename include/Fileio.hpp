@@ -1,6 +1,8 @@
 #pragma once
 
 #include<iostream>
+#include<vector>
+#include<algorithm>
 #include "RenderWindow.hpp"
 
 
@@ -84,7 +86,7 @@ void read_history(int* point, int* life, int* speed, bool* life_present){
     
 
     
-    if(*life==0 || (agentpos==enemypos)){
+    if(*life<=0 || (agentpos<=enemypos)){
         *point = 0;
         *life = 3;
         *speed=-15;
@@ -121,4 +123,83 @@ void read_history(int* point, int* life, int* speed, bool* life_present){
     obstacle_array[1].setpos(obstacle2_pos_X,obstacle2_pos_Y);
     
     fclose(continue_game);
+}
+
+
+
+void highscorewrite(){
+    std::vector<int> scoretable(5);
+    FILE *read;
+
+    read = fopen("data/history.txt","r");
+    char temp[100];
+    int t_score;
+    fscanf(read,"%s",temp);
+    fscanf(read,"%d",&t_score);
+    fclose(read);
+
+    read = fopen("data/highscore.txt","r");
+    for (int i = 0; i < (int)scoretable.size(); i++)
+    {
+        fscanf(read,"%d\n",&scoretable[i]);
+    }
+    scoretable.push_back(t_score);
+    sort(scoretable.rbegin(),scoretable.rend());
+    scoretable.pop_back();
+    fclose(read);
+
+
+    
+    
+
+    FILE* write = fopen("data/highscore.txt","w");
+    for (int i = 0; i < (int)scoretable.size(); i++)
+    {
+        fprintf(write,"%d\n",scoretable[i]);
+    }
+    fclose(write);
+}
+
+void highscoreshow(){
+    FILE* read,*write;
+    std::vector<int> scoretable(5);
+    read = fopen("data/highscore.txt","r");
+
+    for (int i = 0; i < 5; i++)
+    {
+        fscanf(read,"%d",&scoretable[i]);
+    }
+    fseek(read,0,SEEK_SET);
+    fclose(read);
+
+
+
+    write = fopen("data/highscore.txt","w");
+    for (int i = 0; i < 5; i++)
+    {
+        fprintf(write,"%d\n",scoretable[i]);
+    }
+
+
+    int texty=200;
+
+    for (int i = 0; i < (int)scoretable.size(); i++)
+    {   
+
+        std::string serial = std::__cxx11::to_string(i+1)+".";
+        std::string scorestring = std::__cxx11::to_string(scoretable[i]);
+
+        int text_w1,text_h1;
+        int text_w2,text_h2;
+        SDL_Texture* texture = window.Textload(scorestring,"fonts/Antonio-Bold.ttf",75,53,233,137,&text_w1,&text_h1);
+        SDL_Texture* texture2 = window.Textload(serial,"fonts/Antonio-Bold.ttf",75,53,233,137,&text_w2,&text_h2);
+        Entity scoreboard = Entity(Vector2f(700,texty),texture,text_w1,text_h1,0,0);
+        Entity serialno = Entity(Vector2f(500,texty),texture2,text_w2,text_h2,0,0);
+        texty+=100;
+        window.render(serialno);
+        window.render(scoreboard);
+
+    }
+    fclose(write);
+    
 }

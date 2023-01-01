@@ -56,6 +56,14 @@ bool prev_calced=true;
 int score_temp=0;
 int extra=0;
 int prev_score=0;
+int freeruntime=0;
+
+
+bool collideObstacle=false;
+bool collideEnemy=false;
+bool collideCoin=false;
+bool collideLifeline=false;
+bool collideFreerun=false;
 
 extern int time_passed;
 int extra_time = 0;
@@ -86,6 +94,14 @@ int generate_score();
 void init_score_life(){
     if(continue_flag==CONTINUE_PREV_GAME){
         read_history(&prev_score,&life,&OBSTACLE_SPEED,&life_present_prev);
+    }
+    else{
+        score=0;
+        initial_score=0;
+        life = 3;
+        OBSTACLE_SPEED=-15;
+        obstacle_array[0].setpos(1500,600);
+        obstacle_array[1].setpos(2250,600);
     }
 }
 
@@ -218,11 +234,12 @@ void reset_frame_no(){
 
 void collision_checker(bool& gameRunning){
     for(int i=0;i<(int)obstacle_array.size();i++){
-            bool collideObstacle=curr_agent_frame.checkCollision(curr_agent_frame,obstacle_array[i],agent_frame_select_flag);
-            bool collideEnemy=curr_agent_frame.checkCollision(curr_agent_frame,curr_enemy_frame,agent_frame_select_flag);
-            bool collideLifeline = curr_agent_frame.checkCollision(curr_agent_frame,lifeline,agent_frame_select_flag);
-            bool collideCoin = curr_agent_frame.checkCollision(curr_agent_frame,coin,agent_frame_select_flag);
-            bool collideFreerun = curr_agent_frame.checkCollision(curr_agent_frame,freerun,agent_frame_select_flag);
+            collideObstacle=curr_agent_frame.checkCollision(curr_agent_frame,obstacle_array[i],agent_frame_select_flag);
+            collideEnemy=curr_agent_frame.checkCollision(curr_agent_frame,curr_enemy_frame,agent_frame_select_flag);
+            collideLifeline = curr_agent_frame.checkCollision(curr_agent_frame,lifeline,agent_frame_select_flag);
+            collideCoin = curr_agent_frame.checkCollision(curr_agent_frame,coin,agent_frame_select_flag);
+            if(!collideFreerun)
+                collideFreerun = curr_agent_frame.checkCollision(curr_agent_frame,freerun,agent_frame_select_flag);
 
 
             if((collideObstacle==true || collideEnemy==true) && noDamage<(int)(SDL_GetTicks())){
@@ -230,9 +247,13 @@ void collision_checker(bool& gameRunning){
                 if(collideEnemy==true){
                     life=0;
                     Mix_PlayChannel(-1,death,0);
+        			write_history(score,life,OBSTACLE_SPEED,running_agent[enemy_frame_no/running_agent.size()].getpos().x,running_enemy[enemy_frame_no/running_enemy.size()].getpos().x,obstacle_array[0],obstacle_array[1],lifeline);
+
+                    highscorewrite();
+                    SDL_Delay(1000);
                     game_status=GAMEOVER;
                     // gameRunning=false;
-                    SDL_Delay(1000);
+                    return;
                 }
                 if(collideObstacle==true){
                     obstacle_array[i].getpos().x=-100;
@@ -242,6 +263,9 @@ void collision_checker(bool& gameRunning){
                 if(life<=0){
                     //printf("Hello\n");
                     Mix_PlayChannel(-1,death,0);
+			        write_history(score,life,OBSTACLE_SPEED,running_agent[enemy_frame_no/running_agent.size()].getpos().x,running_enemy[enemy_frame_no/running_enemy.size()].getpos().x,obstacle_array[0],obstacle_array[1],lifeline);
+
+                    highscorewrite();
                     SDL_Delay(1000);
                     game_status=GAMEOVER;
                     // gameRunning=false;
@@ -268,6 +292,23 @@ void collision_checker(bool& gameRunning){
             }
 
             if(collideFreerun==true){
+                if(freeruntime<300)
+                {
+                    std::string s="FREE RUN!";
+                    int text_w,text_h;
+                    SDL_Texture* texture = window.Textload(s,"fonts/Antonio-Bold.ttf",50,255,0,0,&text_w,&text_h);
+                    Entity message = Entity(Vector2f(450,5),texture,text_w,text_h,0,0);
+                    window.render(message);
+                    freeruntime++;
+                    collideFreerun=true;
+                }
+                else{
+                    freeruntime=0;
+                    collideFreerun=false;
+                }
+                
+
+
                 Mix_PlayChannel(-1,lifeup,0);
                 noDamage=(int)(SDL_GetTicks())+5000;
                 freerun.getpos().x=-100;
@@ -319,12 +360,7 @@ void render_freerun(){
         showing=true;
     }
     if(freerunflag||freerun_present_prev){
-        std::string s="FREE RUN!";
-        int text_w,text_h;
-        SDL_Texture* texture = window.Textload(s,"fonts/Antonio-Bold.ttf",50,255,0,0,&text_w,&text_h);
-        Entity message = Entity(Vector2f(450,5),texture,text_w,text_h,0,0);
 
-        window.render(message);
         window.render(freerun);
         if(!paused_flag)freerun.changepos(-5,0);
         if(freerun.getpos().x+freerun.getCurrentFrame().w<0){

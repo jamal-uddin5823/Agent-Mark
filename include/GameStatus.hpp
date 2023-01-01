@@ -46,9 +46,9 @@ void main_menu(){
     else if(mouse_x>=button_arr[BUTTONX] && mouse_x<=button_arr[BUTTONX]+BUTTON_WIDTH && mouse_y>=button_arr[LOAD_GAMEBUTTONY] && mouse_y<=button_arr[LOAD_GAMEBUTTONY]+BUTTON_HEIGHT)
         window.render(load_game);
     else if(mouse_x>=button_arr[BUTTONX] && mouse_x<=button_arr[BUTTONX]+BUTTON_WIDTH && mouse_y>=button_arr[HIGHSCOREBUTTONY] && mouse_y<=button_arr[HIGHSCOREBUTTONY]+BUTTON_HEIGHT)
-        window.render(high_score);
+        window.render(main_menu_high_score);
     else if(mouse_x>=button_arr[BUTTONX] && mouse_x<=button_arr[BUTTONX]+BUTTON_WIDTH && mouse_y>=button_arr[OPTIONSBUTTONY] && mouse_y<=button_arr[OPTIONSBUTTONY]+BUTTON_HEIGHT)
-        window.render(options);
+        window.render(main_menu_options);
     else if(mouse_x>=button_arr[BUTTONX] && mouse_x<=button_arr[BUTTONX]+BUTTON_WIDTH && mouse_y>=button_arr[EXITBUTTONY] && mouse_y<=button_arr[EXITBUTTONY]+BUTTON_HEIGHT)
         window.render(exit_game);
     
@@ -60,6 +60,7 @@ void main_menu(){
 
 
 void countdown(){
+    read_history(&prev_score,&life,&OBSTACLE_SPEED,&life_present_prev);
     if(!gameStarted){
         extra_time = SDL_GetTicks()/1000;
         gameStarted = true;
@@ -151,6 +152,7 @@ bool game(bool& gameRunning){
     window.lives_show(life);
     if(gameRunning==false){
         write_history(score,life,OBSTACLE_SPEED,running_agent[enemy_frame_no/running_agent.size()].getpos().x,running_enemy[enemy_frame_no/running_enemy.size()].getpos().x,obstacle_array[0],obstacle_array[1],lifeline);
+        highscorewrite();
     }
 
     return gameRunning;

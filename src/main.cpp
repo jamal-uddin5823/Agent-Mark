@@ -23,7 +23,7 @@ int main(int argc, char *argv[])
 {
     srand(time(0));
     initSDL();
-    init_score_life();
+    // init_score_life();
 
     bool gameRunning = true;
 

@@ -20,11 +20,15 @@
 const int BUTTON_WIDTH = 332;
 const int BUTTON_HEIGHT = 97;
 
+bool mute=false;
+
 enum{
     WELCOME_SCREEN,
     MAIN_MENU,
     GAMEPLAY,
-	GAMEOVER
+	GAMEOVER,
+	HIGHSCORE,
+	OPTIONS
 };
 enum Buttontypes{
 	NEW_GAMEBUTTON=1,
@@ -32,7 +36,9 @@ enum Buttontypes{
 	HIGHSCOREBUTTON=3,
 	OPTIONSBUTTON=4,
 	EXITBUTTON=5,
-	GAMEOVERBUTTON=6
+	GAMEOVERBUTTON=6,
+	BACKBUTTON=7,
+	MUSICBUTTON=8
 };
 
 
@@ -107,11 +113,24 @@ void handleMouseEvent(SDL_Event &e, int buttonx, int buttony, int button_length,
 					continue_flag=CONTINUE_PREV_GAME;
 					// init_score_life();
 				}
+				else if(button == HIGHSCOREBUTTON){
+					game_status = HIGHSCORE;
+					highscoreshow();
+				}
+				else if(button== OPTIONSBUTTON){
+					game_status= OPTIONS;
+				}
 				else if(button == EXITBUTTON){
 					gameRunning = false;
 				}
 				else if(button == GAMEOVERBUTTON){
 					game_status=MAIN_MENU;
+				}
+				else if(button == BACKBUTTON){
+					game_status=MAIN_MENU;
+				}
+				else if(button== MUSICBUTTON){
+					mute = !mute;
 				}
 				break;
 			}

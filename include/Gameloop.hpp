@@ -36,7 +36,17 @@ void Handle_event(bool& gameRunning){
             }
         }
         if(game_status==GAMEOVER){
-            handleMouseEvent(e,712,406,127,483,GAMEOVERBUTTON,gameRunning);
+            handleMouseEvent(e,406,712,483,127,GAMEOVERBUTTON,gameRunning);
+			// write_history(score,life,OBSTACLE_SPEED,running_agent[enemy_frame_no/running_agent.size()].getpos().x,running_enemy[enemy_frame_no/running_enemy.size()].getpos().x,obstacle_array[0],obstacle_array[1],lifeline);
+            // highscorewrite();
+            firstgameplay_loop=true;
+        }
+        if(game_status==HIGHSCORE){
+            handleMouseEvent(e,22,22,235,90,BACKBUTTON,gameRunning);
+        }
+        if(game_status==OPTIONS){
+            handleMouseEvent(e,694,167,163,108,MUSICBUTTON,gameRunning);
+            handleMouseEvent(e,22,22,235,90,BACKBUTTON,gameRunning);
         }
         
 
@@ -51,10 +61,29 @@ void gameloop(bool& gameRunning){
         
     }
     if(game_status==MAIN_MENU){
-        if(Mix_PlayingMusic()==0){
+        if(Mix_PlayingMusic()==0 && !mute){
             Mix_PlayMusic(menuMusic,-1);
         }
+        
         main_menu();
+    }
+    if(game_status==HIGHSCORE){
+        window.render(high_score);
+        highscoreshow();
+    }
+    if(game_status==OPTIONS){
+        if(mute){
+            window.render(optionsMute);
+        }
+        else{
+            window.render(optionsUnmute);
+        }
+        if(mute && Mix_PlayingMusic()==1){
+            Mix_HaltMusic();
+        }
+        if(Mix_PlayingMusic()==0 && !mute){
+            Mix_PlayMusic(menuMusic,-1);
+        }
     }
     if(game_status==GAMEPLAY){
         if(count>0){
@@ -71,6 +100,7 @@ void gameloop(bool& gameRunning){
         if(Mix_PlayingMusic()==1){
             Mix_HaltMusic();
         }
+        
         window.render(game_over);
     }
     
