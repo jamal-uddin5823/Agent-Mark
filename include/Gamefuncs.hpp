@@ -308,6 +308,8 @@ void collision_checker(bool& gameRunning){
             Mix_PlayChannel(-1,collision,0);
             if(collideEnemy==true){
                 life=0;
+                initial_score=0;
+                prev_score=0;
                 score=0;
                 Mix_PlayChannel(-1,death,0);
                 write_history(score,life,OBSTACLE_SPEED,running_agent[enemy_frame_no/running_agent.size()].getpos().x,running_enemy[enemy_frame_no/running_enemy.size()].getpos().x,obstacle_array[0],obstacle_array[1],lifeline);
@@ -325,7 +327,10 @@ void collision_checker(bool& gameRunning){
             }
             if(life<=0){
                 Mix_PlayChannel(-1,death,0);
-                life =0,score=0;
+                life =0;
+                initial_score=0;
+                prev_score=0;
+                score=0;
                 write_history(score,life,OBSTACLE_SPEED,running_agent[enemy_frame_no/running_agent.size()].getpos().x,running_enemy[enemy_frame_no/running_enemy.size()].getpos().x,obstacle_array[0],obstacle_array[1],lifeline);
 
                 highscorewrite();
@@ -437,21 +442,23 @@ void render_freerun(){
 
 
 int generate_score(){
-    ////std::cout<<score<<" "<<life<<" "<<initial_score<<'\n';
-    //printf("%d ",prev_score);
+
     if(paused_flag)
     {
         prev_calced=false;
         prev_not_paused=(int)SDL_GetTicks();
         int time=0;
+        if(time+initial_score<0) time=0, initial_score=0;
         window.score_show(time,initial_score);
+        if(time+initial_score %10 ==0 && time!=0) OBSTACLE_SPEED--;
         return initial_score;
     }
     int time = (int)(SDL_GetTicks()/1000);
     if(prev_calced)prev_paused=(int)(SDL_GetTicks()/1000);
     time-=extra_time+5;
+    if(time+initial_score<0) time=0, initial_score=0;
     time_passed= time;
-    if((time_passed%10==0 && time_passed!=0) && paused_flag==false){
+    if(((time+initial_score)%10==0 && (time+initial_score)!=0) && paused_flag==false){
         Mix_PlayChannel(-1,levelup,0);
     }
     initial_score=time-extra+prev_score-help;
@@ -465,11 +472,15 @@ int generate_score(){
         //printf("%d\n",initial_score);
         prev_calced=true;
         time=0;
+        if(time+initial_score<0) time=0, initial_score=0;
         window.score_show(time ,initial_score);
+        if(time+initial_score %10 ==0 && time!=0) OBSTACLE_SPEED--;
         return initial_score+time;
 
     }
     time=0;
+    if(time+initial_score<0) time=0, initial_score=0;
     window.score_show(time ,initial_score);
+    if(time+initial_score %10 ==0 && time!=0) OBSTACLE_SPEED--;
     return initial_score+time;
 }

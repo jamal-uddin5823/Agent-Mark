@@ -96,12 +96,6 @@ void gameloop(bool& gameRunning){
             countdown();
         }
         else{
-            // if(game_status==LOADGAMEPLAY){
-            //     init_score_life();
-            // if(firstgameplay_loop){
-            //     init_score_life();
-            //     firstgameplay_loop=false;
-            // }
             game(gameRunning);
         }
     }

@@ -26,6 +26,7 @@ bool continue_flag=NEW_GAME;
 extern int count, count_down_flag;
 int count = 3;
 int count_down_flag=0; //to count number of frames shown in a second
+bool extra_time_taken = false;
 
 
 void start_screen(){
@@ -106,9 +107,8 @@ void countdown(){
 bool firstgameplay_loop = true;
 
 bool game(bool& gameRunning){
-    // if(firstgameplay_loop){
-    //     init_score_life();
-    //     firstgameplay_loop=false;
+    // if(!extra_time_taken){
+    //     score
     // }
 
     window.clearScreen();
