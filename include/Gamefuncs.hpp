@@ -13,7 +13,6 @@
 #include "Sprites.hpp"
 #include "Music.hpp"
 #include "Fileio.hpp"
-// #include "Mouse.hpp"
 #include "Entity.hpp"
 
 #define NEW_GAME false
@@ -38,7 +37,6 @@ int button_arr[TOTAL_BUTTONS] = {840,107,255,403,556,701};
 
 extern int game_status;
 int game_status=WELCOME_SCREEN;
-
 
 
 int first_page_time = 0; //counter to count time spent on startscreen

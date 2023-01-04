@@ -16,8 +16,9 @@
 #define JUMPOBSTACLEY 768
 #define SLIDEOBSTACLEY 600
 
-static int OBSTACLE_POSX= 1500;
+
 static int OBSTACLE_SPEED =-15;
+static int OBSTACLE_POSX= 1500;
 
 // extern int life;
 // extern int score;

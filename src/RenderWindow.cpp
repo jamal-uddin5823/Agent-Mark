@@ -11,6 +11,8 @@
 #include "Entity.hpp"
 
 
+
+
 // static int OBSTACLE_SPEED =-10;
 int threshold=10;
 int time_passed=0;
