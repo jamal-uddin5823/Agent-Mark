@@ -30,9 +30,10 @@ void Handle_event(bool& gameRunning){
         {
             if(game_status==MAIN_MENU){
                 handleMouseEvent(e,button_arr[BUTTONX],button_arr[button],BUTTON_WIDTH,BUTTON_HEIGHT, button, gameRunning);
-                if(game_status==GAMEPLAY){
-                    init_score_life();
-                }
+                // if(game_status==NEWGAMEPLAY){
+                //     one_game_time = (int)(SDL_GetTicks()/1000);
+                //     init_score_life();
+                // }
             }
         }
         if(game_status==GAMEOVER){
@@ -61,6 +62,7 @@ void gameloop(bool& gameRunning){
         
     }
     if(game_status==MAIN_MENU){
+        
         if(Mix_PlayingMusic()==0 && !mute){
             Mix_PlayMusic(menuMusic,-1);
         }
@@ -85,7 +87,8 @@ void gameloop(bool& gameRunning){
             Mix_PlayMusic(menuMusic,-1);
         }
     }
-    if(game_status==GAMEPLAY){
+    if(game_status==NEWGAMEPLAY || game_status== LOADGAMEPLAY){
+        // std::cout<<game_status;
         if(count>0){
             if(Mix_PlayingMusic()==1){
                 Mix_HaltMusic();
@@ -93,14 +96,28 @@ void gameloop(bool& gameRunning){
             countdown();
         }
         else{
+            // if(game_status==LOADGAMEPLAY){
+            //     init_score_life();
+            // if(firstgameplay_loop){
+            //     init_score_life();
+            //     firstgameplay_loop=false;
+            // }
             game(gameRunning);
         }
     }
     if(game_status==GAMEOVER){
+        count=3;
+        count_down_flag=0;
+
+        score=0;
+        life=3;
+        initial_score=0;
+        obstacle_array[0].setpos(1500,600);
+        obstacle_array[1].setpos(2250,600);
         if(Mix_PlayingMusic()==1){
             Mix_HaltMusic();
         }
-        
+        firstgameplay_loop=true;
         window.render(game_over);
     }
     

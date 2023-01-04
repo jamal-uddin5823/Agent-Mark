@@ -19,8 +19,10 @@
 static int OBSTACLE_POSX= 1500;
 static int OBSTACLE_SPEED =-15;
 
-static int life=3;
-static int score = 0;
+// extern int life;
+// extern int score;
+// int life = 3;
+// int score=0;
 
 
 

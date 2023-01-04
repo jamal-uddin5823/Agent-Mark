@@ -12,6 +12,7 @@
 
 #include "Entity.hpp"
 #include "Sprites.hpp"
+#include "Gamefuncs.hpp"
 
 #define NEW_GAME false
 #define CONTINUE_PREV_GAME true
@@ -22,14 +23,15 @@ const int BUTTON_HEIGHT = 97;
 
 bool mute=false;
 
-enum{
-    WELCOME_SCREEN,
-    MAIN_MENU,
-    GAMEPLAY,
-	GAMEOVER,
-	HIGHSCORE,
-	OPTIONS
-};
+// enum{
+//     WELCOME_SCREEN,
+//     MAIN_MENU,
+// 	NEWGAMEPLAY,
+//     LOADGAMEPLAY,
+// 	GAMEOVER,
+// 	HIGHSCORE,
+// 	OPTIONS
+// };
 enum Buttontypes{
 	NEW_GAMEBUTTON=1,
 	LOAD_GAMEBUTTON=2,
@@ -105,13 +107,16 @@ void handleMouseEvent(SDL_Event &e, int buttonx, int buttony, int button_length,
 
 				case SDL_MOUSEBUTTONDOWN:
 				if(button == NEW_GAMEBUTTON){
-					game_status=GAMEPLAY;
+					game_status=NEWGAMEPLAY;
 					continue_flag=NEW_GAME;
+					init_score_life(game_status);
+					// std::cout<<score<<" "<<life<<'\n';
+					score=0,life=3,initial_score=0;
 				}
 				else if(button == LOAD_GAMEBUTTON){
-					game_status=GAMEPLAY;
+					game_status=LOADGAMEPLAY;
 					continue_flag=CONTINUE_PREV_GAME;
-					// init_score_life();
+					init_score_life(game_status);
 				}
 				else if(button == HIGHSCOREBUTTON){
 					game_status = HIGHSCORE;

@@ -13,12 +13,14 @@
 #include "Sprites.hpp"
 #include "Music.hpp"
 #include "Fileio.hpp"
-#include "Mouse.hpp"
+// #include "Mouse.hpp"
 #include "Entity.hpp"
 
 #define NEW_GAME false
 #define CONTINUE_PREV_GAME true
 #define first_page_change 90
+
+
 
 enum Buttons{
 	BUTTONX,
@@ -33,7 +35,19 @@ enum Buttons{
 int button_arr[TOTAL_BUTTONS] = {840,107,255,403,556,701};
 
 
+
+extern int game_status;
+int game_status=WELCOME_SCREEN;
+
+
+
 int first_page_time = 0; //counter to count time spent on startscreen
+
+extern int life;
+extern int score;
+int life = 3;
+int score=0;
+
 
 int add=0;
 const int VEL_X=20;
@@ -68,6 +82,8 @@ bool collideFreerun=false;
 extern int time_passed;
 int extra_time = 0;
 
+int one_game_time = 0;
+
 bool gameStarted = false;
 
 Entity curr_agent_frame = running_agent[agent_frame_no/running_agent.size()];
@@ -91,11 +107,23 @@ int generate_score();
 
 
 
-void init_score_life(){
-    if(continue_flag==CONTINUE_PREV_GAME){
-        read_history(&prev_score,&life,&OBSTACLE_SPEED,&life_present_prev);
+void init_score_life(int game_status){
+    // std::cout<<"Initing score life"<<'\n';
+    if(game_status==LOADGAMEPLAY){
+        read_history(&score,&prev_score,&life,&OBSTACLE_SPEED,&life_present_prev,game_status);
+        if(life<=0){
+            prev_score=0;
+            score=0;
+            initial_score=0;
+            life = 3;
+            OBSTACLE_SPEED=-15;
+            obstacle_array[0].setpos(1500,600);
+            obstacle_array[1].setpos(2250,600);
+        }
     }
-    else{
+    else if(game_status==NEWGAMEPLAY){
+        // std::cout<<"making score 0 life 3\n";
+        prev_score=0;
         score=0;
         initial_score=0;
         life = 3;
@@ -103,6 +131,7 @@ void init_score_life(){
         obstacle_array[0].setpos(1500,600);
         obstacle_array[1].setpos(2250,600);
     }
+    // std::cout<<"score ="<<score<<" "<<initial_score<<" life: "<<life<<'\n';
 }
 
 
@@ -375,7 +404,7 @@ void render_freerun(){
 
 
 int generate_score(){
-
+    std::cout<<score<<" "<<life<<" "<<initial_score<<'\n';
     //printf("%d ",prev_score);
     if(paused_flag)
     {
@@ -393,6 +422,7 @@ int generate_score(){
         Mix_PlayChannel(-1,levelup,0);
     }
     initial_score=time-extra+prev_score;
+    std::cout<<"initial score = "<<initial_score<<'\n';
     if(!prev_calced)
     {
         prev_not_paused=int(SDL_GetTicks()/1000);

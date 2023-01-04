@@ -19,11 +19,11 @@
 
 /*===============================================*/
 bool continue_flag=NEW_GAME;
-int game_status=WELCOME_SCREEN;
+// int game_status=WELCOME_SCREEN;
 /*===============================================*/
 
 
-
+extern int count, count_down_flag;
 int count = 3;
 int count_down_flag=0; //to count number of frames shown in a second
 
@@ -60,7 +60,13 @@ void main_menu(){
 
 
 void countdown(){
-    read_history(&prev_score,&life,&OBSTACLE_SPEED,&life_present_prev);
+    read_history(&score,&prev_score,&life,&OBSTACLE_SPEED,&life_present_prev,game_status);
+    if(game_status==NEWGAMEPLAY){
+        score=0,life=3;
+        obstacle_array[0].setpos(1500,600);
+        obstacle_array[1].setpos(2250,600);
+
+    }
     if(!gameStarted){
         extra_time = SDL_GetTicks()/1000;
         gameStarted = true;
@@ -99,10 +105,10 @@ void countdown(){
 bool firstgameplay_loop = true;
 
 bool game(bool& gameRunning){
-    if(firstgameplay_loop){
-        init_score_life();
-        firstgameplay_loop=false;
-    }
+    // if(firstgameplay_loop){
+    //     init_score_life();
+    //     firstgameplay_loop=false;
+    // }
 
     window.clearScreen();
     window.changeRenderColor(255,255,255,255);
