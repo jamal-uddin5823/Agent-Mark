@@ -32,7 +32,7 @@ void write_history(int point, int life, int speed, float agent_pos_X, float enem
     fclose(continue_game);
 }
 
-void read_history(int* point, int* prev_point, int* life, int* speed, bool* life_present, int game_status){
+void read_history(int* point, int* prev_point, int* life, int* speed, bool* life_present, int* game_stat){
     char str[100];
     float enemypos, agentpos;
     float obstacle1_pos_X,obstacle2_pos_X,obstacle1_pos_Y,obstacle2_pos_Y,lifeX;
@@ -43,6 +43,7 @@ void read_history(int* point, int* prev_point, int* life, int* speed, bool* life
 
     fscanf(continue_game,"%s",str);
     fscanf(continue_game,"%d",life);
+    if(*life<=0) *game_stat=NEWGAMEPLAY;
 
     fscanf(continue_game,"%s",str);
     fscanf(continue_game,"%d",speed);
@@ -97,7 +98,7 @@ void read_history(int* point, int* prev_point, int* life, int* speed, bool* life
     
 
     
-    if(*life<=0 || (agentpos<=enemypos)||game_status==NEWGAMEPLAY){
+    if(*life<=0 || (agentpos<=enemypos+SPRITE_DIM)|| *game_stat==NEWGAMEPLAY){
         *point=0;
         *prev_point = 0;
         *life = 3;
@@ -111,8 +112,7 @@ void read_history(int* point, int* prev_point, int* life, int* speed, bool* life
         lifeX = SCREEN_WIDTH;
     }
 
-    if(game_status != 2){
-        std::cout<<"change\n";
+    if(*game_stat != NEWGAMEPLAY){
         int enemy_flag=1,agent_flag=1;
 
         if(enemypos==15) enemy_flag=0;

@@ -1,10 +1,10 @@
-Score: 51
+Score: 38
 Life: 3
 Speed: -15
 AgentPosX: 205.000000
 EnemyPosX: 20.000000
-Obstacle1PosX: 555.000000
+Obstacle1PosX: 975.000000
 Obstacle1PosY: 600.000000
-Obstacle2PosX: 1305.000000
+Obstacle2PosX: 1725.000000
 Obstacle2PosY: 600.000000
 LifeX: 1280.000000

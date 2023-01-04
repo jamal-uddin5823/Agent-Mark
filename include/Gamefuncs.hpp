@@ -23,13 +23,13 @@
 
 
 enum Buttons{
-	BUTTONX,
-	NEW_GAMEBUTTONY,
-	LOAD_GAMEBUTTONY,
-	HIGHSCOREBUTTONY,
-	OPTIONSBUTTONY,
-	EXITBUTTONY,
-	TOTAL_BUTTONS
+    BUTTONX,
+    NEW_GAMEBUTTONY,
+    LOAD_GAMEBUTTONY,
+    HIGHSCOREBUTTONY,
+    OPTIONSBUTTONY,
+    EXITBUTTONY,
+    TOTAL_BUTTONS
 };
 
 int button_arr[TOTAL_BUTTONS] = {840,107,255,403,556,701};
@@ -71,7 +71,7 @@ int score_temp=0;
 int extra=0;
 int prev_score=0;
 int freeruntime=0;
-
+int help=0;
 
 bool collideObstacle=false;
 bool collideEnemy=false;
@@ -107,10 +107,9 @@ int generate_score();
 
 
 
-void init_score_life(int game_status){
-    // std::cout<<"Initing score life"<<'\n';
+void init_score_life(int& game_status){
     if(game_status==LOADGAMEPLAY){
-        read_history(&score,&prev_score,&life,&OBSTACLE_SPEED,&life_present_prev,game_status);
+        read_history(&score,&prev_score,&life,&OBSTACLE_SPEED,&life_present_prev,&game_status);
         if(life<=0){
             prev_score=0;
             score=0;
@@ -121,17 +120,16 @@ void init_score_life(int game_status){
             obstacle_array[1].setpos(2250,600);
         }
     }
-    else if(game_status==NEWGAMEPLAY){
-        // std::cout<<"making score 0 life 3\n";
-        prev_score=0;
+    else if(game_status==NEWGAMEPLAY){        
+        help=(int)(SDL_GetTicks()/1000)-4;
         score=0;
-        initial_score=0;
+        initial_score=(-1)*((int)(SDL_GetTicks()/1000));
         life = 3;
         OBSTACLE_SPEED=-15;
         obstacle_array[0].setpos(1500,600);
         obstacle_array[1].setpos(2250,600);
+        
     }
-    // std::cout<<"score ="<<score<<" "<<initial_score<<" life: "<<life<<'\n';
 }
 
 
@@ -162,6 +160,7 @@ void select_agent_frame(){
     curr_enemy_frame = running_enemy[enemy_frame_no/running_enemy.size()];
 
 }
+
 
 void render_countdown_agent(){
     Entity count_agent_frame=curr_agent_frame;
@@ -297,86 +296,86 @@ void reset_frame_no(){
 
 void collision_checker(bool& gameRunning){
     for(int i=0;i<(int)obstacle_array.size();i++){
-            collideObstacle=curr_agent_frame.checkCollision(curr_agent_frame,obstacle_array[i],agent_frame_select_flag);
-            collideEnemy=curr_agent_frame.checkCollision(curr_agent_frame,curr_enemy_frame,agent_frame_select_flag);
-            collideLifeline = curr_agent_frame.checkCollision(curr_agent_frame,lifeline,agent_frame_select_flag);
-            collideCoin = curr_agent_frame.checkCollision(curr_agent_frame,coin,agent_frame_select_flag);
-            if(!collideFreerun)
-                collideFreerun = curr_agent_frame.checkCollision(curr_agent_frame,freerun,agent_frame_select_flag);
+        collideObstacle=curr_agent_frame.checkCollision(curr_agent_frame,obstacle_array[i],agent_frame_select_flag);
+        collideEnemy=curr_agent_frame.checkCollision(curr_agent_frame,curr_enemy_frame,agent_frame_select_flag);
+        collideLifeline = curr_agent_frame.checkCollision(curr_agent_frame,lifeline,agent_frame_select_flag);
+        collideCoin = curr_agent_frame.checkCollision(curr_agent_frame,coin,agent_frame_select_flag);
+        if(!collideFreerun)
+            collideFreerun = curr_agent_frame.checkCollision(curr_agent_frame,freerun,agent_frame_select_flag);
 
 
-            if((collideObstacle==true || collideEnemy==true) && noDamage<(int)(SDL_GetTicks())){
-                Mix_PlayChannel(-1,collision,0);
-                if(collideEnemy==true){
-                    life=0;
-                    Mix_PlayChannel(-1,death,0);
-        			write_history(score,life,OBSTACLE_SPEED,running_agent[enemy_frame_no/running_agent.size()].getpos().x,running_enemy[enemy_frame_no/running_enemy.size()].getpos().x,obstacle_array[0],obstacle_array[1],lifeline);
+        if((collideObstacle==true ||collideEnemy==true) && noDamage<(int)(SDL_GetTicks())){
+            Mix_PlayChannel(-1,collision,0);
+            if(collideEnemy==true){
+                life=0;
+                score=0;
+                Mix_PlayChannel(-1,death,0);
+                write_history(score,life,OBSTACLE_SPEED,running_agent[enemy_frame_no/running_agent.size()].getpos().x,running_enemy[enemy_frame_no/running_enemy.size()].getpos().x,obstacle_array[0],obstacle_array[1],lifeline);
 
-                    highscorewrite();
-                    SDL_Delay(1000);
-                    game_status=GAMEOVER;
-                    // gameRunning=false;
-                    return;
-                }
-                if(collideObstacle==true){
-                    obstacle_array[i].getpos().x=-100;
-                    life--;
-                    //printf("%d ", life);
-                }
-                if(life<=0){
-                    //printf("Hello\n");
-                    Mix_PlayChannel(-1,death,0);
-			        write_history(score,life,OBSTACLE_SPEED,running_agent[enemy_frame_no/running_agent.size()].getpos().x,running_enemy[enemy_frame_no/running_enemy.size()].getpos().x,obstacle_array[0],obstacle_array[1],lifeline);
-
-                    highscorewrite();
-                    SDL_Delay(1000);
-                    game_status=GAMEOVER;
-                    // gameRunning=false;
-                }
-                collideObstacle=false;
-                collideEnemy=false;
-
-                for (int i = 0; i < (int)running_enemy.size(); i++)
-                {
-                    running_enemy[i].changepos(50,0);
-                }
+                highscorewrite();
+                SDL_Delay(1000);
+                game_status=GAMEOVER;
+                // gameRunning=false;
+                return;
             }
-
-            if(collideLifeline==true){
-                Mix_PlayChannel(-1,lifeup,0);
-                life++;
-                lifeline.getpos().x=-100;
+            if(collideObstacle==true){
+                obstacle_array[i].getpos().x=-100;
+                life--;
+                //printf("%d ", life);
             }
+            if(life<=0){
+                Mix_PlayChannel(-1,death,0);
+                life =0,score=0;
+                write_history(score,life,OBSTACLE_SPEED,running_agent[enemy_frame_no/running_agent.size()].getpos().x,running_enemy[enemy_frame_no/running_enemy.size()].getpos().x,obstacle_array[0],obstacle_array[1],lifeline);
 
-            if(collideCoin==true){
-                Mix_PlayChannel(-1,lifeup,0);
-                extra-=10;
-                coin.getpos().x=-100;
+                highscorewrite();
+                SDL_Delay(1000);
+                game_status=GAMEOVER;
             }
+            collideObstacle=false;
+            collideEnemy=false;
 
-            if(collideFreerun==true){
-                if(freeruntime<300)
-                {
-                    std::string s="FREE RUN!";
-                    int text_w,text_h;
-                    SDL_Texture* texture = window.Textload(s,"fonts/Antonio-Bold.ttf",50,255,0,0,&text_w,&text_h);
-                    Entity message = Entity(Vector2f(450,5),texture,text_w,text_h,0,0);
-                    window.render(message);
-                    freeruntime++;
-                    collideFreerun=true;
-                }
-                else{
-                    freeruntime=0;
-                    collideFreerun=false;
-                }
-                
-
-
-                Mix_PlayChannel(-1,lifeup,0);
-                noDamage=(int)(SDL_GetTicks())+5000;
-                freerun.getpos().x=-100;
+            for (int i = 0; i < (int)running_enemy.size(); i++)
+            {
+                running_enemy[i].changepos(50,0);
             }
         }
+
+        if(collideLifeline==true){
+            Mix_PlayChannel(-1,lifeup,0);
+            life++;
+            lifeline.getpos().x=-100;
+        }
+
+        if(collideCoin==true){
+            Mix_PlayChannel(-1,lifeup,0);
+            extra-=10;
+            coin.getpos().x=-100;
+        }
+
+        if(collideFreerun==true){
+            if(freeruntime<300)
+            {
+                std::string s="FREE RUN!";
+                int text_w,text_h;
+                SDL_Texture* texture = window.Textload(s,"fonts/Antonio-Bold.ttf",50,255,0,0,&text_w,&text_h);
+                Entity message = Entity(Vector2f(450,5),texture,text_w,text_h,0,0);
+                window.render(message);
+                freeruntime++;
+                collideFreerun=true;
+            }
+            else{
+                freeruntime=0;
+                collideFreerun=false;
+            }
+            
+
+
+            Mix_PlayChannel(-1,lifeup,0);
+            noDamage=(int)(SDL_GetTicks())+5000;
+            freerun.getpos().x=-100;
+            }
+    }
 }
 
 
@@ -386,7 +385,7 @@ void render_lifeline(){
         lifeflag=1;
         showing=true;
     }
-    if(lifeflag|| life_present_prev){
+    if(lifeflag||life_present_prev){
         window.render(lifeline);
         if(!paused_flag)lifeline.changepos(-5,0);
         if(lifeline.getpos().x+lifeline.getCurrentFrame().w<0){
@@ -455,7 +454,7 @@ int generate_score(){
     if((time_passed%10==0 && time_passed!=0) && paused_flag==false){
         Mix_PlayChannel(-1,levelup,0);
     }
-    initial_score=time-extra+prev_score;
+    initial_score=time-extra+prev_score-help;
     ////std::cout<<"initial score = "<<initial_score<<'\n';
     if(!prev_calced)
     {
@@ -474,5 +473,3 @@ int generate_score(){
     window.score_show(time ,initial_score);
     return initial_score+time;
 }
-
-

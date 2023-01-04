@@ -60,15 +60,12 @@ void main_menu(){
 
 
 void countdown(){
-    read_history(&score,&prev_score,&life,&OBSTACLE_SPEED,&life_present_prev,game_status);
+    // std::cout<<game_status<<'\n';
+    read_history(&score,&prev_score,&life,&OBSTACLE_SPEED,&life_present_prev,&game_status);
     if(game_status==NEWGAMEPLAY){
         score=0,life=3;
         obstacle_array[0].setpos(1500,600);
-        obstacle_array[1].setpos(2250,600);
-
-        
-
-        
+        obstacle_array[1].setpos(2250,600);  
     }
 
     if(!gameStarted){

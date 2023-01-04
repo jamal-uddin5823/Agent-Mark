@@ -120,6 +120,7 @@ void handleMouseEvent(SDL_Event &e, int buttonx, int buttony, int button_length,
 					game_status=LOADGAMEPLAY;
 					continue_flag=CONTINUE_PREV_GAME;
 					init_score_life(game_status);
+					std::cout<<game_status<<'\n';
 				}
 				else if(button == HIGHSCOREBUTTON){
 					game_status = HIGHSCORE;
