@@ -66,7 +66,11 @@ void countdown(){
         obstacle_array[0].setpos(1500,600);
         obstacle_array[1].setpos(2250,600);
 
+        
+
+        
     }
+
     if(!gameStarted){
         extra_time = SDL_GetTicks()/1000;
         gameStarted = true;
@@ -75,7 +79,7 @@ void countdown(){
     if(score<0) score=0;
 
     window.render(countdownEntity);
-    render_agent();
+    render_countdown_agent();
     render_ground();
     
     window.lives_show(life);
@@ -83,7 +87,7 @@ void countdown(){
 
     window.render(obstacle_array[0]);
     window.render(obstacle_array[1]);
-    render_enemy();
+    render_countdown_enemy();
 
 
     std::string s=std::__cxx11::to_string(count);

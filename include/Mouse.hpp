@@ -110,6 +110,9 @@ void handleMouseEvent(SDL_Event &e, int buttonx, int buttony, int button_length,
 					game_status=NEWGAMEPLAY;
 					continue_flag=NEW_GAME;
 					init_score_life(game_status);
+					
+					
+					
 					// std::cout<<score<<" "<<life<<'\n';
 					score=0,life=3,initial_score=0;
 				}

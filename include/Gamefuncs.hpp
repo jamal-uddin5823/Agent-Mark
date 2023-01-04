@@ -163,9 +163,43 @@ void select_agent_frame(){
 
 }
 
+void render_countdown_agent(){
+    Entity count_agent_frame=curr_agent_frame;
+    if(game_status==NEWGAMEPLAY){
+        for (int i = 0; i < (int)running_agent.size(); i++)
+        {
+            running_agent[i].setpos(200+i*5,SCREEN_HEIGHT-210);
+        }
+        for (int i = 0; i < (int)jumping_agent.size(); i++)
+        {
+            jumping_agent[i].setpos(200+i*5,SCREEN_HEIGHT-210-120);
+        }
+        for (int i = 0; i < (int)sliding_agent.size(); i++)
+        {
+            sliding_agent[i].setpos(200+i*5,SCREEN_HEIGHT-210);
+        }
+        
+        count_agent_frame = running_agent[0];
+    }
+    window.render(count_agent_frame);
+}
+
+void render_countdown_enemy(){
+    Entity count_enemy_frame=curr_enemy_frame;
+    if(game_status==NEWGAMEPLAY){
+        for (int i = 0; i < (int)running_enemy.size(); i++)
+        {
+            running_enemy[i].setpos(15+i*5,SCREEN_HEIGHT-210);
+        }
+        count_enemy_frame = running_enemy[0];
+    }
+    window.render(count_enemy_frame);
+}
+
 void render_agent(){
+    
     if(agent_frame_select_flag==0|| agent_frame_select_flag==-1)
-            window.render(curr_agent_frame);
+        window.render(curr_agent_frame);
     else if(agent_frame_select_flag==1)
         window.render(curr_agent_frame,1);
 }
@@ -404,7 +438,7 @@ void render_freerun(){
 
 
 int generate_score(){
-    std::cout<<score<<" "<<life<<" "<<initial_score<<'\n';
+    ////std::cout<<score<<" "<<life<<" "<<initial_score<<'\n';
     //printf("%d ",prev_score);
     if(paused_flag)
     {
@@ -422,7 +456,7 @@ int generate_score(){
         Mix_PlayChannel(-1,levelup,0);
     }
     initial_score=time-extra+prev_score;
-    std::cout<<"initial score = "<<initial_score<<'\n';
+    ////std::cout<<"initial score = "<<initial_score<<'\n';
     if(!prev_calced)
     {
         prev_not_paused=int(SDL_GetTicks()/1000);

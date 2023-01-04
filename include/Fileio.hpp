@@ -111,68 +111,29 @@ void read_history(int* point, int* prev_point, int* life, int* speed, bool* life
         lifeX = SCREEN_WIDTH;
     }
 
-    if(game_status==NEWGAMEPLAY){
-        running_agent ={
-        //                      position in screen                  position from sprite
-            Entity(Vector2f(200,SCREEN_HEIGHT-210),agentTexture,SPRITE_DIM,SPRITE_DIM,SPRITE_DIM*3,SPRITE_DIM),
-            Entity(Vector2f(205,SCREEN_HEIGHT-210),agentTexture,SPRITE_DIM,SPRITE_DIM,SPRITE_DIM*4,SPRITE_DIM),
-            Entity(Vector2f(210,SCREEN_HEIGHT-210),agentTexture,SPRITE_DIM,SPRITE_DIM,SPRITE_DIM*5,SPRITE_DIM),
-            Entity(Vector2f(215,SCREEN_HEIGHT-210),agentTexture,SPRITE_DIM,SPRITE_DIM,SPRITE_DIM*6,SPRITE_DIM)
-        };
+    if(game_status != 2){
+        std::cout<<"change\n";
+        int enemy_flag=1,agent_flag=1;
 
-        jumping_agent ={
-            //                      position in screen                  position from sprite
-            Entity(Vector2f(200,SCREEN_HEIGHT-210-120),agentTexture,SPRITE_DIM,SPRITE_DIM,SPRITE_DIM,SPRITE_DIM*3),
-            Entity(Vector2f(200,SCREEN_HEIGHT-210-120),agentTexture,SPRITE_DIM,SPRITE_DIM,SPRITE_DIM*2,SPRITE_DIM*3),
-            Entity(Vector2f(200,SCREEN_HEIGHT-210-120),agentTexture,SPRITE_DIM,SPRITE_DIM,SPRITE_DIM*3,SPRITE_DIM*3),
-            Entity(Vector2f(200,SCREEN_HEIGHT-210-120),agentTexture,SPRITE_DIM,SPRITE_DIM,SPRITE_DIM*4,SPRITE_DIM*3),
-            // Entity(Vector2f(200,SCREEN_HEIGHT-210-120),agentTexture,SPRITE_DIM,SPRITE_DIM,SPRITE_DIM*3,SPRITE_DIM*3),
-            Entity(Vector2f(200,SCREEN_HEIGHT-210-120),agentTexture,SPRITE_DIM,SPRITE_DIM,SPRITE_DIM*2,SPRITE_DIM*3),
-            // Entity(Vector2f(200,SCREEN_HEIGHT-210-120),agentTexture,SPRITE_DIM,SPRITE_DIM,SPRITE_DIM*5,SPRITE_DIM*3),
-            Entity(Vector2f(200,SCREEN_HEIGHT-210-120),agentTexture,SPRITE_DIM,SPRITE_DIM,SPRITE_DIM*5,SPRITE_DIM*3),
-            // Entity(Vector2f(200,SCREEN_HEIGHT-210-120),agentTexture,SPRITE_DIM,SPRITE_DIM,0,SPRITE_DIM*3)
-            
-        };
+        if(enemypos==15) enemy_flag=0;
+        if(agentpos==200) agent_flag=0;
 
-        sliding_agent ={
-            //                      position in screen                  position from sprite
-            Entity(Vector2f(200,SCREEN_HEIGHT-210),agentTexture,SPRITE_DIM,SPRITE_DIM,SPRITE_DIM,SPRITE_DIM*4),
-            Entity(Vector2f(205,SCREEN_HEIGHT-210),agentTexture,SPRITE_DIM,SPRITE_DIM,SPRITE_DIM*2,SPRITE_DIM*4),
-            // Entity(Vector2f(210,SCREEN_HEIGHT-210),agentTexture,SPRITE_DIM,SPRITE_DIM,SPRITE_DIM*3,SPRITE_DIM*4),
-            Entity(Vector2f(210,SCREEN_HEIGHT-210),agentTexture,SPRITE_DIM,SPRITE_DIM,SPRITE_DIM*3,SPRITE_DIM*4),
-            Entity(Vector2f(215,SCREEN_HEIGHT-210),agentTexture,SPRITE_DIM,SPRITE_DIM,SPRITE_DIM*4,SPRITE_DIM*4),
-            Entity(Vector2f(215,SCREEN_HEIGHT-210),agentTexture,SPRITE_DIM,SPRITE_DIM,SPRITE_DIM*5,SPRITE_DIM*4),
-            Entity(Vector2f(215,SCREEN_HEIGHT-210),agentTexture,SPRITE_DIM,SPRITE_DIM,SPRITE_DIM*6,SPRITE_DIM*4)
-        };
 
-        running_enemy ={
-            //                      position in screen                  position from sprite
-            Entity(Vector2f(15,SCREEN_HEIGHT-210),enemyTexture,SPRITE_DIM,SPRITE_DIM,SPRITE_DIM*4,SPRITE_DIM),
-            Entity(Vector2f(20,SCREEN_HEIGHT-210),enemyTexture,SPRITE_DIM,SPRITE_DIM,SPRITE_DIM*5,SPRITE_DIM),
-            Entity(Vector2f(25,SCREEN_HEIGHT-210),enemyTexture,SPRITE_DIM,SPRITE_DIM,SPRITE_DIM*6,SPRITE_DIM),
-            Entity(Vector2f(10,SCREEN_HEIGHT-210),enemyTexture,SPRITE_DIM,SPRITE_DIM,SPRITE_DIM*3,SPRITE_DIM)
-        };
+        for (int i = 0; i < (int)running_enemy.size(); i++)
+        {
+            running_enemy[i].setpos(enemypos+5*i*enemy_flag);
+            running_agent[i].setpos(agentpos+5*i*agent_flag);
+        }
+        for (int i = 0; i < (int)jumping_agent.size(); i++)
+        {
+            jumping_agent[i].setpos(agentpos+5*i*agent_flag,SCREEN_HEIGHT-210-120);
+        }
+        for (int i = 0; i < (int)sliding_agent.size(); i++)
+        {
+            sliding_agent[i].setpos(agentpos+5*i*agent_flag);
+        }
     }
 
-    int enemy_flag=1,agent_flag=1;
-
-    if(enemypos==15) enemy_flag=0;
-    if(agentpos==200) agent_flag=0;
-
-
-    for (int i = 0; i < (int)running_enemy.size(); i++)
-    {
-        running_enemy[i].setpos(enemypos+5*i*enemy_flag);
-        running_agent[i].setpos(agentpos+5*i*agent_flag);
-    }
-    for (int i = 0; i < (int)jumping_agent.size(); i++)
-    {
-        jumping_agent[i].setpos(agentpos+5*i*agent_flag,SCREEN_HEIGHT-210-120);
-    }
-    for (int i = 0; i < (int)sliding_agent.size(); i++)
-    {
-        sliding_agent[i].setpos(agentpos+5*i*agent_flag);
-    }
     
     obstacle_array[0].setpos(obstacle1_pos_X,obstacle1_pos_Y);
     obstacle_array[1].setpos(obstacle2_pos_X,obstacle2_pos_Y);
