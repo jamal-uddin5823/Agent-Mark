@@ -153,7 +153,6 @@ void highscorewrite(){
     fscanf(read,"%s",temp);
     fscanf(read,"%d",&t_score);
     fclose(read);
-
     read = fopen("data/highscore.txt","r");
     for (int i = 0; i < (int)scoretable.size(); i++)
     {
@@ -185,7 +184,7 @@ void highscoreshow(){
     {
         fscanf(read,"%d",&scoretable[i]);
     }
-    fseek(read,0,SEEK_SET);
+    // fseek(read,0,SEEK_SET);
     fclose(read);
 
 

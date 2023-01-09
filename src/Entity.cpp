@@ -107,22 +107,22 @@ bool Entity::checkCollision(Entity player, Entity collider, int slide)
     {
         return false;
     }
- 
+
     if( topA > bottomB )
     {
         return false;
     }
- 
+
     if( rightA < leftB )
     {
         return false;
     }
- 
+
     if( leftA > rightB )
     {
         return false;
     }
- 
+
     //If none of the sides from A are outside B
     return true;
 }

@@ -305,14 +305,15 @@ void collision_checker(bool& gameRunning){
         if((collideObstacle==true ||collideEnemy==true) && noDamage<(int)(SDL_GetTicks())){
             Mix_PlayChannel(-1,collision,0);
             if(collideEnemy==true){
+                Mix_PlayChannel(-1,death,0);
+                write_history(score,life,OBSTACLE_SPEED,running_agent[enemy_frame_no/running_agent.size()].getpos().x,running_enemy[enemy_frame_no/running_enemy.size()].getpos().x,obstacle_array[0],obstacle_array[1],lifeline);
+                highscorewrite();
                 life=0;
                 initial_score=0;
                 prev_score=0;
                 score=0;
-                Mix_PlayChannel(-1,death,0);
                 write_history(score,life,OBSTACLE_SPEED,running_agent[enemy_frame_no/running_agent.size()].getpos().x,running_enemy[enemy_frame_no/running_enemy.size()].getpos().x,obstacle_array[0],obstacle_array[1],lifeline);
 
-                highscorewrite();
                 SDL_Delay(1000);
                 game_status=GAMEOVER;
                 // gameRunning=false;
@@ -325,13 +326,14 @@ void collision_checker(bool& gameRunning){
             }
             if(life<=0){
                 Mix_PlayChannel(-1,death,0);
+                write_history(score,life,OBSTACLE_SPEED,running_agent[enemy_frame_no/running_agent.size()].getpos().x,running_enemy[enemy_frame_no/running_enemy.size()].getpos().x,obstacle_array[0],obstacle_array[1],lifeline);
+                highscorewrite();
                 life =0;
                 initial_score=0;
                 prev_score=0;
                 score=0;
                 write_history(score,life,OBSTACLE_SPEED,running_agent[enemy_frame_no/running_agent.size()].getpos().x,running_enemy[enemy_frame_no/running_enemy.size()].getpos().x,obstacle_array[0],obstacle_array[1],lifeline);
 
-                highscorewrite();
                 SDL_Delay(1000);
                 game_status=GAMEOVER;
             }
@@ -383,8 +385,8 @@ void collision_checker(bool& gameRunning){
 
 
 void render_lifeline(){
-    int lifecoin = window.random(1,5000);
-    if(lifecoin>4995 && !showing){
+    int lifecoin = window.random(1,500);
+    if(lifecoin>495 && !showing){
         lifeflag=1;
         showing=true;
     }
@@ -419,8 +421,8 @@ void render_coin(){
 }
 
 void render_freerun(){
-    int freeruncoin = window.random(1,5000);
-    if(freeruncoin>4995 && !showing){
+    int freeruncoin = window.random(1,600);
+    if(freeruncoin>595 && !showing){
         freerunflag=1;
         showing=true;
     }
