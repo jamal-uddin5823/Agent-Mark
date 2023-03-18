@@ -1,11 +1,10 @@
 # AGENT MARK
-
-`AGENT MARK` is a SDL based running game written in C++. The code is
-written in a simple, modular, understandable way with the advantage of
-updating and customizing the code easily. The game is based on the idea that an
+`AGENT MARK` is an SDL-based running game written in C++. The game is based on the idea that an
 enemy is chasing the `Agent` named Mark and also the road he has to travel is
-not so smooth . So, he must outrun the enemy as long as possible overcoming all
-the obstacles along the way in order to survive.
+not so smooth. So, he must outrun the enemy as long as possible overcoming all
+the obstacles along the way in order to survive. It uses basic C++ for logic building
+and SDL2 Graphics Library
+for the frontend.
 
 ## Objectives :
 
@@ -66,19 +65,6 @@ wherever necessary.
 * **VS Code** : Vs code is used to write the code which is a simple but powerful IDE
 * **Git/Github** : Using git to store the code online and work in a collective manner.
 
-## Limitations :
-
-* Jump and sliding animation can lag sometimes which is a discomfort for the
-user.
-* Since the code is written using **SDL2** and **C++**, no extra features outside these libraries can be used.
-* The game is made to run on **Ubuntu 22.04**.
-
-## Future Plan :
-
-**Agent Mark** is a running game with an enemy chasing behind and also many
-obstacles ahead. The plan is to add extra features and develop the graphic system and
-also to advance the difficulty level . The game is made to run on **Ubuntu 22.04** , which
-can also be done to run on any OS such as **Windows/IOS** etc.
 
 ## Conclusions :
 
